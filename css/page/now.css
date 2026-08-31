@@ -1,0 +1,116 @@
+.nowCardsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto, min(350px, 1fr));
+    gap: var(--ds);
+}
+
+.nowCard {
+    padding: var(--ds);
+    background-color: var(--bg-sec);
+    border-radius: var(--br);
+}
+
+#weatherCard {
+    display: grid;
+    grid-template-columns: max-content auto;
+    grid-template-rows: 35px repeat(2, 25px);
+    grid-template-areas: 
+        "h h"
+        "ico temperature"
+        "ico descr";
+    height: auto;
+    overflow: hidden;
+    transition: max-height 0.2s, padding 0.2s;
+    
+    &.hidden {
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    p, b {
+        margin: 0;
+    }
+
+    b {
+        grid-area: h;
+        padding-bottom: var(--ds);
+    }
+    #weatherIcon {
+        width: 50px;
+        grid-area: ico;
+        grid-column: 1;
+        grid-row: 2 / -1;
+        padding-right: var(--ds);
+    }
+    #weatherDescr, #weatherTemperature {
+        height: max-content;
+    }
+    #weatherDescr {
+        grid-area: descr;
+    }
+    #weatherTemperature {
+        grid-area: temperature;
+    }
+}
+
+#nextLessonsNowCard {
+    position: relative;
+
+    #nextLessons {
+        /*display: flex;
+        flex-direction: column;*/
+        
+        margin-top: var(--ds);
+    }
+
+    #collapseDoneLessons {
+        border: none;
+        background: none;
+
+        position: absolute;
+        top: var(--dss);
+        right: var(--ds);
+
+        &:hover {
+            transform: rotate(35deg);
+        }
+    }
+    &.collapsedDoneLessons {
+        #collapseDoneLessons {
+            transform: rotate(90deg);
+
+            &:hover {
+                transform: rotate(55deg);
+            }
+        }
+
+        .lessonCardContainer.doneLesson {
+            display: none;
+        }
+    }
+
+    .lessonCardContainer {
+
+        &.doneLesson {
+            color: var(--text-sec);
+
+            .lessonName, .lessonRight p, .lessonRight b {
+                color: var(--text-sec);
+            }
+            .lessonTime {
+                color: #696969;
+            }
+        }
+        &.currentLesson {
+            color: var(--ac-text);
+
+            .lessonName, .lessonRight p, .lessonRight b {
+                color: var(--ac-text);
+            }
+            .lessonTime {
+                color: var(--ac-text-hover);
+            }
+        }
+    }
+}

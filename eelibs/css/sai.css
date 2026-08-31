@@ -1,0 +1,808 @@
+/* Samsung One UI Style Modal Inputs */
+
+:root {
+    --samsung-primary: #0080FF;
+    --samsung-primary-dark: #0066CC;
+    --samsung-secondary: #F5F5F5;
+    --samsung-border: #E0E0E0;
+    --samsung-text: #000000;
+    --samsung-text-secondary: #666666;
+    --samsung-background: #FFFFFF;
+    --samsung-shadow: rgba(0, 0, 0, 0.1);
+    --samsung-radius: 16px;
+    --samsung-radius-small: 8px;
+}
+
+/* Modal Base Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content.samsung-style {
+    background: var(--samsung-background);
+    border-radius: var(--samsung-radius);
+    width: 90%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 8px 32px var(--samsung-shadow);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 24px 24px 16px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--samsung-text);
+    margin: 0;
+}
+
+.modal-body {
+    padding: 0 24px 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid var(--samsung-border);
+}
+
+/* Buttons */
+.modal-footer button {
+    padding: 12px 24px;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary, #submit-modal {
+    background: var(--samsung-primary);
+    color: white;
+}
+
+.btn-primary:hover, #submit-modal:hover {
+    background: var(--samsung-primary-dark);
+    transform: scale(1.02);
+}
+
+.btn-secondary, #cancel-modal {
+    background: transparent;
+    color: var(--samsung-primary);
+}
+
+.btn-secondary:hover, #cancel-modal:hover {
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.btn-primary:active, .btn-secondary:active,
+#submit-modal:active, #cancel-modal:active {
+    transform: scale(0.98);
+}
+
+/* Standard Inputs */
+.modal-input,
+.modal-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    font-size: 16px;
+    color: var(--samsung-text);
+    background: var(--samsung-background);
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.modal-input:focus,
+.modal-textarea:focus {
+    outline: none;
+    border-color: var(--samsung-primary);
+}
+
+.modal-textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+/* Checkbox */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+}
+
+.modal-checkbox {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--samsung-primary);
+    cursor: pointer;
+}
+
+.checkbox-label {
+    font-size: 16px;
+    color: var(--samsung-text);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Date Picker */
+.date-picker-container {
+    position: relative;
+}
+
+.date-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    background: var(--samsung-background);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.date-display:hover {
+    border-color: var(--samsung-primary);
+}
+
+.date-value {
+    font-size: 16px;
+    color: var(--samsung-text);
+}
+
+.date-display svg {
+    color: var(--samsung-text-secondary);
+}
+
+.date-picker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: var(--samsung-background);
+    border-radius: var(--samsung-radius-small);
+    box-shadow: 0 4px 16px var(--samsung-shadow);
+    padding: 16px;
+    z-index: 1000;
+    animation: dropdownSlide 0.2s ease;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.date-picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.date-nav {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--samsung-primary);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.date-nav:hover {
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.date-current {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--samsung-text);
+}
+
+.date-picker-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.date-picker-weekdays span {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--samsung-text-secondary);
+    padding: 4px;
+}
+
+.date-picker-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.date-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--samsung-text);
+}
+
+.date-day:not(.empty):hover {
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.date-day.today {
+    font-weight: 600;
+    color: var(--samsung-primary);
+}
+
+.date-day.selected {
+    background: var(--samsung-primary);
+    color: white;
+    font-weight: 600;
+}
+
+.date-day.empty {
+    cursor: default;
+}
+
+/* Time Picker */
+.time-picker-container {
+    position: relative;
+}
+
+.time-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    background: var(--samsung-background);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.time-display:hover {
+    border-color: var(--samsung-primary);
+}
+
+.time-value {
+    font-size: 16px;
+    color: var(--samsung-text);
+}
+
+.time-picker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: var(--samsung-background);
+    border-radius: var(--samsung-radius-small);
+    box-shadow: 0 4px 16px var(--samsung-shadow);
+    padding: 16px;
+    z-index: 1000;
+    animation: dropdownSlide 0.2s ease;
+}
+
+.time-picker-wheels {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.time-wheel-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-wheel {
+    height: 150px;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+}
+
+.time-wheel::-webkit-scrollbar {
+    display: none;
+}
+
+.time-option {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    scroll-snap-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.time-option:hover {
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.time-option.selected {
+    background: var(--samsung-primary);
+    color: white;
+    font-weight: 600;
+}
+
+.time-separator {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--samsung-text);
+    padding: 0 8px;
+}
+
+.time-wheel-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--samsung-text-secondary);
+}
+
+/* DateTime Picker */
+.datetime-picker-container {
+    position: relative;
+}
+
+.datetime-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    background: var(--samsung-background);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.datetime-display:hover {
+    border-color: var(--samsung-primary);
+}
+
+.datetime-value {
+    font-size: 16px;
+    color: var(--samsung-text);
+}
+
+.datetime-picker-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 4px;
+    background: var(--samsung-secondary);
+    border-radius: var(--samsung-radius-small);
+}
+
+.datetime-tab {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--samsung-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.datetime-tab.active {
+    background: white;
+    color: var(--samsung-primary);
+}
+
+.datetime-picker-content {
+    margin-top: 12px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Color Picker */
+.color-picker-container {
+    position: relative;
+}
+
+.color-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    background: var(--samsung-background);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.color-display:hover {
+    border-color: var(--samsung-primary);
+}
+
+.color-preview {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--samsung-border);
+}
+
+.color-value {
+    font-size: 16px;
+    color: var(--samsung-text);
+    font-family: monospace;
+}
+
+.color-picker-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: var(--samsung-background);
+    border-radius: var(--samsung-radius-small);
+    box-shadow: 0 4px 16px var(--samsung-shadow);
+    padding: 16px;
+    z-index: 1000;
+    animation: dropdownSlide 0.2s ease;
+}
+
+.color-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.color-preset-item {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.color-preset-item:hover {
+    transform: scale(1.1);
+    border-color: var(--samsung-primary);
+}
+
+.color-custom-section {
+    border-top: 1px solid var(--samsung-border);
+    padding-top: 16px;
+}
+
+.color-custom-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--samsung-text);
+    margin-bottom: 8px;
+}
+
+.color-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.color-native-input {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    cursor: pointer;
+}
+
+.color-hex-input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    font-size: 14px;
+    font-family: monospace;
+    text-transform: uppercase;
+}
+
+.color-hex-input:focus {
+    outline: none;
+    border-color: var(--samsung-primary);
+}
+
+/* Custom Select */
+.custom-select-container {
+    position: relative;
+}
+
+.custom-select-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border: 2px solid var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    background: var(--samsung-background);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.custom-select-display:hover {
+    border-color: var(--samsung-primary);
+}
+
+.select-value {
+    font-size: 16px;
+    color: var(--samsung-text);
+}
+
+.custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: var(--samsung-background);
+    border-radius: var(--samsung-radius-small);
+    box-shadow: 0 4px 16px var(--samsung-shadow);
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    animation: dropdownSlide 0.2s ease;
+}
+
+.select-option {
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 16px;
+    color: var(--samsung-text);
+}
+
+.select-option:hover {
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.select-option.selected {
+    background: var(--samsung-primary);
+    color: white;
+    font-weight: 600;
+}
+
+/* Range Slider */
+.range-container {
+    padding: 8px 0;
+}
+
+.range-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.range-label {
+    font-size: 14px;
+    color: var(--samsung-text-secondary);
+}
+
+.range-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--samsung-primary);
+}
+
+.range-slider-wrapper {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.range-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: transparent;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    z-index: 2;
+}
+
+.range-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--samsung-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 6px var(--samsung-shadow);
+    transition: transform 0.2s ease;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.range-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--samsung-primary);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px var(--samsung-shadow);
+    transition: transform 0.2s ease;
+}
+
+.range-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+}
+
+.range-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--samsung-border);
+    border-radius: 3px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.range-progress {
+    height: 100%;
+    background: var(--samsung-primary);
+    border-radius: 3px;
+    transition: width 0.1s ease;
+}
+
+.range-minmax {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--samsung-text-secondary);
+}
+
+/* File Input */
+.file-input-container {
+    position: relative;
+}
+
+.modal-file-input {
+    display: none;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 40px 20px;
+    border: 2px dashed var(--samsung-border);
+    border-radius: var(--samsung-radius-small);
+    background: var(--samsung-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.file-input-label:hover {
+    border-color: var(--samsung-primary);
+    background: rgba(0, 128, 255, 0.05);
+}
+
+.file-input-label svg {
+    color: var(--samsung-primary);
+}
+
+.file-text {
+    font-size: 16px;
+    color: var(--samsung-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .modal-content.samsung-style {
+        width: 95%;
+        max-width: none;
+    }
+    
+    .color-preset-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+    
+    .modal-footer button {
+        width: 100%;
+    }
+}
+
+/* Scrollbar Styling */
+.modal-body::-webkit-scrollbar,
+.custom-select-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track,
+.custom-select-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb,
+.custom-select-dropdown::-webkit-scrollbar-thumb {
+    background: var(--samsung-border);
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover,
+.custom-select-dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--samsung-text-secondary);
+}

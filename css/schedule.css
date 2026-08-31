@@ -1,0 +1,100 @@
+.lessonCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    display: grid;
+    grid-template-columns: auto auto;
+
+    padding-top: var(--ds);
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    padding: var(--dss);
+    transition: none;
+    overflow-y: hidden;
+
+    &:not(:last-child):not(.inLessonsPage) {
+        padding-bottom: var(--ds);
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: var(--ds);
+            right: var(--ds);
+            height: 1px;
+            background-color: var(--text-sec);
+        }
+    }
+    &.hidden {
+        max-height: 0;
+    }
+
+    p, b {
+        margin: 0;
+    }
+    
+
+    .lessonName {
+        font-size: calc(1.25 * var(--ds));
+    }
+    .lessonTime {
+        font-size: calc(0.75 * var(--ds));
+        color: var(--text-sec);
+    }
+    .lessonDays div {
+        font-size: calc(0.75 * var(--ds));
+        color: var(--text-pri);
+    }
+
+    .lessonLeft, .lessonRight {
+        display: inline-flex;
+        flex-direction: column;
+    }
+    .lessonLeft {
+        align-items: flex-start;
+    }
+    .lessonRight {
+        align-items: flex-end;
+    }
+}
+
+.lessonCardContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    &:hover .lessonCard {
+        position: absolute;
+        left: calc(-1 * var(--dss));
+        right: calc(-1 * var(--dss));
+        top: calc(-1 * var(--dss));
+        bottom: 0;
+        z-index: 5;
+        background-color: var(--bg-sec-great-hover);
+        border-radius: var(--br);
+    }
+}
+
+.scheduleDayDiv {
+    padding: var(--ds);
+    border-radius: var(--br);
+    background-color: var(--bg-sec);
+
+    &:not(:last-child) {
+        margin-bottom: var(--ds);
+    }
+
+    &.today {
+        border: 2px solid var(--ac-text);
+    }
+}
+
+.scheduleContainer, #nextLessons {
+    display: grid;
+    grid-auto-rows: 60px;
+}

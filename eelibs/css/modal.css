@@ -1,0 +1,143 @@
+/*@import url(sai.css);*/
+
+.modal {
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+    z-index: 500;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    &:not(.active) {
+        transform: translateY(50rem);
+    }
+    &.active {
+        transform: translateY(0rem);
+    }
+
+
+
+    #modalForuse {
+
+        &.dialog {
+            z-index: 100;
+            width: calc(90% - var(--ds) * 2);
+            padding: var(--ds);
+            background-color: var(--bg-sec-great);
+            border-radius: var(--br);
+            position: absolute;
+            margin: 0 3%;
+            box-shadow: 5px 5px 10px 5px rgba(0,0,0,0.5);
+            bottom: var(--ds);
+            
+            &.input {
+                @media (orientation: landscape) {
+                    bottom: 1rem;
+                }
+                @media (orientation: portrait) {
+                    bottom: var(--ds);
+                    margin: 0 var(--ds);
+                    width: calc(100% - var(--ds) * 4);
+                }
+
+                .modal-content:not(.moreDiv) {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .modal-header {
+                    width: 100%;
+                }
+
+                input, textarea {
+                    background: none;
+                    border: none;
+                    border-bottom: 2px solid var(--bc);
+                    border-radius: 0;
+                    width: calc(100% - var(--dss) * 2);
+                    margin-bottom: calc(var(--ds) * 2);
+                    resize: vertical;
+                    &:focus {
+                        outline: none;
+                        border-bottom: 2px solid var(--text-pri);
+                    }
+                }
+
+                .modal-body {
+                    width: 100%;
+                    max-height: 50dvh;
+                    overflow-y: auto;
+                }
+
+                .modal-footer {
+                    display: inline-flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 75%;
+
+                    button {
+                        background: none;
+                        border: none;
+                        border-radius: 0;
+                        font-size: 1rem;
+                        font-weight: bold;
+                        flex: 1;
+                    }
+
+                    .splitter {
+                        width: 0;
+                        border: 1px solid var(--bc);
+                        height: 15px;
+                    }
+                }
+
+                .time-picker-container {
+                    position: relative;
+                    overflow: hidden;
+
+                    .time-wheel-container {
+                        flex: 1;
+                        text-align: center;
+                    }
+
+                    .time-picker-wheels {
+                        display: flex;
+                        width: 100%;
+                        justify-content: space-evenly;
+
+                        .time-wheel {
+                            max-height: 4rem;
+                            overflow-y: scroll;
+                            min-width: 30%;
+                            text-align: center;
+
+                            .time-option {
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .moreDiv {
+                @media (orientation: landscape) {
+                    transform: translateY(50rem);
+                }
+
+                max-height: min(calc(25rem - var(--ds) * 2), calc(60dvh - var(--ds) * 2 - 50px));
+                bottom: var(--dss);
+                display: grid;
+                grid-template-columns: repeat(3, auto);
+                grid-template-rows: max-content;
+                gap: var(--ds);
+                justify-items: center;
+                z-index: 1000;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+        }
+    }
+}

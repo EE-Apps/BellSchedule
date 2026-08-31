@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Звонок</title>
+    <link rel="stylesheet" href="eelibs/import.css">
+    <link rel="stylesheet" href="css/page/now.css">
+    <link rel="stylesheet" href="css/page/lessons.css">
+    <link rel="stylesheet" href="css/page/lessonInfo.css">
+    <link rel="stylesheet" href="css/schedule.css">
+    <link rel="stylesheet" href="css/adaptivity/desktop.css">
+    <link rel="stylesheet" href="css/adaptivity/mobile.css">
+</head>
+<body style="display: flex;">
+    <div id="nav" class="">
+        <button id="openmenu" onclick="openNavPanel()"><img src="img/ui/lines.svg"></button>
+        <div id="navcontent"></div>
+    </div>
+    <div id="content" class="">
+        <div class="page" id="settings"></div>
+        <div class="page block" id="now">
+            <div class="pageContainer">
+                <div class="pageContent">
+                    <div class="nowCardsContainer">
+                        <div class="nowCard" id="weatherCard">
+                            <b>Погода</b>
+                            <p id="weatherDescr">В 15:00 - после занятий</p>
+                            <img id="weatherIcon" src="img/weather/mostly_cloudy_day.webp"><p id="weatherTemperature">25°</p>
+                        </div>
+                        <div class="nowCard" id="breakCard">
+                            <b>Длина перемены</b>
+                            <p>15 минут</p>
+                        </div>
+                        <div class="nowCard collapsedDoneLessons" id="nextLessonsNowCard">
+                            <b>Далее</b>
+                            <button id="collapseDoneLessons"><img src="img/ui/arrow/up.svg"></button>
+                            <div id="nextLessons">
+                                <div class="lessonCard">
+                                    <div class="lessonLeft">
+                                        <b class="lessonName">Алгебра</b>
+                                    </div>
+                                    <div class="lessonRight">
+                                        <p>кб 33</p>
+                                        <p>И. И. Иванов</p>
+                                    </div>
+                                </div>
+                                <div class="lessonCard">
+                                    <div class="lessonLeft">
+                                        <b class="lessonName">Физика</b>
+                                    </div>
+                                    <div class="lessonRight">
+                                        <p>кб 33</p>
+                                        <p>Н. Н. Смирнов</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nowCard" id="notesNowCard">
+                            <b>Заметки</b>
+                            <p>Оч важный текст</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page block" id="schedule">
+            <div class="pageContainer">
+                <div class="pageContent">
+                </div>
+            </div>
+        </div>
+        <div class="page block" id="scheduleEdit">
+            <div class="pageContainer">
+                <div class="pageContent">
+                    <div class="bg flex">
+                        <h3>Horizontal</h3>
+                        <div class="bg flex">
+                            <input type="range">
+                            <input type="range" class="def">
+                        </div>
+                    </div>
+                    <div class="bg flex">
+                        <h3>Vertical</h3>
+                        <div class="bg flex land">
+                            <input type="range" class="vertical">
+                            <input type="range" class="def vertical">
+                        </div>
+                    </div>
+                    <div class="bg flex">
+                        <h3>Special</h3>
+                        <input type="range">
+                        <input type="range" class="def">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page block" id="lessons">
+            <div class="pageContainer">
+                <div class="pageContent" id="lessonsList">
+                </div>
+            </div>
+        </div>
+        <div class="page block" id="lessonInfo">
+            <div class="pageContainer">
+                <div class="pageContent" id="lessonInfoContainer">
+                    <div class="linfoCard">
+                        <img src="img/ui/user.svg">
+                        <b id="lessonInfoTeacherH">Преподователь</b>
+                        <div class="lessonInfoData">
+                            <p id="lessonInfoTeacherText"></p>
+                            <input id="lessonInfoTeacherInput" type="text">
+                        </div>
+                    </div>
+                    <div class="linfoCard">
+                        <img src="img/ui/location.svg">
+                        <b id="lessonInfoPlaceH">Место</b>
+                        <div class="lessonInfoData">
+                            <p id="lessonInfoPlaceText"></p>
+                            <input id="lessonInfoPlaceInput" type="text">
+                        </div>
+                    </div>
+                    <div class="linfoCard fullwidth" id="lessonInfoSchedule">
+
+                    </div>
+                    <div class="linfoCard fullwidth" id="lessonInfoNotes">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page block" id="about">
+            <div class="pageContainer">
+                <div class="pageContent">
+                    <section>
+                        <p>Это пример HTML-страницы, демонстрирующей различные HTML-элементы без применения CSS-стилей.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div id="navdown" class=""></div>
+    </div>
+
+    <div id="modal" class="modal"><div id="modalForuse"></div></div>
+
+</body>
+<script src="eelib.js" type="module"></script>
+<script src="js/translations.js"></script>
+<script src="eelibs/import.js" type="module"></script>
+<script src="js/time.js" type="module"></script>
+<script src="js/schedule/scheduleCore.js" type="module"></script>
+<script src="js/schedule/scheduleNow.js" type="module"></script>
+<script src="js/schedule/scheduleWeek.js" type="module"></script>
+<script src="js/page/lessonsPage.js" type="module"></script>
+<script src="js/page/lessonInfoPage.js" type="module"></script>
+</html>

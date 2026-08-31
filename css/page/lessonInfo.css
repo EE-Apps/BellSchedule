@@ -1,0 +1,88 @@
+#lessonInfoContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--ds);
+    
+    .linfoCard {
+        padding: var(--ds);
+        border-radius: var(--br);
+        background-color: var(--bg-sec);
+        position: relative;
+
+        overflow: hidden;
+
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-template-rows: 1fr 1fr;
+        gap: var(--dss);
+
+        &.fullwidth {
+            grid-column: 1 / -1;
+        }
+
+        .lessonName.today {
+            color: var(--ac-text);
+        }
+
+        .lessonInfoData {
+            position: relative;
+        }
+        
+        img {
+            grid-column: 1;
+            grid-row: 1 / 3;
+
+            height: 60%;
+            padding: 20%;
+            margin-right: var(--ds);
+        }
+
+        p, b {
+            margin: 0;
+        }
+    }
+
+    #lessonInfoTeacherInput, #lessonInfoPlaceInput {
+        border: none;
+        background: none;
+        padding: 0;
+        margin: 0;
+
+        border-radius: var(--br);
+        background-color: var(--bg-pri);
+        padding: var(--dss);
+        width: calc(100% - var(--ds));
+    }
+
+    #lessonInfoTeacherInput, #lessonInfoPlaceInput, #lessonInfoTeacherText, #lessonInfoPlaceText {
+        position: absolute;
+    }
+
+    &:not(.edit) {
+        #lessonInfoTeacherInput, #lessonInfoPlaceInput {
+            bottom: calc(var(--ds2) * -2 - 150%);
+        }
+        #lessonInfoTeacherText, #lessonInfoPlaceText {
+            bottom: 0;
+        }
+    }
+    &.edit {
+        #lessonInfoTeacherInput, #lessonInfoPlaceInput {
+            bottom: calc(var(--dss) * -1);
+        }
+        #lessonInfoTeacherText, #lessonInfoPlaceText {
+            bottom: calc(var(--ds2) * -2 - 150%);
+        }
+    }
+
+    #lessonInfoSchedule {
+        display: flex;
+        flex-direction: column;
+
+        .lessonCard.inLessonInfoPage {
+            width: auto;
+            height: auto;
+            cursor: auto;
+        }
+    }
+}

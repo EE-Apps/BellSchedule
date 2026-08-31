@@ -1,0 +1,44 @@
+#lessonsList {
+    display: grid;
+    grid-template-columns: auto;
+    gap: var(--ds);
+
+    .lessonCard.inLessonsPage {
+        padding: var(--ds);
+        background-color: var(--bg-sec);
+        border-radius: var(--br);
+        width: auto;
+        height: auto;
+    }
+
+    .lessonDays {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: flex-end;
+        max-width: 100%;
+        overflow-x: auto;
+
+        padding: var(--dss) 0;
+        gap: var(--dss);
+
+        div {
+            padding: var(--dss);
+            border-radius: var(--br);
+            width: 20px;
+            height: max-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.today {
+                background-color: var(--ac-bg);
+                color: var(--text-pri);
+            }
+            &:not(.today) {
+                background: none;
+                color: var(--ac-text);
+                border: 1px solid var(--ac-text);
+            }
+        }
+    }
+}
