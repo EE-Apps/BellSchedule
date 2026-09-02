@@ -115,6 +115,47 @@
     --height: 16px;
 }
 
+/* =========================================
+   СВЕТЛАЯ ТЕМА (автоматически)
+   ========================================= */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Инвертируем серую палитру */
+    --c-gray-900: #ffffff; /* Светлый фон */
+    --c-gray-800: #f5f5f5; /* Светлые карточки */
+    --c-gray-700: #e8e8e8; /* Светлые поля ввода */
+    --c-gray-600: #d0d0d0; /* Светлые границы */
+    --c-gray-400: #666666; /* Темнее вторичный текст для контраста */
+    --c-gray-200: #1a1a1a; /* Темный основной текст */
+    --c-gray-100: #000000; /* Черный для иконок */
+
+    --c-accent: #2980b9; /* Чуть темнее синий */
+    --c-danger: #c0392b; /* Чуть темнее красный */
+
+    --bg-pri: #ffffff80;
+    --bg-sec: #f5f5f5b0;
+    --bg-input: #e8e8e8b0;
+
+    /* Оверлей для модалок */
+    --overlay-bg: rgba(0, 0, 0, 0.3); /* Менее темный для светлой темы */
+
+    
+    /* В светлой теме hover затемняет, а не осветляет */
+    --accent-hover: color-mix(in srgb, var(--accent) 85%, var(--c-black));
+    --accent-active: color-mix(in srgb, var(--accent) 70%, var(--c-black));
+    
+    --danger-hover: color-mix(in srgb, var(--danger) 85%, var(--c-black));
+    
+    /* Фоны кнопок в hover затемняются */
+    --bg-sec-hover: color-mix(in srgb, var(--bg-sec) 90%, var(--c-black));
+    --bg-input-hover: color-mix(in srgb, var(--bg-input) 90%, var(--c-black));
+    
+    /* Текст становится темнее */
+    --text-pri-hover: color-mix(in srgb, var(--text-pri) 80%, var(--c-black));
+    --text-sec-hover: color-mix(in srgb, var(--text-sec) 80%, var(--c-black));
+  }
+}
+
 
 * {
     transition: background-color 0.3s ease, color 0.3s ease;

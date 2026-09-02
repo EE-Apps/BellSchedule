@@ -28,4 +28,11 @@
     --ac-bg-great: var(--accent);
     --ac-bg-great-hover: var(--accent-hover);
     --ac-bg-great-light: var(--accent-active);
+
+    --bg-pri-great: var(--c-gray-900);
+    --bg-pri-great-hover: var(--c-gray-800);
+    --bg-sec-great: var(--c-gray-700);
+    --bg-sec-great-hover: var(--c-gray-600);
+
+    --tr: var(--transitions)
 }

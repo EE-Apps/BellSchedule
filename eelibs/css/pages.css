@@ -197,7 +197,8 @@
         .pageContainer {
             background-color: var(--bg-pri-great);
             padding: 0 var(--ds) var(--ds) var(--ds);
-			height: calc(100% - var(--ds));
+			height: max-content;
+            min-height: calc(100% - var(--ds)); 
 
             .page-header-btns {
                 padding: 0;

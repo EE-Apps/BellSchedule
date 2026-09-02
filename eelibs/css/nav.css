@@ -4,19 +4,74 @@
     justify-content: space-between;
     margin: 2rem 0 1rem 0;
     padding: 1rem;
-    background-color: var(--bg-sec-great);
+    background-color: var(--c-gray-800);
     border-radius: 0 var(--br) var(--br) 0;
-    min-width: 40px;
-    max-width: max-content;
+    
+    /* Начальное (свернутое) состояние */
+    width: 50px;
+    min-width: 50px;
     padding-top: 50px;
     max-height: calc(100dvh - 50px - var(--ds) - 32px);
+    overflow-x: hidden; /* Скрывает вылезающий текст при сужении */
     overflow-y: auto;
     z-index: 99;
-    /*transform: translateX(-150%);*/
+    
+    /* Плавная анимация изменения ширины */
+    transition: width 0.3s ease, min-width 0.3s ease;
+
+    /* Развернутое состояние */
     &.active {
-        /*transform: translateX(0);*/
         width: 200px;
         min-width: 200px;
+    }
+
+    /* Кнопки внутри навигации */
+    .navbtn {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        padding: 0.5rem 0;
+        margin: 0.25rem 0;
+        width: 100%;
+        min-height: 40px;
+        max-height: 40px;
+        transition: background-color 0.2s ease;
+        border: none;
+
+        &.active {
+            background-color: var(--bg-sec-hover);
+            border-radius: var(--brs);
+        }
+
+        img {
+            width: 1.5rem;
+            height: 1.5rem;
+            padding-left: 0.5rem; /* Скошен зазор для узкого состояния */
+            padding-right: 0.5rem;
+            flex-shrink: 0;      /* Иконка не сжимается */
+        }
+
+        /* Плавное проявление текста */
+        span {
+            padding: 0;
+            margin: 0;
+            white-space: nowrap;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+    }
+}
+
+/* Стили для свернутого состояния */
+#nav:not(.active) {
+    .navbtn {
+        span {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.1s ease, visibility 0.1s ease;
+        }
     }
 }
 
