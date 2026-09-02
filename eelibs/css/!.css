@@ -2,34 +2,99 @@
 
 /* Theme colors */
 :root {
-    --bg-pri: #00000045;
-    --bg-pri-hover: #27272745;
-    --bg-pri-great: #0e0f0e;
-    --bg-sec: #242424b0;
-    --bg-sec-hover: #424242b0;
-    --bg-sec-great: #242424;
-    --bg-sec-great-hover: #2a2a2a;
-    --bg-hover: #2a2a2ab0;
-    --bg-input: #313131b0;
-    --bg-input-hover: #353535b0;
-    --bg-input-great: #313131;
-    --bg-input-great-hover: #353535;
+    --c-black: #000000;
+    --c-white: #ffffff;
+    
+    /* Оттенки серого для темной темы */
+    --c-gray-900: #0e0f0e; /* фон */
+    --c-gray-800: #242424; /* поверхности (карточки) */
+    --c-gray-700: #313131; /* поля ввода */
+    --c-gray-600: #404040; /* границы */
+    --c-gray-400: #a0a0a0; /* доп текст */
+    --c-gray-200: #e0e0e0; /* основной текст */
+    --c-gray-100: #f7f7f7; /* светлый текст/иконки */
 
-    --text-pri: #e0e0e0;
-    --text-pri-hover: #ffffff;
-    --text-sec: #a0a0a0;
-    --text-sec-hover: #d6d6d6;
+    /* Акцентные и статусные цвета */
+    --c-accent: #3498db;
+    --c-danger: #e74c3c;
+    --c-success: #2ecc71;
+    --c-warning: #f1c40f;
+
+    
+    /* Фоны */
+    --bg-base: var(--c-gray-900);
+    --bg-pri: #00000045;
+    --bg-sec: #242424b0;
+    --bg-sec-solid: var(--c-gray-800);
+    --bg-input: var(--c-gray-700);
+
+    /* Текст */
+    --text-pri: var(--c-gray-200);
+    --text-sec: var(--c-gray-400);
+    --text-on-accent: var(--c-white);
+
+    /* Границы и акценты */
+    --border-color: var(--c-gray-600);
+    --bc: var(var(--border-color));
+    --accent: var(--c-accent);
+    --danger: var(--c-danger);
+
+    /* =========================================
+        АВТОМАТИЧЕСКИЕ СОСТОЯНИЯ
+        ========================================= */
+    
+    /* базовый цвет + 10-15% белого */
+    --bg-pri-hover: color-mix(in srgb, var(--bg-pri) 85%, var(--c-white));
+    --bg-sec-hover: color-mix(in srgb, var(--bg-sec) 85%, var(--c-white));
+    --bg-input-hover: color-mix(in srgb, var(--bg-input) 85%, var(--c-white));
+    
+    /* с черным */
+    --accent-hover: color-mix(in srgb, var(--accent) 85%, var(--c-white));
+    --accent-active: color-mix(in srgb, var(--accent) 70%, var(--c-black));
+    
+    --danger-hover: color-mix(in srgb, var(--danger) 85%, var(--c-white));
+    --danger-bg-alpha: color-mix(in srgb, var(--danger) 15%, transparent); /* прозрачный красный фон */
+
+    --text-pri-hover: color-mix(in srgb, var(--text-pri) 80%, var(--c-white));
+    --text-sec-hover: color-mix(in srgb, var(--text-sec) 80%, var(--c-white));
 
     --br: 1.2rem;
     --brs: 0.9rem;
     --brc: 99999px;
 	--brr: var(--brc);
-    --bc: #404040;
+
     --ds: 1rem;
     --dss: 0.5rem;
-	
-	--ds2: calc(var(--ds) * 2);
-	--dss2: calc(var(--dss) * 2);
+    --ds2: calc(var(--ds) * 2);
+    --dss2: calc(var(--dss) * 2);
+
+    
+    --overlay-bg: rgba(0, 0, 0, 0.6); /* затемнение под модалкой */
+    --glass-blur: blur(20px);           /* матовое стекло      !!! использовать осторожно !!! */  
+    --focus-ring: color-mix(in srgb, var(--accent) 50%, transparent);
+
+    /* LEGACY
+
+    --bg-pri:               #00000045;
+    --bg-pri-hover:         #27272745;
+    --bg-pri-great:         #0e0f0e;
+    --bg-sec:               #242424b0;
+    --bg-sec-hover:         #424242b0;
+    --bg-sec-great:         #242424;
+    --bg-sec-great-hover:   #2a2a2a;
+    --bg-hover:             #2a2a2ab0;
+    --bg-input:             #313131b0;
+    --bg-input-hover:       #353535b0;
+    --bg-input-great:       #313131;
+    --bg-input-great-hover: #353535;
+    --danger:               #e74c3c;
+    --danger-hover:         #ff6b5b;
+    --danger-bg:            #e74c3c20;
+
+    --text-pri:             #e0e0e0;
+    --text-pri-hover:       #ffffff;
+    --text-sec:             #a0a0a0;
+    --text-sec-hover:       #d6d6d6;
 
     --ac-text: #3498db;
     --ac-text-hover: #6bacd8;
@@ -39,12 +104,13 @@
     --ac-bg-great: #3498db;
     --ac-bg-great-hover: #6bacd8;
     --ac-bg-great-light: #5e8199;
+    */
 
     --transitions: 0.3s ease;
     --tr-out: 0.25s cubic-bezier(0.2, 0.0, 0.0, 1);
     --tr-in: 0.25s cubic-bezier(0.4, 0.0, 1, 1);
     --tr-in-out: 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
-    --tr: all var(--transitions);
+    --tr-color: background-color 0.2s var(--tr-in-out), color 0.2s var(--tr-in-out);
 
     --height: 16px;
 }

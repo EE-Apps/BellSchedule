@@ -1,3 +1,5 @@
+// js/schedule/scheduleWeek.js
+
 class scheduleWeek {
     constructor() {
         this.schedulePageContainer = document.querySelector('#schedule .pageContent')
@@ -6,6 +8,7 @@ class scheduleWeek {
     init() {
         this.renderWeek()
         this.eventListeners()
+        this.updateBtnsList()
     }
 
     eventListeners() {
@@ -13,6 +16,13 @@ class scheduleWeek {
             btn.addEventListener('click', () => {
                 this.filterSchedule(i == 0 ? [0, 1, 2, 3, 4, 5, 6] : [i - 1])
             })
+        })
+    }
+
+    updateBtnsList() {
+        const btnsList = document.querySelector('#schedule .page-header-btns .btnsList.topNav')
+        btnsList.querySelectorAll('button').forEach((btn, i) => {
+            btn.textContent = btn.textContent == 'all' ? window.translator.translate('all') : window.translator.translate('day' + (i - 1))
         })
     }
 
@@ -26,51 +36,42 @@ class scheduleWeek {
 
     renderWeek() {
         this.schedulePageContainer.innerHTML = ''
-        const mondayDate = window.timeMgr.current.date - window.timeMgr.current.day + 1
-        console.log(mondayDate)
+
+        // Понедельник этой недели считаем через Date, чтобы корректно
+        // обрабатывался переход через границу месяца/года
+        // (раньше при таком переходе на экране появлялись даты вида "32.7")
+        const monday = new Date(window.timeMgr.currentTime)
+        monday.setHours(0, 0, 0, 0)
+        monday.setDate(monday.getDate() - window.timeMgr.current.day)
+
         settingsManager.get(`schedule.daySchedules`).forEach((daySchedule, i) => {
-            if (!daySchedule || !daySchedule.length > 0) return
-            const isToday = i + 1 == window.timeMgr.current.day
-            const bells = (settingsManager.get('schedule.bellSchemas'))[(settingsManager.get(`schedule.daySchemas`))[i]]
+            if (!daySchedule || !(daySchedule.length > 0)) return
+
+            const isToday = i == window.timeMgr.current.day
+            const bells = (settingsManager.get('schedule.bellSchemas'))[(settingsManager.get(`schedule.daySchemas`))[i]] || []
+
+            const dayDate = new Date(monday)
+            dayDate.setDate(monday.getDate() + i)
 
             const dayDiv = document.createElement('div')
             dayDiv.className = 'scheduleDayDiv'
             if (isToday) dayDiv.classList.add("today")
+
             const dayH = document.createElement('h2')
             dayH.className = 'scheduleDayTitle'
-            dayH.textContent = `${window.translator.translate('day' + i)}  -  ${isToday ? translator.translate('today') : (mondayDate + i) + '.' + (timeMgr.current.month)}`
+            dayH.textContent = `${window.translator.translate('day' + i)}  -  ${isToday ? window.translator.translate('today') : String(dayDate.getDate()).padStart(2, '0') + '.' + String(dayDate.getMonth() + 1).padStart(2, '0')}`
+
             const dayContainer = document.createElement('div')
             dayContainer.className = 'scheduleContainer'
 
             dayDiv.appendChild(dayH)
             dayDiv.appendChild(dayContainer)
 
-            daySchedule.forEach((lesson, i) => {
-                const cardContainer = document.createElement('div')
-                const card = document.createElement('div')
-                cardContainer.className = 'lessonCardContainer'
-                card.className = 'lessonCard'
-                const lessonData = settingsManager.get(`schedule.lessons.${lesson}`)
-                const lessonTime = bells[i].join(" - ")
-                card.innerHTML = `
-                    <div class="lessonLeft">
-                        <b class="lessonName">${lessonData.name}</b>
-                        <p class="lessonTime">${lessonTime}</p>
-                    </div>
-                    <div class="lessonRight">
-                        <p>${lessonData.place}</p>
-                        <p>${lessonData.teacher}</p>
-                    </div>`
-                
-                card.addEventListener('click', () => {
-                    lessonInfoPage.lesson = lesson
-                    lessonInfoPage.renderLesson()
-                    window.changePage('lessonInfo')
-                })
-
-                cardContainer.appendChild(card)
-                dayContainer.appendChild(cardContainer)
+            daySchedule.forEach((lesson, j) => {
+                const card = window.scheduleCore.createLessonCard(lesson, bells[j])
+                dayContainer.appendChild(card)
             })
+
             this.schedulePageContainer.appendChild(dayDiv)
         });
     }

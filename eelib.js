@@ -28,6 +28,7 @@ window.eelib.pages = [
         subcategoryActive: 'all',
         subpages: [
             'scheduleEdit',
+            'lessonInfo',
         ],
         subpagesmode: 'modal',
     },
@@ -53,6 +54,9 @@ window.eelib.pages = [
             ['add'],
             ['edit', 'img/ui/edit2', 'changePage("lessonsEdit")', 'Edit'],
         ],
+        subpages: [
+            'lessonInfo',
+        ],
         noBottom: true,
     },
     {
@@ -66,6 +70,12 @@ window.eelib.pages = [
         ],
         noBottom: true,
         noLeft: true,
+    },
+    {
+        id: 'about',
+        title: 'About',
+        icon: 'img/ui/user.svg',
+        noBottom: true,
     },
     {
         id: 'settings',
@@ -101,6 +111,10 @@ window.eelib.settingsConfig = {
             monthAsText: false,
             dateSeparator: "/",
             jucheCalendar: false,
+        },
+        updates: {
+            autoCheck: true,
+            lastCheckedAt: null,
         },
         schedule: {
             bellSchemas: {

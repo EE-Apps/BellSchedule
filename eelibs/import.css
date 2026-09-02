@@ -8,3 +8,5 @@
 @import url(css/mobile.css);
 @import url(css/modal.css);
 @import url(css/btnsList.css);
+@import url(css/elements/!elements.css);
+@import url(css/components/!components.css);

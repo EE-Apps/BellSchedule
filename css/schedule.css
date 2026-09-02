@@ -84,6 +84,7 @@
     padding: var(--ds);
     border-radius: var(--br);
     background-color: var(--bg-sec);
+    border: 2px solid var(--bg-sec);
 
     &:not(:last-child) {
         margin-bottom: var(--ds);

@@ -1,3 +1,5 @@
+// js/page/lessonsPage.js
+
 class lessonsPage {
     constructor() {
         this.lessonsListContainer = document.getElementById('lessonsList')
@@ -42,6 +44,12 @@ class lessonsPage {
             card.appendChild(lessonTeacher)
             card.appendChild(lessonDays)
             card.appendChild(lessonPlace)
+
+            card.addEventListener('click', () => {
+                window.lessonInfoPage.lesson = key
+                window.lessonInfoPage.renderLesson()
+                window.changePage('lessonInfo', key)
+            })
 
             this.lessonsListContainer.appendChild(card)
         });

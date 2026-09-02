@@ -10,6 +10,7 @@
         position: relative;
 
         overflow: hidden;
+        overflow-x: auto;
 
         display: grid;
         grid-template-columns: max-content auto;
@@ -34,43 +35,59 @@
 
             height: 60%;
             padding: 20%;
-            margin-right: var(--ds);
+            padding-right: var(--dss);
+            padding-left: 0;
         }
 
         p, b {
             margin: 0;
         }
+
+        &.smallData {
+            p, input {
+                position: absolute;
+            }
+
+            input {
+                border: none;
+                background: none;
+                padding: 0;
+                margin: 0;
+
+                border-radius: var(--br);
+                background-color: var(--bg-pri);
+                padding: var(--dss);
+                width: calc(100% - var(--ds));
+            }
+        }
+
     }
 
-    #lessonInfoTeacherInput, #lessonInfoPlaceInput {
-        border: none;
-        background: none;
-        padding: 0;
-        margin: 0;
+    &:not(.edit) .linfoCard.smallData {
+        &.doNotShowOnView {
+            max-height: 0;
+            overflow-y: hidden;
+            padding: 0 var(--ds);
+        }
 
-        border-radius: var(--br);
-        background-color: var(--bg-pri);
-        padding: var(--dss);
-        width: calc(100% - var(--ds));
-    }
-
-    #lessonInfoTeacherInput, #lessonInfoPlaceInput, #lessonInfoTeacherText, #lessonInfoPlaceText {
-        position: absolute;
-    }
-
-    &:not(.edit) {
-        #lessonInfoTeacherInput, #lessonInfoPlaceInput {
+        input {
             bottom: calc(var(--ds2) * -2 - 150%);
         }
-        #lessonInfoTeacherText, #lessonInfoPlaceText {
+        p {
             bottom: 0;
+            white-space: nowrap
         }
     }
-    &.edit {
-        #lessonInfoTeacherInput, #lessonInfoPlaceInput {
+    &.edit .linfoCard.smallData {
+        &.doNotShowOnView {
+            max-height: auto;
+            overflow-y: hidden;
+        }
+
+        input {
             bottom: calc(var(--dss) * -1);
         }
-        #lessonInfoTeacherText, #lessonInfoPlaceText {
+        p {
             bottom: calc(var(--ds2) * -2 - 150%);
         }
     }

@@ -1,0 +1,177 @@
+/* =========================================
+   ACTION BUTTON (.aBtn)
+   ========================================= */
+
+:root {
+    --btn-radius: var(--brc);
+    --btn-radius-soft: var(--br);
+}
+
+.aBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dss);  padding: 0.75rem 1.5rem;  
+  border: 2px solid transparent;  border-radius: var(--btn-radius);  
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;  
+  transition: 
+    background-color var(--tr-in-out),
+    border-color var(--tr-in-out),
+    color var(--tr-in-out),
+    transform var(--tr-in),
+    box-shadow var(--tr-in-out);
+
+  /* --- СОСТОЯНИЯ --- */
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96) translateY(0);    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.1s;  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ac-text);
+    outline-offset: 3px;
+  }
+
+  &:disabled,
+  &.is-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+    pointer-events: none;
+  }
+
+  /* =========================================
+     ВАРИАНТЫ (Модификаторы)
+     ========================================= */
+
+  background-color: var(--ac-bg-great);
+  color: #ffffff;
+  &:hover:not(:disabled) {
+    background-color: var(--ac-bg-great-hover);
+    color: #ffffff;
+  }
+
+  &.sec {
+    background-color: var(--bg-sec);
+    color: var(--text-pri);
+
+    &:hover:not(:disabled) {
+      background-color: var(--bg-sec-hover);
+      color: var(--text-pri-hover);
+    }
+  }
+
+  &.ghost {
+    background-color: transparent;
+    color: var(--ac-text);
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    &:hover:not(:disabled) {
+      background-color: var(--ac-bg-light);      color: var(--ac-text-hover);
+    }
+  }
+
+  &.bordered {
+    background-color: transparent;
+    border-color: var(--bc);    color: var(--text-pri);
+
+    &:hover:not(:disabled) {
+      background-color: var(--bg-sec-hover);
+      border-color: var(--text-sec);
+      color: var(--text-pri-hover);
+    }
+    
+    &.aBtn--dotted,
+    &.dotted {
+      border-style: dotted;
+      
+      &:hover:not(:disabled) {
+        border-style: dotted;      }
+    }
+  }
+
+  &.danger {
+    background-color: var(--danger);
+    color: #ffffff;
+
+    &:hover:not(:disabled) {
+      background-color: var(--danger-hover);
+    }
+    
+    &.aBtn--bordered,
+    &.bordered {
+      background-color: var(--danger-bg);
+      border-color: var(--danger);
+      color: var(--danger);
+      
+      &:hover:not(:disabled) {
+        background-color: var(--danger);
+        color: #ffffff;
+      }
+    }
+  }
+
+  /* =========================================
+     РАЗМЕРЫ
+     ========================================= */
+  
+  &.sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    gap: 0.375rem;
+  }
+
+  &.lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    border-radius: var(--btn-radius);  }
+
+  &.icon {
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border-radius: var(--btn-radius-soft); 
+    
+    svg, img {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &.aBtn--sm {
+      width: 2.25rem;
+      height: 2.25rem;
+      svg, img { width: 1rem; height: 1rem; }
+    }
+  }
+
+  /* Кнопка на всю ширину (для форм, внизу экрана) */
+  &.block {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   Утилиты для иконок внутри кнопок
+   ========================================= */
+.aBtn svg, 
+.aBtn img {
+  flex-shrink: 0;  transition: transform var(--tr-in);
+}
+
+.aBtn:hover:not(:disabled) svg {
+  transform: scale(1.1);
+}

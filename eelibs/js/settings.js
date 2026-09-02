@@ -171,6 +171,28 @@ class SettingsManager {
         return value;
     }
 
+    del(path) {
+        const keys = path.split('.')
+        const lastKey = keys.pop()
+        let target = this.settings
+
+        // Идем до предпоследнего объекта
+        for (const key of keys) {
+            if (!target || typeof target !== 'object') {
+                return false
+            }
+            target = target[key]
+        }
+
+        if (target && Object.prototype.hasOwnProperty.call(target, lastKey)) {
+            delete target[lastKey]
+            this.save()
+            return true;
+        }
+
+        return false
+    }
+
     // Генерация UI настроек
     generateUI(containerId) {
         const container = document.createElement('div')

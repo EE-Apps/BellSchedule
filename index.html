@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/page/now.css">
     <link rel="stylesheet" href="css/page/lessons.css">
     <link rel="stylesheet" href="css/page/lessonInfo.css">
+    <link rel="stylesheet" href="css/page/about.css">
     <link rel="stylesheet" href="css/schedule.css">
     <link rel="stylesheet" href="css/adaptivity/desktop.css">
     <link rel="stylesheet" href="css/adaptivity/mobile.css">
@@ -104,7 +105,23 @@
         <div class="page block" id="lessonInfo">
             <div class="pageContainer">
                 <div class="pageContent" id="lessonInfoContainer">
-                    <div class="linfoCard">
+                    <div class="linfoCard smallData doNotShowOnView">
+                        <img src="img/ui/text.svg">
+                        <b id="lessonInfoNameH">Название</b>
+                        <div class="lessonInfoData">
+                            <p id="lessonInfoNameText"></p>
+                            <input id="lessonInfoNameInput" type="text">
+                        </div>
+                    </div>
+                    <div class="linfoCard smallData doNotShowOnView">
+                        <img src="img/ui/text.svg">
+                        <b id="lessonInfoIdH">Id</b>
+                        <div class="lessonInfoData">
+                            <p id="lessonInfoIdText"></p>
+                            <input id="lessonInfoIdInput" type="text">
+                        </div>
+                    </div>
+                    <div class="linfoCard smallData">
                         <img src="img/ui/user.svg">
                         <b id="lessonInfoTeacherH">Преподователь</b>
                         <div class="lessonInfoData">
@@ -112,7 +129,7 @@
                             <input id="lessonInfoTeacherInput" type="text">
                         </div>
                     </div>
-                    <div class="linfoCard">
+                    <div class="linfoCard smallData">
                         <img src="img/ui/location.svg">
                         <b id="lessonInfoPlaceH">Место</b>
                         <div class="lessonInfoData">
@@ -132,9 +149,28 @@
         <div class="page block" id="about">
             <div class="pageContainer">
                 <div class="pageContent">
-                    <section>
-                        <p>Это пример HTML-страницы, демонстрирующей различные HTML-элементы без применения CSS-стилей.</p>
-                    </section>
+                    <div class="linfoCard fullwidth" id="aboutAppCard">
+                        <img src="icoWithoutBg.webp" alt="" style="width:64px;height:64px;">
+                        <b id="aboutAppName">Звонок</b>
+                        <p id="aboutAppDescr">Приложение для отображения расписания уроков и звонков.</p>
+                        <p id="aboutAppVersion"></p>
+                    </div>
+
+                    <div class="linfoCard fullwidth" id="updatesCard">
+                        <b id="updatesTitle">Обновления</b>
+                        <div class="lessonInfoData">
+                            <label>
+                                <span id="updateAutoCheckLabel">Проверять автоматически</span>
+                                <input type="checkbox" id="updateAutoCheckToggle">
+                            </label>
+                        </div>
+                        <p id="updateStatus"></p>
+                    </div>
+
+                    <div class="downBtns">
+                        <div class="aBtn" id="checkUpdateBtn"><img src="img/ui/reload.svg"><p id="checkUpdateBtnText">Проверить обновления</p></div>
+                        <a class="aBtn" href="https://github.com/EE-Apps/BellSchedule" target="_blank" id="aboutRepoLink"><img src="img/ui/file/open.svg">Исходный код на GitHub</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -148,6 +184,7 @@
 <script src="js/translations.js"></script>
 <script src="eelibs/import.js" type="module"></script>
 <script src="js/time.js" type="module"></script>
+<script src="js/updateChecker.js" type="module"></script>
 <script src="js/schedule/scheduleCore.js" type="module"></script>
 <script src="js/schedule/scheduleNow.js" type="module"></script>
 <script src="js/schedule/scheduleWeek.js" type="module"></script>

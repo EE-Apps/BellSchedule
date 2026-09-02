@@ -268,7 +268,7 @@ class Nav {
             if (page.id === 'settings') {
                 window.cnavMgr.nav.appendChild(btn);
             } else {
-                window.cnavMgr.navContent.appendChild(btn);
+                if (!page.noLeft) window.cnavMgr.navContent.appendChild(btn);
             }
 
             // === ОБРАБОТКА НИЖНЕЙ ПАНЕЛИ ===
@@ -358,19 +358,22 @@ class Nav {
         }
     }
 
-    switchPage(newpage) {
-        window.cnavMgr.lastestPage = document.querySelector('.page.active')?.id;
+    switchPage(newpage, subname) {
+        window.cnavMgr.lastestPage = document.querySelector('.page.active:not(.right)')?.id;
         window.cnavMgr.currentPage = newpage.id;
         const rightCurrent = document.querySelector('.page.active.right');
         const current = rightCurrent? rightCurrent : document.querySelector('.page.active');
         if (!newpage || newpage === current) {
-            if (rightCurrent) {
+            if (rightCurrent && (subname == null || subname === rightCurrent.dataset.currentSubname)) {
                 const parentPage = document.querySelector('.page.active:not(.right)');
                 parentPage.classList.remove('active', 'right');
                 parentPage.classList.add('leave-left')
                 content.classList.remove('two', 'twomodal');
                 current.classList.remove('right');
+                current.dataset.currentSubname = null
                 return;
+            } else if (subname != null && rightCurrent && subname != rightCurrent.dataset.currentSubname) {
+                rightCurrent.dataset.currentSubname = subname
             } else {
                 return;
             }
@@ -407,8 +410,10 @@ class Nav {
                 p.classList.add('leave-right');
             });
 
+            
             newpage.classList.add('right');
-            newpage.dataset.parent = basePage.id; // помечаем родителя
+            newpage.dataset.currentSubname = subname
+            newpage.dataset.parent = basePage.id;
         }
 
         newpage.classList.remove('leave-left', 'leave-right');
@@ -432,8 +437,8 @@ class Nav {
         }
     }
 
-    changePage(newpage) {
-        switchPage(document.getElementById(newpage));
+    changePage(newpage, subname) {
+        switchPage(document.getElementById(newpage), subname);
     }
 
     handleOutsideClick(event) {

@@ -1,12 +1,15 @@
+// js/schedule/scheduleNow.js
+
 class scheduleNow {
     constructor() {
         this.nextLessonsContainer = document.getElementById('nextLessons')
+        this.headerEl = document.querySelector('#nextLessonsNowCard b')
+        this.mode = null // 'next' | 'today' | 'tomorrow'
 
         this.init()
     }
 
     init() {
-
         this.addListeners()
     }
 
@@ -17,44 +20,44 @@ class scheduleNow {
         })
     }
 
-    renderNextLessons() {
+    renderList({ lessons, bells }) {
         this.nextLessonsContainer.innerHTML = ''
-        window.scheduleCore.today.lessons.forEach((lesson, i) => {
-            const cardContainer = document.createElement('div')
-            const card = document.createElement('div')
-            cardContainer.className = 'lessonCardContainer'
-            card.className = 'lessonCard'
-            const lessonData = settingsManager.get(`schedule.lessons.${lesson}`)
-            const lessonTime = window.scheduleCore.today.bells[i].join(" - ")
-            card.innerHTML = `
-                <div class="lessonLeft">
-                    <b class="lessonName">${lessonData.name}</b>
-                    <p class="lessonTime">${lessonTime}</p>
-                </div>
-                <div class="lessonRight">
-                    <p>${lessonData.place}</p>
-                    <p>${lessonData.teacher}</p>
-                </div>`
-            
-            card.addEventListener('click', () => {
-                lessonInfoPage.lesson = lesson
-                lessonInfoPage.renderLesson()
-                window.changePage('lessonInfo')
-            })
+        lessons.forEach((lesson, i) => {
+            const card = window.scheduleCore.createLessonCard(lesson, bells[i])
+            this.nextLessonsContainer.appendChild(card)
+        })
+    }
 
-            cardContainer.appendChild(card)
-            this.nextLessonsContainer.appendChild(cardContainer)
-        });
+    // mode: 'next'     — обычный режим, показываем оставшиеся уроки сегодня
+    //       'today'    — уроки сегодня ещё не начались
+    //       'tomorrow' — уроки на сегодня закончились (или сегодня выходной)
+    setMode(mode) {
+        if (this.mode === mode) return
+        this.mode = mode
+
+        if (mode === 'tomorrow') {
+            this.headerEl.textContent = window.translator.translate('tomorrow')
+            this.renderList(window.scheduleCore.getTomorrow())
+        } else if (mode === 'today') {
+            this.headerEl.textContent = window.translator.translate('today')
+            this.renderList(window.scheduleCore.today)
+        } else {
+            this.headerEl.textContent = window.translator.translate('next')
+            this.renderList(window.scheduleCore.today)
+        }
     }
 
     updateNextLessons() {
+        if (this.mode === 'tomorrow') return // расписание на завтра прошедшими/текущими не подсвечиваем
+
         const bells = window.scheduleCore.today.bells
-        const ct = window.timeMgr.currentTime
-        document.getElementById('nextLessons').querySelectorAll('.lessonCardContainer').forEach((el, i) => {
+        const ct = window.timeMgr.currentTime.getTime()
+
+        this.nextLessonsContainer.querySelectorAll('.lessonCardContainer').forEach((el, i) => {
             const lessonStartDate = window.timeMgr.stringToTime(bells[i][0])
-            const lessonEndtDate = window.timeMgr.stringToTime(bells[i][1])
-            
-            if (lessonStartDate < ct && lessonEndtDate > ct) {
+            const lessonEndDate = window.timeMgr.stringToTime(bells[i][1])
+
+            if (lessonStartDate < ct && lessonEndDate > ct) {
                 el.classList.add('currentLesson')
                 el.classList.remove('doneLesson')
             } else if (ct > lessonStartDate) {
@@ -70,5 +73,5 @@ class scheduleNow {
 
 document.addEventListener('DOMContentLoaded', () => {
     window.scheduleNow = new scheduleNow
-    window.scheduleNow.renderNextLessons()
+    window.scheduleNow.setMode('next')
 })

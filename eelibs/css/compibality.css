@@ -18,4 +18,14 @@
     --text-secondary: var(--text-sec);
 
     --border-color: var(--bc);
+
+
+    --ac-text: var(--accent);
+    --ac-text-hover: var(--accent-hover);
+    --ac-bg: var(--accent);
+    --ac-bg-hover: var(--accent-hover);
+    --ac-bg-light: var(--accent-active);
+    --ac-bg-great: var(--accent);
+    --ac-bg-great-hover: var(--accent-hover);
+    --ac-bg-great-light: var(--accent-active);
 }
