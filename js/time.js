@@ -29,7 +29,7 @@ class timeMgr {
 
     getCurrentTime() {
         this.currentTime = new Date
-        this.currentTime.setHours(12)
+        // this.currentTime.setHours(12)
         return (this.currentTime)
     }
 
