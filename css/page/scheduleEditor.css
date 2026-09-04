@@ -1,0 +1,67 @@
+#scheduleEditorContent {
+    display: grid;
+    gap: var(--ds);
+}
+
+.scheduleEditorCard {
+    padding: var(--ds);
+    border-radius: var(--br);
+    background: var(--bg-sec);
+}
+
+.scheduleEditorCard h2, .scheduleEditorCard h3, .scheduleEditorCard p {
+    margin: 0 0 var(--dss);
+}
+
+.scheduleEditorToolbar, .scheduleEditorRow, .scheduleEditorDayTabs, .lessonInfoActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--dss);
+    align-items: center;
+}
+
+.scheduleEditorToolbar label, .scheduleEditorRow label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--dss);
+}
+
+.scheduleEditorToolbar select, .scheduleEditorToolbar input,
+.scheduleEditorRow select, .scheduleEditorRow input {
+    min-width: 7rem;
+}
+
+.scheduleEditorDayTabs button.active {
+    background: var(--ac-bg);
+    color: var(--ac-text);
+}
+
+.scheduleEditorRows {
+    display: grid;
+    gap: var(--dss);
+    margin: var(--ds) 0;
+}
+
+.scheduleEditorRow {
+    padding: var(--dss);
+    border-radius: var(--br);
+    background: var(--bg-pri);
+}
+
+.scheduleEditorRow > span {
+    min-width: 1.5rem;
+    color: var(--text-sec);
+}
+
+.scheduleEditorHint {
+    color: var(--text-sec);
+    font-size: .9rem;
+}
+
+.lessonInfoActions {
+    grid-column: 1 / -1;
+}
+
+#lessonInfoContainer:not(.edit) .lessonInfoActions {
+    display: none;
+}

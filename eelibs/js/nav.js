@@ -60,12 +60,12 @@ class Nav {
             return `<button class="leftBtnsNav" onclick="${data?.onclick}"><img src="${data?.img}.svg"></button>`
         }
 
-        function generateRightButton(page, i) {
+        function generateRightButton(page, i, isMore) {
             const btnData = page.btns[i];
 
             const img = btnData[1] ?? window.cnavMgr.rightBtns[btnData[0]]?.img ?? 'img/ui/blank';
             const onclick = btnData[2] ?? window.cnavMgr.rightBtns[btnData[0]]?.onclick ?? '';
-            const text = btnData[3] ? btnData[0] : '';
+            const text = btnData[3] && isMore ? btnData[3] : '';
 
             let btn = document.createElement('button');
             if (typeof onclick === 'function') {
@@ -151,7 +151,7 @@ class Nav {
             navRightMore.id = `${page.id}-navRightMore`;
             navRightMore.className = 'navRightMore';
             moreBtns.forEach(i => {
-                navRightMore.appendChild(generateRightButton(page, i));
+                navRightMore.appendChild(generateRightButton(page, i, true));
             });
             hnav.appendChild(navRightMore);
         }

@@ -72,7 +72,7 @@ class NotificationManager {
             `;
 
             // Добавляем в контейнер
-            this.container.appendChild(notification);
+            this.container.prepend(notification);
             this.notifications.add(notification);
 
             // Настраиваем прогресс-бар

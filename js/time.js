@@ -78,7 +78,7 @@ class timeMgr {
                     num: i,
                     start: start,
                     end: end,
-                    name: window.settings.schedule.lessons[window.scheduleCore.today.lessons[i]].name,
+                    name: window.settings.schedule.lessons[window.scheduleCore.today.lessons[i]]?.name || window.scheduleCore.today.lessons[i] || '',
                 }
             }
         })
@@ -107,6 +107,10 @@ class timeMgr {
     updateWeather(when) {
         const bells = window.scheduleCore.today.bells
         this.els.weatherTitle.textContent = window.translator.translate('weather')
+        if (!bells.length) {
+            this.els.weatherTime.textContent = ''
+            return
+        }
         this.els.weatherTime.textContent = window.translator.translate('in') + ' ' + bells[bells.length - 1][1] + ' - ' + (when == 'before' ? window.translator.translate('before_lessons') : window.translator.translate('after_lessons'))
     }
 

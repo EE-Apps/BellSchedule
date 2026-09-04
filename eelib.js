@@ -21,7 +21,6 @@ window.eelib.pages = [
         icon: 'img/ui/notebook.svg',
         btns: [
             ['search'],
-            ['add'],
             ['edit', 'img/ui/edit2', 'changePage("scheduleEdit")', 'Edit'],
         ],
         subcategories: ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
@@ -38,7 +37,7 @@ window.eelib.pages = [
         icon: 'img/ui/notebook.svg',
         leftBtn: 'back',
         btns: [
-            ['add'],
+            ['add', 'img/ui/add2', 'window.scheduleEditor?.addLessonToSelectedDay()', 'Add lesson'],
             ['edit', 'img/ui/edit2', 'changePage("scheduleEdit")', 'Edit'],
         ],
         noBottom: true,
@@ -48,16 +47,13 @@ window.eelib.pages = [
         id: 'lessons',
         title: 'Lessons',
         icon: 'img/ui/notebook.svg',
-        leftBtn: 'back',
         btns: [
             ['search'],
-            ['add'],
-            ['edit', 'img/ui/edit2', 'changePage("lessonsEdit")', 'Edit'],
+            ['add', 'img/ui/add2', 'window.lessonInfoPage?.createLesson()', 'Add lesson'],
         ],
         subpages: [
             'lessonInfo',
         ],
-        noBottom: true,
     },
     {
         id: 'lessonInfo',
@@ -81,7 +77,7 @@ window.eelib.pages = [
         id: 'settings',
         title: 'Настройки',
         icon: 'img/ui/settings.svg',
-        noBottom: false,
+        noBottom: true,
     },
 ];
 
@@ -138,11 +134,6 @@ window.eelib.settingsConfig = {
                 "none",
             ],
             lessons: {
-                test: {
-                    name: "Test",
-                    place: "кб test",
-                    teacher: "T.T. Test",
-                },
             },
             daySchedules: [
                 [],

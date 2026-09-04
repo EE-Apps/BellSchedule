@@ -21,12 +21,14 @@
          * Определение среды исполнения
          */
         detectEnvironment() {
-            if (typeof window.AndroidBridge !== 'undefined') {
+            if (window.AndroidBridge && typeof window.AndroidBridge.postMessage === 'function') {
                 return 'android';
             }
-            if (typeof window.__TAURI__ !== 'undefined' || typeof window.__TAURI_IPC__ !== 'undefined') {
+
+            if (window.__TAURI__ || window.__TAURI_INTERNALS__) {
                 return 'tauri';
             }
+
             return 'web';
         }
 

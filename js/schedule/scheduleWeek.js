@@ -28,8 +28,8 @@ class scheduleWeek {
 
     filterSchedule(days = []) {
         const dayCards = document.querySelectorAll('.scheduleDayDiv')
-        dayCards.forEach((card, i) => {
-            if (days.includes(i)) card.classList.remove('hidden')
+        dayCards.forEach(card => {
+            if (days.includes(Number(card.dataset.day))) card.classList.remove('hidden')
                 else card.classList.add('hidden')
         })
     }
@@ -55,6 +55,7 @@ class scheduleWeek {
 
             const dayDiv = document.createElement('div')
             dayDiv.className = 'scheduleDayDiv'
+            dayDiv.dataset.day = i
             if (isToday) dayDiv.classList.add("today")
 
             const dayH = document.createElement('h2')

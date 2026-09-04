@@ -129,7 +129,7 @@
         button {
             width: 100%;
             display: inline-flex;
-            align-items: cente;
+            align-items: center;
             gap: var(--ds);
         }
     }

@@ -1,63 +1,78 @@
 /* Стили для уведомлений */
 .notification-container {
-    position: fixed;
-    bottom: 58px;
-    left: 20px;
+    position: absolute;
+    bottom: var(--ds);
+    left: var(--ds);
     z-index: 9999;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: column-reverse;
+
+    gap: var(--dss);
     pointer-events: none;
+    
+    max-height: 50dvh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .notification {
-    background-color: var(--background-secondary-great);
-    border-radius: var(--br);
-    border: 1px solid var(--border-color);
-    padding: 12px;
-    min-width: 300px;
+    --cardLocalColor: var(--c-accent);
+
+    /*border: 1px solid var(--border-color);
+    */min-width: 300px;
     max-width: 400px;
+    min-height: max-content;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
-    gap: 12px;
     align-items: flex-start;
     animation: slideIn 0.3s ease-out;
     pointer-events: auto;
-    border-left: 4px solid;
+
+    overflow-x: hidden;
+    border-radius: var(--brc);
+    padding: var(--ds);
+    gap: var(--dss);
+
+    background: linear-gradient(45deg, color-mix(in srgb, var(--c-gray-600) 50%, var(--cardLocalColor)), color-mix(in srgb, var(--cardLocalColor) 50%, var(--c-gray-900)));
+    border-color: var(--cardLocalColor);
+
+    .notification-icon {
+        width: 40px;
+        aspect-ratio: 1;
+        flex-shrink: 0;
+
+        svg {
+            width: 100%;
+            height: 100%;
+            color: var(--cardLocalColor);
+            stroke: var(--cardLocalColor);
+        }
+    }
+}
+
+/* Теперь модификаторы просто переопределяют уже существующую локальную переменную: */
+
+.notification.success {
+    --cardLocalColor: var(--c-success, #2ecc71);
+}
+
+.notification.error {
+    --cardLocalColor: var(--c-error, #e74c3c); /* Добавлен цвет для error */
+}
+
+.notification.warning {
+    --cardLocalColor: var(--c-warning, #f1c40f); /* Добавлен цвет для warning */
+}
+
+.notification.info {
+    --cardLocalColor: var(--c-warning);
 }
 
 @media (orientation: portrait) {
     .notification-container {
-        max-width: calc(100dvw - 49px) !important;
-        overflow-x: scroll;
+        max-width: calc(100dvw - var(--ds2)) !important;
     }    
-}
-
-.notification.success {
-    border-color: #2ecc71;
-}
-
-.notification.error {
-    border-color: #e74c3c;
-}
-
-.notification.warning {
-    border-color: #f1c40f;
-}
-
-.notification.info {
-    border-color: #3498db;
-}
-
-.notification-icon {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-}
-
-.notification-icon svg {
-    width: 100%;
-    height: 100%;
 }
 
 .notification-content {
@@ -85,6 +100,7 @@
     opacity: 0.7;
     transition: opacity 0.2s;
     flex-shrink: 0;
+    margin: auto 0;
 }
 
 .notification-close:hover {

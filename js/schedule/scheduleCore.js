@@ -11,8 +11,14 @@ class scheduleCore {
     getDaySchedule(weekdayIndex) {
         const lessons = settingsManager.get('schedule.daySchedules')[weekdayIndex] || []
         const schemaName = settingsManager.get('schedule.daySchemas')[weekdayIndex]
-        const bells = settingsManager.get('schedule.bellSchemas')[schemaName] || []
+        // Звонки без назначенного урока не должны запускать таймер как учебный день.
+        const bells = (settingsManager.get('schedule.bellSchemas')[schemaName] || []).slice(0, lessons.length)
         return { lessons, bells }
+    }
+
+    refresh() {
+        window.timeMgr?.getCurrentTime()
+        this.today = this.getDaySchedule(window.timeMgr.current.day)
     }
 
     getTomorrow() {
@@ -45,6 +51,8 @@ class scheduleCore {
         place.textContent = lessonData?.place ?? ''
         const teacher = document.createElement('p')
         teacher.textContent = lessonData?.teacher ?? ''
+        const teacherArr = (lessonData?.teacher ?? '').split(' ')
+        if(teacherArr.length === 3) teacher.textContent = teacherArr[0][0] + '. ' + teacherArr[1][0] + '. ' + teacherArr[2]
         right.append(place, teacher)
 
         card.append(left, right)
@@ -62,4 +70,11 @@ class scheduleCore {
 
 document.addEventListener('DOMContentLoaded', () => {
     window.scheduleCore = new scheduleCore
+    window.appScheduleChanged = () => {
+        window.scheduleCore.refresh()
+        window.scheduleWeek?.renderWeek()
+        window.lessonsPage?.renderLessonsList()
+        window.scheduleNow && (window.scheduleNow.mode = null)
+        window.timeMgr?.updateTimer()
+    }
 })

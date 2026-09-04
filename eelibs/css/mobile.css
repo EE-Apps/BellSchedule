@@ -52,6 +52,13 @@
     .navbtn {
         border: none;
     }
+
+    .notification-container {
+        position: absolute;
+        bottom: 5rem;
+        left: var(--ds);
+        right: var(--ds);
+    }
 }
 
 @media (orientation: landscape) {
@@ -60,7 +67,8 @@
         width: 100%;
     }
 
-    #content:not(.two, .twomodal) .leftBtnsNav {
+    #content:not(.two, .twomodal) .page             .leftBtnsNav,
+    #content                      .page:not(.right) .leftBtnsNav {
         min-width: 0;
         width: 0;
         overflow: hidden;
