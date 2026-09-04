@@ -1,0 +1,6 @@
+.downBtns {
+    display: flex;
+    flex-direction: row;
+    gap: var(--ds);
+    justify-content: space-around;
+}
