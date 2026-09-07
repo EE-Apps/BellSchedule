@@ -1,10 +1,9 @@
 // js/updateChecker.js
 
-class updateChecker {
+class UpdateChecker {
     static REPO = 'EE-Apps/BellSchedule'
     static BRANCH = 'main'
     static VERSION_FILE = 'version.json'
-    // не проверять чаще, чем раз в это время при автопроверке (мс)
     static AUTO_CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000 // 6 часов
 
     constructor() {
@@ -18,21 +17,42 @@ class updateChecker {
             version:    document.getElementById('aboutAppVersion'),
         }
 
+        this.localVersion = null
         this.init()
     }
 
-    init() {
+    /**
+     * Определение ключа версии в зависимости от окружения:
+     * 1. Внутри Android-приложения (window.bridge.ev === 'Android') -> 'apk'
+     * 2. Хост 192.168.100.18 -> 'dev'
+     * 3. Во всех остальных случаях -> 'main'
+     */
+    getTargetKey() {
+        if (window.bridge && window.bridge.ev === 'Android') {
+            return 'apk'
+        }
+        if (window.location.hostname === '192.168.100.18') {
+            return 'dev'
+        }
+        return 'main'
+    }
+
+    async init() {
         this.renderStaticText()
         this.renderAutoToggle()
         this.eventListeners()
-        this.loadLocalVersion()
+
+        // Сначала загружаем локальную версию (из assets или с сервера)
+        await this.loadLocalVersion()
         this.maybeAutoCheck()
     }
 
     renderStaticText() {
         if (this.els.title)     this.els.title.textContent = window.translator.translate('updates_title')
         if (this.els.autoLabel) this.els.autoLabel.textContent = window.translator.translate('auto_check_updates')
-        if (this.els.button)    this.els.button.textContent = window.translator.translate('check_for_updates')
+
+        const btnTextEl = this.els.buttonText || this.els.button
+        if (btnTextEl) btnTextEl.textContent = window.translator.translate('check_for_updates')
     }
 
     eventListeners() {
@@ -44,18 +64,20 @@ class updateChecker {
 
     renderAutoToggle() {
         if (!this.els.autoToggle) return
-        // включено по умолчанию, если в настройках явно не выключено
         this.els.autoToggle.checked = window.settingsManager.get('updates.autoCheck') !== false
     }
 
     async loadLocalVersion() {
         try {
-            const res = await fetch(updateChecker.VERSION_FILE, { cache: 'no-store' })
+            const res = await fetch(UpdateChecker.VERSION_FILE, { cache: 'no-store' })
             if (!res.ok) return
             const data = await res.json()
-            this.localVersion = data.version
-            if (this.els.version) {
-                this.els.version.textContent = window.translator.translate('version') + ': ' + data.version
+
+            const key = this.getTargetKey()
+            this.localVersion = String(data[key] ?? '')
+
+            if (this.els.version && this.localVersion) {
+                this.els.version.textContent = `${window.translator.translate('version')}: ${this.localVersion}`
             }
         } catch (e) {
             console.error('Не удалось загрузить локальную версию:', e)
@@ -66,35 +88,63 @@ class updateChecker {
         if (window.settingsManager.get('updates.autoCheck') === false) return
 
         const lastCheckedAt = window.settingsManager.get('updates.lastCheckedAt')
-        const dueForCheck = !lastCheckedAt || (Date.now() - lastCheckedAt) > updateChecker.AUTO_CHECK_INTERVAL_MS
+        const dueForCheck = !lastCheckedAt || (Date.now() - lastCheckedAt) > UpdateChecker.AUTO_CHECK_INTERVAL_MS
 
         if (dueForCheck) this.check(false)
     }
 
     async check(manual = false) {
-        if (manual) this.setStatus(window.translator.translate('update_checking'))
+        this.setLoadingState(true, manual)
 
         try {
             const [localRes, remoteRes] = await Promise.all([
-                fetch(updateChecker.VERSION_FILE, { cache: 'no-store' }),
-                fetch(`https://raw.githubusercontent.com/${updateChecker.REPO}/${updateChecker.BRANCH}/${updateChecker.VERSION_FILE}?_=${Date.now()}`)
+                fetch(UpdateChecker.VERSION_FILE, { cache: 'no-store' }),
+                fetch(`https://raw.githubusercontent.com/${UpdateChecker.REPO}/${UpdateChecker.BRANCH}/${UpdateChecker.VERSION_FILE}?_=${Date.now()}`)
             ])
 
-            if (!localRes.ok || !remoteRes.ok) throw new Error('bad response')
+            if (!localRes.ok || !remoteRes.ok) throw new Error('Bad response')
 
             const [localData, remoteData] = await Promise.all([localRes.json(), remoteRes.json()])
-            this.localVersion = localData.version
 
+            const targetKey = this.getTargetKey()
+            const localVer = String(localData[targetKey] ?? '')
+            const remoteVer = String(remoteData[targetKey] ?? '')
+
+            this.localVersion = localVer
             window.settingsManager.set('updates.lastCheckedAt', Date.now())
 
-            if (localData.version !== remoteData.version) {
-                this.setStatus(`${window.translator.translate('update_available')} (${localData.version} → ${remoteData.version})`, true)
+            if (this.isNewerVersion(localVer, remoteVer)) {
+                this.setStatus(`${window.translator.translate('update_available')} (${localVer} → ${remoteVer})`, true)
             } else {
                 this.setStatus(window.translator.translate('update_none'))
             }
         } catch (e) {
             console.error('Проверка обновлений не удалась:', e)
             if (manual) this.setStatus(window.translator.translate('update_error'))
+        } finally {
+            this.setLoadingState(false, manual)
+        }
+    }
+
+    isNewerVersion(current, remote) {
+        if (!current || !remote) return false
+
+        const cParts = current.split('.').map(Number)
+        const rParts = remote.split('.').map(Number)
+
+        for (let i = 0; i < Math.max(cParts.length, rParts.length); i++) {
+            const c = cParts[i] || 0
+            const r = rParts[i] || 0
+            if (r > c) return true
+            if (r < c) return false
+        }
+        return false
+    }
+
+    setLoadingState(isLoading, manual) {
+        if (this.els.button) this.els.button.disabled = isLoading
+        if (manual && isLoading) {
+            this.setStatus(window.translator.translate('update_checking'))
         }
     }
 
@@ -106,5 +156,5 @@ class updateChecker {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    window.updateChecker = new updateChecker()
+    window.updateChecker = new UpdateChecker()
 })
