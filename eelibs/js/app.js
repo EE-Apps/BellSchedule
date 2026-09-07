@@ -5,7 +5,8 @@ class EElib {
     
     runProcess() {
         // Init
-
+        window.ThemesMgr.init()
+        
 
 
         // Tools

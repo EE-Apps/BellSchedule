@@ -57,7 +57,7 @@
         position: absolute;
         bottom: 5rem;
         left: var(--ds);
-        right: var(--ds);
+        right: var(--ds2);
     }
 }
 

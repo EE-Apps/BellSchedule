@@ -28,11 +28,14 @@ class lessonsPage {
             lessonTeacher.textContent = lesson.teacher
             lessonPlace.textContent = lesson.place
 
+            const teacherArr = (lesson.teacher ?? '').split(' ')
+            if(teacherArr.length === 3) lessonTeacher.textContent = teacherArr[0][0] + '. ' + teacherArr[1][0] + '. ' + teacherArr[2]
+
             window.settings.schedule.daySchedules.forEach((dayLessons, dayN) => {
                 if (dayLessons.includes(key)) {
                     const dayEl = document.createElement('div')
                     dayEl.textContent = translator.translate('dayCode' + dayN)
-                    if (timeMgr.current.day - 1 == dayN) dayEl.className = 'today'
+                    if (timeMgr.current.day == dayN) dayEl.className = 'today'
                     lessonDays.appendChild(dayEl)
                 }
             })

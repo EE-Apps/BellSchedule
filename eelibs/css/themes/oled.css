@@ -1,0 +1,39 @@
+.theme-oled,
+[data-theme="oled"] {
+    --c-gray-900: #000000; /* Абсолютный черный */
+    --c-gray-800: #0a0a0a; /* Еле заметный оттенок для карточек */
+    --c-gray-700: #141414; /* Для полей ввода */
+    --c-gray-600: #262626; /* Границы (чуть светлее, чтобы их было видно на черном) */
+    --c-gray-400: #9ca3af; /* Вторичный текст (нужен чуть светлее, чем в обычной dark теме) */
+    --c-gray-200: #f3f4f6; /* Основной текст */
+    --c-gray-100: #ffffff;
+
+    --bg-base: #000000;
+    --bg-pri: #000000;
+    --bg-sec: #050505;
+    --bg-sec-solid: #0a0a0a;
+    --bg-input: #000000;
+
+    /* Текст */
+    --text-pri: var(--c-gray-200);
+    --text-sec: var(--c-gray-400);
+
+    /* Границы */
+    --border-color: var(--c-gray-600);
+
+    /* =========================================
+        АВТОМАТИЧЕСКИЕ СОСТОЯНИЯ
+        ========================================= */
+        
+    --bg-pri-hover: color-mix(in srgb, var(--bg-pri) 90%, var(--c-white));
+    --bg-sec-hover: color-mix(in srgb, var(--bg-sec) 90%, var(--c-white));
+    --bg-input-hover: color-mix(in srgb, var(--bg-input) 90%, var(--c-white));
+    
+    --accent-hover: color-mix(in srgb, var(--accent) 90%, var(--c-white));
+    --accent-active: color-mix(in srgb, var(--accent) 75%, var(--c-black));
+    
+    --danger-bg-alpha: #1a0000; /* Твердый темно-красный вместо прозрачного */
+
+    /* Эффекты */
+    --overlay-bg: rgba(0, 0, 0, 0.85);
+}
