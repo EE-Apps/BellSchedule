@@ -1,0 +1,90 @@
+.theme-light,
+[data-theme="light"] {
+    /* =========================================
+        ШКАЛА СЕРОГО (Светлая тема)
+        900 = самый темный (текст), 100 = самый светлый (фон)
+       ========================================= */
+    --c-gray-900: #111827; /* Основной текст, заголовки (максимальная читаемость) */
+    --c-gray-800: #1f2937; /* Вторичный текст */
+    --c-gray-700: #4b5563; /* Третичный текст, неактивные иконки */
+    --c-gray-600: #d1d5db; /* Границы (светлые, но заметные) */
+    --c-gray-400: #9ca3af; /* Плейсхолдеры, disabled-состояния */
+    --c-gray-200: #f3f4f6; /* Очень светлые фоны (разделители, подложки) */
+    --c-gray-100: #f9fafb; /* Почти белый (альтернативный фон) */
+    --c-white:    #ffffff;
+    --c-black:    #000000;
+
+    /* =========================================
+        ФОНОВЫЕ ПОВЕРХНОСТИ
+       ========================================= */
+    --bg-base: #ffffff;       /* Глобальный фон страницы */
+    --bg-pri: #ffffff;        /* Основные карточки/панели */
+    --bg-sec: #f9fafb;        /* Вторичные поверхности (сайдбар, строки таблиц) */
+    --bg-sec-solid: #f3f4f6;  /* Плотный вторичный фон (например, хедер) */
+    --bg-input: #ffffff;      /* Поля ввода (белые с границей) */
+
+    /* =========================================
+        ТЕКСТ И ГРАНИЦЫ
+       ========================================= */
+    --text-pri: var(--c-gray-900); /* Высокий контраст для основного текста */
+    --text-sec: var(--c-gray-700); /* Мягкий контраст для второстепенного */
+    --text-on-accent: #ffffff;     /* Белый текст на акцентных кнопках */
+
+    --border-color: var(--c-gray-600);
+    --bc: var(--border-color);     /* Алиас для совместимости */
+
+    /* =========================================
+        АВТОМАТИЧЕСКИЕ СОСТОЯНИЯ (HOVER / ACTIVE)
+        В светлой теме hover = добавляем немного черного для затемнения
+       ========================================= */
+    --bg-pri-hover: color-mix(in srgb, var(--bg-pri) 96%, var(--c-black));   /* Едва заметное затемнение белого */
+    --bg-sec-hover: color-mix(in srgb, var(--bg-sec) 90%, var(--c-black));   /* Заметное, но мягкое затемнение */
+    --bg-input-hover: color-mix(in srgb, var(--bg-input) 96%, var(--c-black));
+    
+    --accent-hover: color-mix(in srgb, var(--accent) 85%, var(--c-black));   /* Акцент темнеет при наведении */
+    --accent-active: color-mix(in srgb, var(--accent) 70%, var(--c-black));  /* Акцент еще темнее при нажатии */
+    --accent-dark-hover: color-mix(in srgb, var(--accent-dark) 85%, var(--c-black));
+    --accent-dark-active: color-mix(in srgb, var(--accent-dark) 70%, var(--c-black));
+    
+    --danger-hover: color-mix(in srgb, var(--danger) 85%, var(--c-black));
+    --danger-bg-alpha: color-mix(in srgb, var(--danger) 8%, transparent);    /* Очень легкая красная подложка */
+
+    --text-pri-hover: color-mix(in srgb, var(--text-pri) 85%, var(--c-black)); /* Текст чуть темнее при наведении */
+    --text-sec-hover: color-mix(in srgb, var(--text-sec) 85%, var(--c-black));
+
+    /* =========================================
+        ЭФФЕКТЫ И ИНТЕРФЕЙС
+       ========================================= */
+    --overlay-bg: rgba(0, 0, 0, 0.3); /* Более легкое затемнение фона под модалкой (чтобы не было "грязи") */
+    --glass-blur: blur(20px);
+    --focus-ring: color-mix(in srgb, var(--accent) 40%, transparent); /* Чуть более заметное кольцо фокуса на белом */
+
+    .btnsList {
+        background-color: var(--bg-sec);
+        border: solid 2px var(--text-pri);
+
+        button {
+            background-color: var(--bg-sec);
+
+            &:hover {
+                background-color: var(--bg-sec-hover);
+            }
+            &.active {
+                background-color: var(--accent-dark-active);
+            }
+        }
+    }
+
+    #nav #navcontent {
+        .navbtn {
+
+            &.active {
+                background-color: var(--accent);
+            }
+
+            img {
+                filter: invert();
+            }
+        }
+    }
+}

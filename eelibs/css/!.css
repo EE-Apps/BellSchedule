@@ -1,4 +1,6 @@
 @import url("compibality.css");
+@import url("themes/light.css");
+@import url("themes/oled.css");
 
 /* Theme colors */
 :root {
@@ -20,7 +22,6 @@
     --c-success: #2ecc71;
     --c-warning: #f1c40f;
 
-    
     /* Фоны */
     --bg-base: var(--c-gray-900);
     --bg-pri: #00000045;
@@ -35,7 +36,7 @@
 
     /* Границы и акценты */
     --border-color: var(--c-gray-600);
-    --bc: var(var(--border-color));
+    --bc: var(--border-color);
     --accent: var(--c-accent);
     --danger: var(--c-danger);
 
@@ -65,7 +66,7 @@
     --br: 1.2rem;
     --brs: 0.9rem;
     --brc: 99999px;
-	--brr: var(--brc);
+    --brr: var(--brc);
 
     --ds: 1rem;
     --dss: 0.5rem;
@@ -89,43 +90,9 @@
     --text-weight-body:         400;
     --text-weight-small:        400;
 
-    
     --overlay-bg: rgba(0, 0, 0, 0.6); /* затемнение под модалкой */
-    --glass-blur: blur(20px);           /* матовое стекло      !!! использовать осторожно !!! */  
+    --glass-blur: blur(20px);          /* матовое стекло !!! использовать осторожно !!! */  
     --focus-ring: color-mix(in srgb, var(--accent) 50%, transparent);
-
-    /* LEGACY
-
-    --bg-pri:               #00000045;
-    --bg-pri-hover:         #27272745;
-    --bg-pri-great:         #0e0f0e;
-    --bg-sec:               #242424b0;
-    --bg-sec-hover:         #424242b0;
-    --bg-sec-great:         #242424;
-    --bg-sec-great-hover:   #2a2a2a;
-    --bg-hover:             #2a2a2ab0;
-    --bg-input:             #313131b0;
-    --bg-input-hover:       #353535b0;
-    --bg-input-great:       #313131;
-    --bg-input-great-hover: #353535;
-    --danger:               #e74c3c;
-    --danger-hover:         #ff6b5b;
-    --danger-bg:            #e74c3c20;
-
-    --text-pri:             #e0e0e0;
-    --text-pri-hover:       #ffffff;
-    --text-sec:             #a0a0a0;
-    --text-sec-hover:       #d6d6d6;
-
-    --ac-text: #3498db;
-    --ac-text-hover: #6bacd8;
-    --ac-bg: #3498dbb0;
-    --ac-bg-hover: #6bacd8b0;
-    --ac-bg-light: #5e819962;
-    --ac-bg-great: #3498db;
-    --ac-bg-great-hover: #6bacd8;
-    --ac-bg-great-light: #5e8199;
-    */
 
     --transitions: 0.3s ease;
     --tr-out: 0.25s cubic-bezier(0.2, 0.0, 0.0, 1);
@@ -134,61 +101,20 @@
     --tr-color: background-color 0.2s var(--tr-in-out), color 0.2s var(--tr-in-out);
 
     --height: 16px;
+    --safe-area-top: 0px;
+    --safe-area-bottom: 0px;
 }
-
-/* =========================================
-   СВЕТЛАЯ ТЕМА (автоматически)
-   ========================================= */
-body.light {
-  :root {
-    /* Инвертируем серую палитру */
-    --c-gray-900: #ffffff; /* Светлый фон */
-    --c-gray-800: #f5f5f5; /* Светлые карточки */
-    --c-gray-700: #e8e8e8; /* Светлые поля ввода */
-    --c-gray-600: #d0d0d0; /* Светлые границы */
-    --c-gray-400: #666666; /* Темнее вторичный текст для контраста */
-    --c-gray-200: #1a1a1a; /* Темный основной текст */
-    --c-gray-100: #000000; /* Черный для иконок */
-
-    --c-accent: #2980b9; /* Чуть темнее синий */
-    --c-danger: #c0392b; /* Чуть темнее красный */
-
-    --bg-pri: #ffffff80;
-    --bg-sec: #f5f5f5b0;
-    --bg-input: #e8e8e8b0;
-
-    /* Оверлей для модалок */
-    --overlay-bg: rgba(0, 0, 0, 0.3); /* Менее темный для светлой темы */
-
-    
-    /* В светлой теме hover затемняет, а не осветляет */
-    --accent-hover: color-mix(in srgb, var(--accent) 85%, var(--c-black));
-    --accent-active: color-mix(in srgb, var(--accent) 70%, var(--c-black));
-    
-    --danger-hover: color-mix(in srgb, var(--danger) 85%, var(--c-black));
-    
-    /* Фоны кнопок в hover затемняются */
-    --bg-sec-hover: color-mix(in srgb, var(--bg-sec) 90%, var(--c-black));
-    --bg-input-hover: color-mix(in srgb, var(--bg-input) 90%, var(--c-black));
-    
-    /* Текст становится темнее */
-    --text-pri-hover: color-mix(in srgb, var(--text-pri) 80%, var(--c-black));
-    --text-sec-hover: color-mix(in srgb, var(--text-sec) 80%, var(--c-black));
-  }
-}
-
 
 * {
     transition: background-color 0.3s ease, color 0.3s ease;
     scrollbar-width: thin;
     scrollbar-color: var(--text-sec) var(--bg-sec);
     color: var(--text-pri);
-    transition: var(--tr);
+    transition: var(--transitions); /* заменено с --tr */
 }
 
-
 option {
-    background-color: var(--bg-sec-great);
+    background-color: var(--bg-input); /* заменено с --bg-sec-great */
     color: var(--text-pri);
     border-radius: var(--br);
 }
@@ -203,11 +129,9 @@ option {
 /* --- Базовый стиль --- */
 body {
     margin: 0;
-    /*padding: 24px;*/
     color: #f7f7f7;
     font-family: 'onesans', BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: linear-gradient(135deg, #303027, #1C2125, #1F2120);
-    /*min-height: 100dvh;*/
     font-family: 'onesans', 'Inter', sans-serif !important;
     min-height: 100dvh;
     overflow-y: hidden;
@@ -215,10 +139,10 @@ body {
 
 html {
     overflow-y: hidden;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
+    padding-top: max(env(safe-area-inset-top, 0px), var(--safe-area-top));
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-bottom));
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
 }
 
 a {
@@ -282,7 +206,7 @@ video {
 
     &:focus {
         outline: none;
-        border-color: var(--ac-text);
+        border-color: var(--accent); /* заменено с --ac-text */
         background-repeat: no-repeat;
         background-position-y: center;
         background-position-x: right;
@@ -324,15 +248,14 @@ input[type="radio"] {
 /* При наведении */
 input[type="checkbox"]:hover,
 input[type="radio"]:hover {
-    box-shadow: 0 0 1px var(--ac-bg-great-hover);
+    box-shadow: 0 0 1px var(--accent-hover); /* заменено с --ac-bg-great-hover */
 }
 
 /* Активное состояние */
 input[type="checkbox"]:checked {
-    background-color: var(--ac-bg-great-light);
+    background-color: var(--accent-active); /* заменено с --ac-bg-great-light */
     border-color: var(--bc);
-    /*background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5l4 4 8-8' stroke='%23433323' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    */background-repeat: no-repeat;
+    background-repeat: no-repeat;
     background-position: center;
     background-size: 12px;
 }
@@ -343,7 +266,7 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked {
-    background-color: var(--ac-bg-hover);
+    background-color: var(--accent-hover); /* заменено с --ac-bg-hover */
     border-color: var(--bc);
     box-shadow: inset 0 0 0 1px #fff, inset 0 0 0 2px #433323;
 }
@@ -358,8 +281,7 @@ select {
     background-repeat: no-repeat;
     background-position: right 8px center;
     padding: 0.5rem;
-    /*background-image: url("data:image/svg+xml width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'");
-*/}
+}
 
 textarea {
     border-radius: var(--br) var(--br) 0 var(--br);
@@ -374,10 +296,10 @@ progress {
     height: var(--height);
     -webkit-appearance: none;
     appearance: none;
-    background: transparent; /* браузерные элементы стилизуем ниже */
+    background: transparent;
     border: none;
     border-radius: var(--br);
-    overflow: hidden; /* чтобы округлость работала */
+    overflow: hidden;
 }
 
 /* WebKit / Blink: общий трек */
@@ -390,15 +312,14 @@ progress::-webkit-progress-bar {
 
 /* WebKit / Blink: заполненная часть */
 progress::-webkit-progress-value {
-    background: linear-gradient(90deg, var(--ac-text), color-mix(in srgb, var(--ac-text) 75%, black 10%));
+    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 75%, black 10%)); /* заменено с --ac-text */
     height: var(--height);
     border-radius: var(--br);
     transition: width 220ms ease;
     box-shadow: inset 0 -1px 0 rgba(0,0,0,0.08);
 }
 
-/* Небольшая тень вокруг для более "плоского" материала */
-.progress-wrap{
+.progress-wrap {
     padding: 8px 0;
 }
 
@@ -409,7 +330,6 @@ progress::-webkit-progress-value {
       Meter (HTML <meter>)
    ------------------------- */
 
-/* Сбросим appearance и настроим контейнер */
 meter {
     width: 100%;
     height: var(--height);
@@ -428,17 +348,19 @@ meter::-webkit-meter-bar {
 }
 
 meter::-webkit-meter-optimum-value {
-    background: linear-gradient(90deg, var(--ac-text), color-mix(in srgb, var(--ac-text) 75%, black 10%));
+    background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 75%, black 10%)); /* заменено с --ac-text */
     height: var(--height);
     border-radius: var(--br);
     transition: width 220ms ease;
 }
+
 meter::-webkit-meter-suboptimum-value {
     background: linear-gradient(90deg, #ffb84d, #ff8a00);
     height: var(--height);
     border-radius: var(--br);
 }
-meter::-webkit-meter-even-less-good-value { /* низкий уровень */
+
+meter::-webkit-meter-even-less-good-value {
     background: linear-gradient(90deg, var(--danger), #b71c1c);
     height: var(--height);
     border-radius: var(--br);
@@ -477,12 +399,13 @@ html body .page.active {
 }
 
 body {
-    background: #0e0f0e;
+    background: var(--bg-base);
 }
 
 fieldset {
     background-color: var(--bg-pri);
 }
+
 legend {
     font-size: 1.5rem;
     font-weight: 700;
@@ -499,11 +422,11 @@ legend {
     display: flex;
     flex-direction: column;
     gap: var(--ds);
+    
     &.land {
         flex-direction: row;
     }
 }
-
 
 .vertical {
     &:not(input[type="range"]) {

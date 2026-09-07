@@ -8,4 +8,5 @@ import './js/modal.js';
 import './js/nav.js';
 import './js/settings.js';
 import './js/translator.js';
+import './js/themes.js'
 import './js/app.js';

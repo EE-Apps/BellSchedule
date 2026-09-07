@@ -32,7 +32,7 @@
         max-height: 0;
     }
 
-    p, b {
+    p, b:not(.lessonName) {
         margin: 0;
         text-align: right;
     }
@@ -76,7 +76,7 @@
         top: calc(-1 * var(--dss));
         bottom: 0;
         z-index: 5;
-        background-color: var(--bg-sec-great-hover);
+        background-color: var(--c-gray-700);
         border-radius: var(--br);
     }
 }

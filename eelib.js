@@ -22,6 +22,7 @@ window.eelib.pages = [
         btns: [
             ['search'],
             ['edit', 'img/ui/edit2', 'changePage("scheduleEdit")', 'Edit'],
+            ['screenshoot', 'img/ui/zoom', 'window.makeScreenshot("#schedule .pageContent")', 'Screenshot'],
         ],
         subcategories: ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
         subcategoryActive: 'all',
@@ -50,6 +51,7 @@ window.eelib.pages = [
         btns: [
             ['search'],
             ['add', 'img/ui/add2', 'window.lessonInfoPage?.createLesson()', 'Add lesson'],
+            ['screenshoot', 'img/ui/zoom', 'window.makeScreenshot("#lessons .pageContent")', 'Screenshot'],
         ],
         subpages: [
             'lessonInfo',
@@ -63,6 +65,7 @@ window.eelib.pages = [
         // active: true,
         btns: [
             ['edit', 'img/ui/edit2', 'window.lessonInfoPage.toggleEdit()', 'Edit'],
+            ['delete', 'img/ui/cross', 'window.lessonInfoPage.deleteLesson()', 'Delete']
         ],
         noBottom: true,
         noLeft: true,
@@ -85,7 +88,8 @@ window.eelib.settingsConfig = {
     storageKey: 'appSettings',
     defaultSettings: {
         main: {
-            lang: navigator.language.split('-')[0] || 'en'
+            lang: navigator.language.split('-')[0] || 'en',
+            theme: 'dark'
         },
         weather: {
             town: '',
@@ -159,6 +163,12 @@ window.eelib.settingsConfig = {
                         ru: "Русский",
                         uk: "Українська",
                     },
+                },
+                {
+                    type: "select",
+                    key: "theme",
+                    label: "Theme",
+                    options: { "dark": "Dark", "light": "Light", "oled": "Black OLED" }
                 },
             ]
         },
