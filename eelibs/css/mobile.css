@@ -25,6 +25,7 @@
         /*flex-direction: column-reverse;*/
         #content {
             width: 100dvw;
+            min-width: 100dvw;
             height: calc(100dvh - 50px);
         }
 

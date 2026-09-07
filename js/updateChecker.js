@@ -23,15 +23,15 @@ class UpdateChecker {
 
     /**
      * Определение ключа версии в зависимости от окружения:
-     * 1. Внутри Android-приложения (window.bridge.ev === 'Android') -> 'apk'
+     * 1. Внутри Android-приложения (window.bridge.env === 'Android') -> 'apk'
      * 2. Хост 192.168.100.18 -> 'dev'
      * 3. Во всех остальных случаях -> 'main'
      */
     getTargetKey() {
-        if (window.bridge && window.bridge.ev === 'Android') {
+        if (window.bridge && ( window.bridge.env === 'Android' || window.bridge.env === 'android' )) {
             return 'apk'
         }
-        if (window.location.hostname === '192.168.100.18') {
+        if (window.location.hostname === '192.168.100.18' || window.location.hostname === '127.0.0.1') {
             return 'dev'
         }
         return 'main'
@@ -152,6 +152,33 @@ class UpdateChecker {
         if (!this.els.status) return
         this.els.status.textContent = text
         this.els.status.classList.toggle('updateAvailable', isUpdateAvailable)
+
+        // Если это Android и есть обновление — делаем статус кликабельной ссылкой/кнопкой
+        if (isUpdateAvailable && this.getTargetKey() === 'apk') {
+            this.els.status.style.cursor = 'pointer'
+            this.els.status.title = 'Нажмите, чтобы скачать APK'
+            
+            // Удаляем старый слушатель, если был, и добавляем новый
+            this.els.status.onclick = () => this.downloadApk()
+        } else {
+            this.els.status.style.cursor = ''
+            this.els.status.title = ''
+            this.els.status.onclick = null
+        }
+    }
+
+    downloadApk() {
+        const apkUrl = 'http://ee-apps.github.io/download/bellschedule.apk'
+        
+        // 1. Проверяем, есть ли у моста метод для скачивания/открытия ссылок
+        if (window.bridge && typeof window.bridge.downloadApk === 'function') {
+            window.bridge.downloadApk(apkUrl)
+        } else if (window.bridge && typeof window.bridge.openUrl === 'function') {
+            window.bridge.openUrl(apkUrl)
+        } else {
+            // Fallback: пробуем открыть системным браузером/переходом
+            window.open(apkUrl, '_blank')
+        }
     }
 }
 
