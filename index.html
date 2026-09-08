@@ -6,6 +6,7 @@
     <title>Звонок</title>
     <link rel="stylesheet" href="eelibs/import.css">
     <link rel="stylesheet" href="css/page/now.css">
+    <link rel="stylesheet" href="css/page/aod.css">
     <link rel="stylesheet" href="css/page/lessons.css">
     <link rel="stylesheet" href="css/page/lessonInfo.css">
     <link rel="stylesheet" href="css/page/scheduleEditor.css">
@@ -14,7 +15,7 @@
     <link rel="stylesheet" href="css/adaptivity/desktop.css">
     <link rel="stylesheet" href="css/adaptivity/mobile.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js" onerror="window.html2canvas = null"></script>
 </head>
 <body style="display: flex;">
     <div id="nav" class="">
@@ -39,32 +40,36 @@
                         <div class="nowCard collapsedDoneLessons" id="nextLessonsNowCard">
                             <b>Далее</b>
                             <button id="collapseDoneLessons"><img src="img/ui/arrow/up.svg"></button>
-                            <div id="nextLessons">
-                                <div class="lessonCard">
-                                    <div class="lessonLeft">
-                                        <b class="lessonName">Алгебра</b>
-                                    </div>
-                                    <div class="lessonRight">
-                                        <p>кб 33</p>
-                                        <p>И. И. Иванов</p>
-                                    </div>
-                                </div>
-                                <div class="lessonCard">
-                                    <div class="lessonLeft">
-                                        <b class="lessonName">Физика</b>
-                                    </div>
-                                    <div class="lessonRight">
-                                        <p>кб 33</p>
-                                        <p>Н. Н. Смирнов</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="nextLessons"></div>
                         </div>
                         <div class="nowCard" id="notesNowCard">
                             <div><b>Заметки</b><button id="notesNowCardBtn"><img src="img/ui/edit2.svg"></button></div>
-                            <p>Оч важный текст</p>
+                            <p>Заметок пока нет.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="page block" id="aod">
+            <div class="pageContainer">
+                <div class="pageContent">
+                    <section class="aodScreen" aria-label="До следующего звонка">
+                        <div class="aodCountdown" id="aodCountdown">--:--</div>
+                        <p class="aodAfter" id="aodAfter">Расписание пока пусто.</p>
+                        <div class="aodCards" aria-label="Сводка расписания">
+                            <article class="aodCard">
+                                <span id="aodLessonNumber">—</span>
+                            </article>
+                            <article class="aodCard">
+                                <span id="aodBreakLength">—</span>
+                            </article>
+                            <article class="aodCard aodWeatherCard">
+                                <span class="aodCardLabel">После занятий</span>
+                                <span id="aodWeather">—</span>
+                                <span id="aodWeatherTime">—</span>
+                            </article>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -127,7 +132,7 @@
 
                     </div>
                     <div class="lessonInfoActions doNotShowOnView">
-                        <button class="aBtn danger" id="deleteLessonBtn" type="button">Удалить урок</button>
+
                     </div>
                 </div>
             </div>
@@ -138,6 +143,10 @@
                     <div class="linfoCard fullwidth" id="aboutAppCard">
                         <p id="aboutAppDescr">Приложение для отображения расписания уроков и звонков.</p>
                         <p id="aboutAppVersion"></p>
+                    </div>
+                    <div class="linfoCard fullwidth" id="aboutRuntimeCard">
+                        <b>Информация о работе</b>
+                        <div id="aboutRuntimeInfo" class="aboutRuntimeInfo"></div>
                     </div>
 
                     <div class="linfoCard fullwidth" id="updatesCard">
@@ -168,19 +177,16 @@
 <script src="js/translations.js"></script>
 <script src="eelibs/import.js" type="module"></script>
 <script src="js/time.js" type="module"></script>
+<script src="js/weather.js" type="module"></script>
+<script src="js/aod.js" type="module"></script>
 <script src="js/updateChecker.js" type="module"></script>
+<script src="js/aboutInfo.js" type="module"></script>
 <script src="js/screenshot.js"></script>
+<script src="js/schedule/validation.js" type="module"></script>
 <script src="js/schedule/scheduleCore.js" type="module"></script>
 <script src="js/schedule/scheduleNow.js" type="module"></script>
 <script src="js/schedule/scheduleWeek.js" type="module"></script>
 <script src="js/page/lessonsPage.js" type="module"></script>
 <script src="js/page/lessonInfoPage.js" type="module"></script>
 <script src="js/page/scheduleEditor.js" type="module"></script>
-<script type="module">
-    document.addEventListener("DOMContentLoaded", () => {
-        window.notification.info('Opened', document.location.href)
-        window.notification.info('Opened', window.bridge.env)
-
-    })
-</script>
 </html>

@@ -120,6 +120,52 @@
                         }
                     }
                 }
+
+                .radio-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+                    .radio-label {
+                        width: 100%;
+                        margin: var(--dss) 0;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: var(--ds);
+
+                        span {
+                            margin: 0;
+                        }
+
+                        .modal-radio {
+                            border: 2px solid var(--bc);
+                            border-radius: var(--br);
+                            background-color: var(--c-gray-500);
+                            margin: 0;
+
+                            width: var(--ds);
+                            height: var(--ds);
+                            
+                            &:checked {
+                                border: 2px solid var(--accent);
+                                background-color: var(--ac-bg-light);
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.confirm {
+                .modal-footer {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: var(--ds);
+
+                    button {
+                        width: 100%;
+                    }
+                }
             }
 
             .moreDiv {

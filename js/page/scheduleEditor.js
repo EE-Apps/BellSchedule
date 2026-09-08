@@ -3,6 +3,7 @@ class ScheduleEditor {
         this.container = document.getElementById('scheduleEditorContent')
         this.selectedDay = 0
         this.ensureSchedule()
+        this.lastValidSchedule = JSON.parse(JSON.stringify(window.settings.schedule))
         this.render()
     }
 
@@ -25,8 +26,25 @@ class ScheduleEditor {
     }
 
     save() {
+        const errors = window.ScheduleValidator?.validate(this.schedule) || []
+        if (errors.length) {
+            window.ScheduleValidator.notify(errors)
+            window.settings.schedule = JSON.parse(JSON.stringify(this.lastValidSchedule))
+            this.render()
+            return false
+        }
+        this.lastValidSchedule = JSON.parse(JSON.stringify(this.schedule))
         window.settingsManager.set('schedule', this.schedule)
         window.appScheduleChanged?.()
+        return true
+    }
+
+    async confirm(id, title, message) {
+        const result = await window.modalMgr?.createModalConfirm(id, title, message, [
+            { label: 'Отмена', value: 'cancel', className: 'sec' },
+            { label: 'Удалить', value: 'delete', className: 'danger' }
+        ])
+        return result?.value === 'delete' && !result.cancelled
     }
 
     option(value, label, selected) {
@@ -41,7 +59,7 @@ class ScheduleEditor {
         const button = document.createElement('button')
         button.type = 'button'
         button.className = className
-        button.textContent = text
+        button.innerHTML = text
         return button
     }
 
@@ -101,10 +119,11 @@ class ScheduleEditor {
         toolbar.appendChild(addSchema)
         const deleteSchema = this.button('Удалить шаблон', 'aBtn danger')
         deleteSchema.disabled = Object.keys(this.schedule.bellSchemas).length < 2
-        deleteSchema.addEventListener('click', () => {
+        deleteSchema.addEventListener('click', async () => {
             const current = this.schedule.daySchemas[this.selectedDay]
             const replacement = Object.keys(this.schedule.bellSchemas).find(name => name !== current)
             if (!replacement) return
+            if (!await this.confirm('delete-bell-schema', 'Удалить шаблон звонков?', `Шаблон «${current}» будет заменён на «${replacement}».`)) return
             delete this.schedule.bellSchemas[current]
             this.schedule.daySchemas = this.schedule.daySchemas.map(name => name === current ? replacement : name)
             this.save(); this.render()
@@ -113,6 +132,7 @@ class ScheduleEditor {
         card.appendChild(toolbar)
 
         const schemaName = this.schedule.daySchemas[this.selectedDay]
+        const bells = this.schedule.bellSchemas[schemaName]
         const rows = document.createElement('div')
         rows.className = 'scheduleEditorRows'
         this.schedule.bellSchemas[schemaName].forEach((bell, index) => {
@@ -134,7 +154,9 @@ class ScheduleEditor {
             }
             start.addEventListener('change', update); end.addEventListener('change', update)
             const remove = this.button('Удалить', 'aBtn danger')
-            remove.addEventListener('click', () => {
+            remove.addEventListener('click', async () => {
+                if (bells.length === 1) return
+                if (!await this.confirm('delete-bell', 'Удалить звонок?', 'Этот звонок будет удалён из шаблона.')) return
                 this.schedule.bellSchemas[schemaName].splice(index, 1)
                 this.save(); this.render()
             })
@@ -189,11 +211,29 @@ class ScheduleEditor {
             const row = document.createElement('div')
             row.className = 'scheduleEditorRow'
             const number = document.createElement('span'); number.textContent = `${index + 1}.`
-            const select = document.createElement('select')
-            Object.entries(this.schedule.lessons).forEach(([key, lesson]) => select.appendChild(this.option(key, lesson.name || key, lessonKey)))
-            select.addEventListener('change', () => { lessons[index] = select.value; this.save() })
-            const remove = this.button('Удалить', 'aBtn danger')
-            remove.addEventListener('click', () => { lessons.splice(index, 1); this.save(); this.render() })
+            const select = document.createElement('button')
+            select.type = 'button'
+            select.className = 'aBtn sec'
+            select.textContent = this.schedule.lessons[lessonKey]?.name || lessonKey
+            select.addEventListener('click', async () => {
+                const result = await window.modalMgr?.createModalInput(
+                    'select-lesson', 'Выберите урок', 'radio', '', {
+                        value: lessonKey,
+                        required: true,
+                        radioOptions: Object.entries(this.schedule.lessons).map(([key, lesson]) => ({ value: key, label: lesson.name || key }))
+                    }
+                )
+                if (!result?.cancelled && result.value) {
+                    lessons[index] = result.value
+                    this.save()
+                    this.render()
+                }
+            })
+            const remove = this.button('<img src="img/ui/cross.svg">', 'aBtn danger')
+            remove.addEventListener('click', async () => {
+                if (!await this.confirm('delete-scheduled-lesson', 'Удалить урок?', 'Урок будет убран из этого дня.')) return
+                lessons.splice(index, 1); this.save(); this.render()
+            })
             row.append(number, select, remove)
             rows.appendChild(row)
         })
@@ -209,6 +249,7 @@ class ScheduleEditor {
         addLesson.disabled = !Object.keys(this.schedule.lessons).length || lessons.length >= bellCount
         addLesson.addEventListener('click', () => this.addLessonToSelectedDay())
         card.appendChild(addLesson)
+        this.addDataActions(card)
         return card
     }
 
@@ -220,9 +261,116 @@ class ScheduleEditor {
         }
         const bells = this.schedule.bellSchemas[this.schedule.daySchemas[this.selectedDay]] || []
         if (this.schedule.daySchedules[this.selectedDay].length >= bells.length) return
-        this.schedule.daySchedules[this.selectedDay].push(keys[0])
-        this.save(); this.render()
-        window.changePage('scheduleEdit')
+        window.modalMgr?.createModalInput(
+            'add-lesson-to-day', 'Выберите урок', 'radio', '', {
+                value: keys[0], required: true,
+                radioOptions: keys.map(key => ({ value: key, label: this.schedule.lessons[key].name || key }))
+            }
+        ).then(result => {
+            if (result?.cancelled || !result.value) return
+            this.schedule.daySchedules[this.selectedDay].push(result.value)
+            this.save(); this.render()
+            window.changePage('scheduleEdit')
+        })
+    }
+
+    getScheduleJson() {
+        return JSON.stringify({ version: 1, schedule: this.schedule }, null, 2)
+    }
+
+    isAndroid() {
+        return window.bridge?.env === 'android' || typeof window.AndroidBridge !== 'undefined'
+    }
+
+    async downloadSchedule(fileName = 'bellschedule-backup.json') {
+        const json = this.getScheduleJson()
+        if (this.isAndroid() && window.bridge?.writeFile) {
+            const saved = await window.bridge.writeFile(fileName, json)
+            if (saved !== false) {
+                window.notification?.success('Резервная копия сохранена', `Файл: ${fileName}`)
+                return
+            }
+            window.notification?.error('Не удалось сохранить резервную копию', 'Нативное хранилище недоступно.')
+            return
+        }
+
+        const blob = new Blob([json], { type: 'application/json' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = fileName
+        link.click()
+        setTimeout(() => URL.revokeObjectURL(link.href), 100)
+    }
+
+    async readAndroidSchedule() {
+        if (!window.bridge?.readFile) return null
+
+        if (typeof window.AndroidBridge?.pickFile === 'function' && window.bridge.callAndroidNative) {
+            const picked = await window.bridge.callAndroidNative('pickFile')
+            if (picked) {
+                return typeof picked === 'string' ? picked : picked.content
+            }
+        }
+
+        const exported = await window.bridge.readFile('bellschedule-export.json')
+        if (exported) return exported
+        return window.bridge.readFile('bellschedule.json')
+    }
+
+    parseImportedSchedule(content) {
+        try {
+            const parsed = typeof content === 'string' ? JSON.parse(content) : content
+            const imported = parsed.schedule || parsed
+            const errors = window.ScheduleValidator?.validate(imported) || []
+            if (errors.length) throw new Error(errors[0])
+            window.settingsManager.set('schedule', imported)
+            this.lastValidSchedule = JSON.parse(JSON.stringify(imported))
+            window.appScheduleChanged?.()
+            this.render()
+            window.notification?.success('Расписание импортировано')
+        } catch (error) {
+            window.notification?.error('Не удалось импортировать расписание', error.message)
+        }
+    }
+
+    async importSchedule(file) {
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = () => this.parseImportedSchedule(reader.result)
+            reader.readAsText(file)
+            return
+        }
+
+        if (this.isAndroid()) {
+            try {
+                const content = await this.readAndroidSchedule()
+                if (!content) throw new Error('Файл не найден. Сначала сохраните резервную копию в приложение.')
+                this.parseImportedSchedule(content)
+            } catch (error) {
+                window.notification?.error('Не удалось импортировать расписание', error.message)
+            }
+            return
+        }
+
+    }
+
+    addDataActions(card) {
+        const actions = document.createElement('div')
+        actions.className = 'scheduleEditorToolbar'
+        const exportButton = this.button('Экспорт JSON')
+        exportButton.addEventListener('click', () => this.downloadSchedule('bellschedule.json'))
+        const backupButton = this.button('Резервная копия')
+        backupButton.addEventListener('click', () => this.downloadSchedule())
+        const importButton = this.button('Импорт JSON')
+        const input = document.createElement('input')
+        input.type = 'file'; input.accept = 'application/json,.json'; input.hidden = true
+        input.addEventListener('change', () => input.files[0] && this.importSchedule(input.files[0]))
+        importButton.addEventListener('click', () => {
+            if (this.isAndroid() && typeof window.AndroidBridge?.pickFile === 'function') this.importSchedule()
+            else input.click()
+        })
+        actions.append(exportButton, importButton, backupButton, input)
+        card.appendChild(actions)
     }
 }
 

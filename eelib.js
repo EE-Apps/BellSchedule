@@ -7,13 +7,23 @@ window.eelib.pages = [
         icon: 'img/ui/home.svg',
         active: true,
         btns: [
-            ['edit', 'img/ui/edit2', 'test()', 'Edit'],
-            ['aod',  'img/ui/zoom',  'test()', 'Simple'],
+            ['screenshoot', 'img/ui/zoom', 'window.makeScreenshot("#now .pageContent")', 'Screenshot'],
+            ['aod', 'img/ui/zoom', 'window.changePage("aod")', 'Allway On Display'],
         ],
         subpages: [
             'lessonInfo',
         ],
         subpagesmode: 'modal',
+    },
+    {
+        id: 'aod',
+        title: 'AOD',
+        description: 'До следующего звонка',
+        icon: 'img/ui/home.svg',
+        btns: [],
+        leftBtn: 'none',
+        noBottom: true,
+        noNav: true,
     },
     {
         id: 'schedule',
@@ -75,6 +85,7 @@ window.eelib.pages = [
         title: 'About',
         icon: 'img/ui/user.svg',
         noBottom: true,
+        noNav: true,
     },
     {
         id: 'settings',
@@ -92,8 +103,7 @@ window.eelib.settingsConfig = {
             theme: 'dark'
         },
         weather: {
-            town: '',
-            location: [0, 0],
+            location: [null, null],
             unit: "C",
             background: false,
             pageBackground: false,
@@ -188,15 +198,14 @@ window.eelib.settingsConfig = {
         weather: {
             title: "Weather",
             items: [
+                { type: "text", key: "latitude", label: "Latitude", placeholder: "47.0105" },
+                { type: "text", key: "longitude", label: "Longitude", placeholder: "28.8638" },
                 { type: "toggle", key: "background", label: "Weather Background" },
                 { type: "toggle", key: "pageBackground", label: "Page Background" }
             ]
         },
     },
     onChange: (settings) => {
-        // Вызывается при любом изменении настроек
-        if (typeof updateTimeDisplay === 'function') {
-        updateTimeDisplay();
-        }
+        window.weatherManager?.refresh();
     }
 }

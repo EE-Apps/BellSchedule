@@ -22,6 +22,13 @@ class scheduleNow {
 
     renderList({ lessons, bells }) {
         this.nextLessonsContainer.innerHTML = ''
+        if (!lessons.length) {
+            const empty = document.createElement('p')
+            empty.className = 'emptyState'
+            empty.textContent = 'Ближайших уроков нет.'
+            this.nextLessonsContainer.appendChild(empty)
+            return
+        }
         lessons.forEach((lesson, i) => {
             const card = window.scheduleCore.createLessonCard(lesson, bells[i])
             this.nextLessonsContainer.appendChild(card)
@@ -31,13 +38,13 @@ class scheduleNow {
     // mode: 'next'     — обычный режим, показываем оставшиеся уроки сегодня
     //       'today'    — уроки сегодня ещё не начались
     //       'tomorrow' — уроки на сегодня закончились (или сегодня выходной)
-    setMode(mode) {
+    setMode(mode, schedule = null, title = null) {
         if (this.mode === mode) return
         this.mode = mode
 
         if (mode === 'tomorrow') {
-            this.headerEl.textContent = window.translator.translate('tomorrow')
-            this.renderList(window.scheduleCore.getTomorrow())
+            this.headerEl.textContent = title || window.translator.translate('tomorrow')
+            this.renderList(schedule || window.scheduleCore.getTomorrow())
         } else if (mode === 'today') {
             this.headerEl.textContent = window.translator.translate('today')
             this.renderList(window.scheduleCore.today)
@@ -54,6 +61,7 @@ class scheduleNow {
         const ct = window.timeMgr.currentTime.getTime()
 
         this.nextLessonsContainer.querySelectorAll('.lessonCardContainer').forEach((el, i) => {
+            if (!bells[i]) return
             const lessonStartDate = window.timeMgr.stringToTime(bells[i][0])
             const lessonEndDate = window.timeMgr.stringToTime(bells[i][1])
 

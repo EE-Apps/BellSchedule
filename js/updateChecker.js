@@ -168,16 +168,18 @@ class UpdateChecker {
     }
 
     downloadApk() {
-        const apkUrl = 'http://ee-apps.github.io/download/bellschedule.apk'
-        
-        // 1. Проверяем, есть ли у моста метод для скачивания/открытия ссылок
-        if (window.bridge && typeof window.bridge.downloadApk === 'function') {
-            window.bridge.downloadApk(apkUrl)
-        } else if (window.bridge && typeof window.bridge.openUrl === 'function') {
-            window.bridge.openUrl(apkUrl)
+        const apkUrl = 'https://ee-apps.github.io/download/bellschedule.apk'
+        const nativeBridge = window.AndroidBridge || window.bridge
+
+        // Сначала пробуем нативный Android bridge. Если его нет — используем общий bridge wrapper.
+        if (nativeBridge && typeof nativeBridge.downloadApk === 'function') {
+            nativeBridge.downloadApk(apkUrl)
+        } else if (nativeBridge && typeof nativeBridge.openUrl === 'function') {
+            nativeBridge.openUrl(apkUrl)
+        } else if (typeof window.open === 'function') {
+            window.open(apkUrl, '_blank', 'noopener,noreferrer')
         } else {
-            // Fallback: пробуем открыть системным браузером/переходом
-            window.open(apkUrl, '_blank')
+            window.location.href = apkUrl
         }
     }
 }

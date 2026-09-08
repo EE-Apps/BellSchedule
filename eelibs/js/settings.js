@@ -485,6 +485,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        async getAppInfo() {
+            if (this.env !== 'android') return {}
+            const info = await this.callAndroidNative('getAppInfo')
+            return info && typeof info === 'object' ? info : {}
+        }
+
         async listFiles() {
             switch (this.env) {
                 case 'android': {

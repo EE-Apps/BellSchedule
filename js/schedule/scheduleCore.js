@@ -17,12 +17,20 @@ class scheduleCore {
     }
 
     refresh() {
-        window.timeMgr?.getCurrentTime()
         this.today = this.getDaySchedule(window.timeMgr.current.day)
     }
 
+    getNextSchoolDay(startDay = window.timeMgr.current.day) {
+        for (let offset = 1; offset <= 7; offset++) {
+            const day = (startDay + offset) % 7
+            const schedule = this.getDaySchedule(day)
+            if (schedule.lessons.length && schedule.bells.length >= schedule.lessons.length) return { day, offset, schedule }
+        }
+        return null
+    }
+
     getTomorrow() {
-        return this.getDaySchedule((window.timeMgr.current.day + 1) % 7)
+        return this.getNextSchoolDay()?.schedule || { lessons: [], bells: [] }
     }
 
     // Общая карточка урока — используется и на странице "Сейчас", и в расписании на неделю
@@ -74,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scheduleCore.refresh()
         window.scheduleWeek?.renderWeek()
         window.lessonsPage?.renderLessonsList()
+        window.aodPage?.update()
         window.scheduleNow && (window.scheduleNow.mode = null)
         window.timeMgr?.updateTimer()
     }

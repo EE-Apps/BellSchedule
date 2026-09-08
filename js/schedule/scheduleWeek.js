@@ -75,6 +75,12 @@ class scheduleWeek {
 
             this.schedulePageContainer.appendChild(dayDiv)
         });
+        if (!this.schedulePageContainer.children.length) {
+            const empty = document.createElement('p')
+            empty.className = 'emptyState'
+            empty.textContent = 'Расписание пока пусто. Откройте редактор и добавьте уроки.'
+            this.schedulePageContainer.appendChild(empty)
+        }
     }
 }
 

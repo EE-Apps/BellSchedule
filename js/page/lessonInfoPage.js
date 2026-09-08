@@ -15,7 +15,6 @@ class lessonInfoPage {
             pageHeaderInput: document.getElementById('lessonInfoNameInput'),
             pageIdInput: document.getElementById('lessonInfoIdInput'),
             schedule: document.getElementById('lessonInfoSchedule'),
-            deleteButton: document.getElementById('deleteLessonBtn'),
         }
 
         this.init()
@@ -63,7 +62,6 @@ class lessonInfoPage {
             window.appScheduleChanged?.()
             window.changePage('lessonInfo', newKey)
         })
-        this.els.deleteButton.addEventListener('click', () => this.deleteLesson())
     }
 
     toggleEdit(mode) {
@@ -85,8 +83,13 @@ class lessonInfoPage {
         window.changePage('lessonInfo', key)
     }
 
-    deleteLesson() {
+    async deleteLesson() {
         if (!this.lesson || !window.settings.schedule.lessons[this.lesson]) return
+        const result = await window.modalMgr?.createModalConfirm('delete-lesson', 'Удалить урок?', `Урок «${window.settings.schedule.lessons[this.lesson].name}» и все его вхождения будут удалены.`, [
+            { label: 'Отмена', value: 'cancel', className: 'sec' },
+            { label: 'Удалить', value: 'delete', className: 'danger' }
+        ])
+        if (result?.cancelled || result?.value !== 'delete') return
         const removed = this.lesson
         delete window.settings.schedule.lessons[removed]
         window.settings.schedule.daySchedules.forEach(day => {

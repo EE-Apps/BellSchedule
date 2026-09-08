@@ -15,6 +15,13 @@ class lessonsPage {
         this.lessonsListContainer.innerHTML = ''
         const allLessons = Object.entries(window.settings.schedule.lessons)
         allLessons.sort(([k1, a], [k2, b]) => a.name.localeCompare(b.name));
+        if (!allLessons.length) {
+            const empty = document.createElement('p')
+            empty.className = 'emptyState'
+            empty.textContent = 'Уроков пока нет. Нажмите «Добавить урок».'
+            this.lessonsListContainer.appendChild(empty)
+            return
+        }
         allLessons.forEach(([key, lesson]) => {
             const card = document.createElement('div')
             card.className = 'lessonCard inLessonsPage'

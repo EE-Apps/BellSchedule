@@ -100,3 +100,11 @@
     display: grid;
     grid-auto-rows: 60px;
 }
+
+.emptyState {
+    padding: var(--ds);
+    border: 1px dashed var(--text-sec);
+    border-radius: var(--br);
+    color: var(--text-sec);
+    text-align: center;
+}

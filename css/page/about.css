@@ -4,3 +4,24 @@
     gap: var(--ds);
     justify-content: space-around;
 }
+
+#aboutRuntimeCard {
+    margin-top: var(--ds);
+}
+
+.aboutRuntimeInfo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px var(--ds);
+    margin-top: var(--ds);
+    color: var(--text-sec);
+}
+
+.aboutRuntimeInfo p {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.aboutRuntimeInfo strong {
+    color: var(--text-main);
+}

@@ -29,6 +29,15 @@ class timeMgr {
 
     getCurrentTime() {
         this.currentTime = new Date
+        const day = this.getWeekday(this.currentTime)
+        if (this.current.day !== undefined && this.current.day !== day) {
+            this.current.day = day
+            this.current.date = this.currentTime.getDate()
+            this.current.month = this.currentTime.getMonth()
+            window.scheduleCore?.refresh()
+            window.scheduleWeek?.renderWeek()
+            if (window.scheduleNow) window.scheduleNow.mode = null
+        }
         // this.currentTime.setHours(12)
         return (this.currentTime)
     }
@@ -42,7 +51,7 @@ class timeMgr {
 
     stringToTime(timeString) {
         const [hours, minutes, seconds = 0] = timeString.split(':').map(Number);
-        const date = new Date
+        const date = new Date(this.currentTime || Date.now())
         date.setHours(hours, minutes, seconds, 0)
         return (date.getTime())
     }
@@ -51,7 +60,8 @@ class timeMgr {
         const bells = window.scheduleCore.today.bells
         const ct = this.currentTime.getTime()
         let isLessonFound = false
-        let isNextLessonFound = false
+        this.current.nextLesson = null
+        this.current.lesson = null
 
         const bellsInMs = bells.map(lesson => [
             this.stringToTime(lesson[0]),
@@ -73,7 +83,6 @@ class timeMgr {
             }
 
             if (ct < start && (i === 0 || ct > bellsInMs[i - 1][1])) {
-                isNextLessonFound = true
                 this.current.nextLesson = {
                     num: i,
                     start: start,
@@ -117,11 +126,14 @@ class timeMgr {
     updateCurrentInfo() {
         // уроки на сегодня закончились (или сегодня их вообще нет, например выходной)
         if (!this.current.nextBell) {
-            this.els.mainClock.textContent = window.translator.translate('tomorrow') + " " + window.translator.translate('day' + ((this.current.day + 1) % 7)).toLowerCase()
+            const nextSchoolDay = window.scheduleCore.getNextSchoolDay(this.current.day)
+            this.els.mainClock.textContent = nextSchoolDay
+                ? `${window.translator.translate('next')} ${window.translator.translate('day' + nextSchoolDay.day).toLowerCase()}`
+                : 'Занятий пока нет'
             this.els.mainBreak.textContent = ''
             this.els.weatherCard.classList.remove('hidden')
             this.updateWeather()
-            window.scheduleNow.setMode('tomorrow')
+            window.scheduleNow.setMode('tomorrow', nextSchoolDay?.schedule, nextSchoolDay ? window.translator.translate('day' + nextSchoolDay.day) : 'Далее')
             return
         }
 
@@ -155,7 +167,8 @@ class timeMgr {
                 this.els.weatherCard.classList.remove('hidden')
                 this.updateWeather('before')
             } else {
-                const nextLessonNum = this.current.nextLesson.num
+                const nextLessonNum = this.current.nextLesson?.num
+                if (nextLessonNum === undefined) return
                 if (!this.els.weatherCard?.classList.contains('hidden')) this.els.weatherCard.classList.add('hidden')
                 this.els.mainBreak.textContent = window.translator.translate('before') + ' ' + this.current.nextLesson?.name
                 this.els.cardBreak.innerHTML =  translator.translate('now')  + ': ' + this.breakLength(nextLessonNum - 1) + ' ' + translator.translate('minutes') + '<br>' +
@@ -168,6 +181,7 @@ class timeMgr {
         this.getCurrentTime()
 
         this.getCurrentData()
+        window.aodPage?.update()
         window.scheduleNow.updateNextLessons()
         this.updateCurrentInfo()
     }

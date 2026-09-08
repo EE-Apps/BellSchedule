@@ -386,6 +386,16 @@ class Nav {
             : current;
 
         const basePageData = window.cnavMgr.pages.find(p => p.id === basePage.id);
+        const newPageData  = window.cnavMgr.pages.find(p => p.id === newpage.id);
+
+        const navdown = document.getElementById('navdown')
+        if (navdown) {
+            if (newPageData.noNav === true && !navdown.classList.contains('hidden'))
+                navdown.classList.add('hidden')
+            else 
+                navdown.classList.remove('hidden')
+        }
+
         let isSubpage = isMobile? false : Array.isArray(basePageData?.subpages) ? basePageData.subpages.includes(newpage.id) : false;
 
         if (!isSubpage) {

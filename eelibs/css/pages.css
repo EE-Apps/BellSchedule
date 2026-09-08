@@ -101,6 +101,7 @@
         top: 3rem;
         right: var(--dss);
         display: none;
+        flex-direction: column;
         border-radius: var(--br);
         background-color: var(--bg-sec-great);
         min-width: 0;
