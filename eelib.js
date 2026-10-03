@@ -24,6 +24,7 @@ window.eelib.pages = [
         leftBtn: 'none',
         noBottom: true,
         noNav: true,
+        noLeft: true,
     },
     {
         id: 'schedule',

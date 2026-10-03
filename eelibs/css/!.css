@@ -24,8 +24,8 @@
 
     /* Фоны */
     --bg-base: var(--c-gray-900);
-    --bg-pri: #00000045;
-    --bg-sec: #242424b0;
+    --bg-pri: var(--c-gray-900);
+    --bg-sec: var(--c-gray-800);
     --bg-sec-solid: var(--c-gray-800);
     --bg-input: var(--c-gray-700);
 
@@ -139,7 +139,7 @@ body {
 
 html {
     overflow-y: hidden;
-    padding-top: max(env(safe-area-inset-top, 0px), var(--safe-area-top));
+    /*padding-top: max(env(safe-area-inset-top, 0px), var(--safe-area-top));*/
     padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-bottom));
     padding-left: env(safe-area-inset-left, 0px);
     padding-right: env(safe-area-inset-right, 0px);
@@ -157,24 +157,6 @@ a:hover {
 
 fieldset {
     border-radius: var(--br);
-}
-
-button {
-    border-radius: var(--br);
-    background-color: var(--bg-sec);
-    border: 1px solid var(--bc);
-    color: var(--text-pri);
-    padding: 5px;
-    transition: transform var(--tr-out);
-}
-
-button:hover {
-    background-color: var(--bg-sec-hover);
-    border-color: var(--text-sec);
-    color: var(--text-sec);
-    cursor: pointer;
-    text-decoration: underline;
-    transform: scale(1.05);
 }
 
 video {

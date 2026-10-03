@@ -21,8 +21,8 @@
         width: 100px;
         min-width: 100px;
         height: calc(24px + 8px * 2);
-        transition: var(--tr-in);
         position: relative;
+        text-decoration: none;
 
         &:hover {
             background-color: var(--bg-sec-hover);

@@ -223,12 +223,6 @@
             }
         }
 
-        async getAppInfo() {
-            if (this.env !== 'android') return {}
-            const info = await this.callAndroidNative('getAppInfo')
-            return info && typeof info === 'object' ? info : {}
-        }
-
         /**
          * Получение списка файлов
          * @returns {Promise<Array<string>>}

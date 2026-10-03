@@ -24,7 +24,7 @@
             z-index: 100;
             width: calc(90% - var(--ds) * 2);
             padding: var(--ds);
-            background-color: var(--bg-sec-great);
+            background-color: var(--bg-sec);
             border-radius: var(--br);
             position: absolute;
             margin: 0 3%;

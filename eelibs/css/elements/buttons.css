@@ -40,6 +40,30 @@
     --btn-disabled-opacity: 0.4;
 }
 
+button {
+    border-radius: var(--br);
+    background-color: var(--bg-sec);
+    border: 1px solid var(--bc);
+    color: var(--text-pri);
+    padding: var(--dss);
+    transition: background var(--tr-in), color var(--tr-in), transform var(--tr-in);
+
+    @media (hover: hover) { &:hover {
+        transform: scale(1.05);
+    }}
+    .hover {
+        background-color: var(--bg-sec-hover);
+        border-color: var(--text-sec);
+        color: var(--text-sec);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    &:active {
+        transform: scale(0.95);
+        padding: 0 var(--ds);
+    }
+}
+
 .aBtn {
     /* База */
     display: inline-flex;

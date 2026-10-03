@@ -207,6 +207,15 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        background-color: #00000000;
+
+        @media (hover: hover) {&:hover {
+            background-color: var(--bg-sec-hover);
+        }}
+        &:active {
+            background-color: var(--c-gray-700);
+        }
 
         img {
             width: 50%;

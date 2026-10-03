@@ -8,10 +8,10 @@ class AodPage {
             screen: document.querySelector('#aod .aodScreen'),
             countdown: document.getElementById('aodCountdown'),
             after: document.getElementById('aodAfter'),
-            lessonNumber: document.getElementById('aodLessonNumber'),
-            breakLength: document.getElementById('aodBreakLength'),
-            weather: document.getElementById('aodWeather'),
-            weatherTime: document.getElementById('aodWeatherTime')
+            //lessonNumber: document.getElementById('aodLessonNumber'),
+            //breakLength: document.getElementById('aodBreakLength'),
+            //weather: document.getElementById('aodWeather'),
+            //weatherTime: document.getElementById('aodWeatherTime')
         }
         document.addEventListener('visibilitychange', () => this.syncScreenState())
         window.addEventListener('pageshow', () => this.syncScreenState())
@@ -58,18 +58,18 @@ class AodPage {
 
     startContentMovement() {
         if (this.moveTimer || !this.els.screen) return
-        this.moveTimer = setInterval(() => {
+        const move = () => {
             if (!this.isActive()) return
             this.moveIndex = (this.moveIndex + 1) % 8
             this.els.screen.dataset.aodPosition = String(this.moveIndex)
-        }, 60 * 1000)
+        }
+        move()
+        this.moveTimer = setInterval(move, 60 * 1000)
     }
 
     stopContentMovement() {
         clearInterval(this.moveTimer)
         this.moveTimer = null
-        this.moveIndex = 0
-        if (this.els.screen) delete this.els.screen.dataset.aodPosition
     }
 
     syncScreenState() {
@@ -183,19 +183,19 @@ class AodPage {
         if (!state) {
             this.els.countdown.textContent = '--:--'
             this.els.after.textContent = 'Расписание пока пусто.'
-            this.els.lessonNumber.textContent = '—'
-            this.els.breakLength.textContent = '—'
-            this.els.weather.textContent = '—'
-            this.els.weatherTime.textContent = '—'
+            //this.els.lessonNumber.textContent = '—'
+            //this.els.breakLength.textContent = '—'
+            //this.els.weather.textContent = '—'
+            //this.els.weatherTime.textContent = '—'
             return
         }
 
         if (state.finished) {
             this.els.countdown.textContent = '00:00'
             this.els.after.textContent = 'Учебный день окончен'
-            this.els.lessonNumber.textContent = '—'
-            this.els.breakLength.textContent = '—'
-            this.updateWeather()
+            //this.els.lessonNumber.textContent = '—'
+            //this.els.breakLength.textContent = '—'
+            //this.updateWeather()
             return
         }
 
@@ -204,9 +204,9 @@ class AodPage {
         this.els.after.textContent = state.isLesson
             ? (state.afterIndex < state.times.length ? `После звонка: перемена ${state.breakMinutes} мин` : 'После звонка: конец занятий')
             : `После звонка: ${state.nextLessonName || 'следующий урок'}`
-        this.els.lessonNumber.textContent = `№${state.lessonIndex + 1}`
-        this.els.breakLength.textContent = state.breakMinutes ? `${state.breakMinutes} мин` : '—'
-        this.updateWeather(state)
+        //this.els.lessonNumber.textContent = `№${state.lessonIndex + 1}`
+        //this.els.breakLength.textContent = state.breakMinutes ? `${state.breakMinutes} мин` : '—'
+        //this.updateWeather(state)
     }
 
     updateWeather(state = null) {

@@ -286,14 +286,15 @@ class Nav {
                     moreBtn.onclick = () => {
                         // Снимаем активные состояния
                         document.querySelectorAll('.navbtn.active').forEach(el => el.classList.remove('active'));
-                        
+                        this.content.classList.remove('modal-open')
+
                         // Переключаем страницу
-                        switchPage(document.getElementById(page.id));
+                        switchPage(document.getElementById(page.id))
                         
                         // Закрываем модальное окно
-                        const modalWindow = modalDiv.closest('.modal');
+                        const modalWindow = modalDiv.closest('.modal')
                         if (modalWindow) {
-                            modalWindow.classList.remove('active');
+                            modalWindow.classList.remove('active')
                         }
                     };
                     
