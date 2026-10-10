@@ -1,4 +1,14 @@
 if (!window.eelib) window.eelib = {}
+window.eelib.nav = {
+    leftBtn: 'nav',
+    downStyle: 'floating',
+    noName: false,
+    noIcon: false,
+}
+window.eelib.theme = {
+    blackDown: true,
+}
+
 window.eelib.pages = [
     {
         id: 'now',

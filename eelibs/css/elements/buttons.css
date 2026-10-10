@@ -46,6 +46,7 @@ button {
     border: 1px solid var(--bc);
     color: var(--text-pri);
     padding: var(--dss);
+    font-size: var(--text-size-subtitle);
     transition: background var(--tr-in), color var(--tr-in), transform var(--tr-in);
 
     @media (hover: hover) { &:hover {
@@ -60,7 +61,7 @@ button {
     }
     &:active {
         transform: scale(0.95);
-        padding: 0 var(--ds);
+        /*padding: 0 var(--ds);*/
     }
 }
 
@@ -77,6 +78,7 @@ button {
     cursor: pointer;
     user-select: none;
     transition: var(--tr-color), transform var(--tr-in), box-shadow var(--tr-in-out);
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 
     /* Primary (по умолчанию) */
     background-color: var(--btn-pri-bg);

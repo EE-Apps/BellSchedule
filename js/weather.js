@@ -59,7 +59,7 @@ class WeatherManager {
             const index = hourly.time.reduce((best, time, i) => Math.abs(time - now) < Math.abs(hourly.time[best] - now) ? i : best, 0)
             const temp = hourly.temperature_2m[index]
             const code = hourly.weather_code[index]
-            this.elements.temperature.textContent = `${Math.round(temp)}°${data.hourly_units?.temperature_2m || 'C'}`
+            this.elements.temperature.textContent = `${Math.round(temp)}${data.hourly_units?.temperature_2m || 'C'}`
             this.elements.description.textContent = 'Погода обновлена'
             this.elements.icon.src = `img/weather/${this.weatherIcon(code)}.webp`
             this.elements.card?.classList.remove('weatherError')

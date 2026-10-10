@@ -47,6 +47,9 @@
         overflow-x: auto;
     }
 }
+body.nav-floating .page .pageContent {
+    padding-bottom: calc(60px + var(--ds) * 3 + var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)));
+}
 
 #content.modal-open .page.active, #navdown.modal-open {
     @media (orientation: portrait) {
@@ -77,6 +80,10 @@
     h1, h2, h3, h4, p, span, b {
         margin: 0;
     }
+
+    img {
+        width: calc(var(--ds) * 3);
+    }
 }
 
 .page-header-btns {
@@ -84,9 +91,11 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    width: calc(100% - 2 * var(--ds));
+    width: calc(100% - var(--ds) * 2);
     position: sticky;
     top: 0;
+    left: 0;
+    right: 0;
     padding: var(--ds);
     padding-top: calc(var(--ds, 0px) + var(--safe-area-top, env(safe-area-inset-top, 0px)));
     background-color: var(--bg-base);
@@ -234,4 +243,62 @@
 
 .page-header, .page-header-btns, .pageContent {
     background-color: var(--bg-base);
+}
+
+@supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .page {
+            scroll-timeline-name: --page-scroll;
+            scroll-timeline-axis: block;
+        }
+
+        .page-header {
+            --page-header-icon-offset: 0px;
+            position: sticky;
+            top: -40dvh;
+            z-index: 51;
+
+            &:has(> img) {
+                --page-header-icon-offset: calc(var(--ds) * 3);
+            }
+
+            h1, h3 {
+                position: relative;
+                transform-origin: left center;
+                animation: page-header-heading-scroll 1s linear both;
+                animation-timeline: --page-scroll;
+                animation-range: 0px 40dvh;
+            }
+
+            h1 {
+                --page-heading-x: calc(-50vw + 4rem + 50%);
+                --page-heading-y: calc(19dvh + var(--safe-area-top, env(safe-area-inset-top, 0px)) + var(--ds) + 1.5rem - var(--page-header-icon-offset));
+                --page-heading-scale: 0.55;
+            }
+
+            h3 {
+                --page-heading-x: calc(-50vw + 4rem + 50%);
+                --page-heading-y: calc(25dvh + var(--safe-area-top, env(safe-area-inset-top, 0px)) + var(--ds) - 1.75rem - var(--page-header-icon-offset));
+                --page-heading-scale: 0.85;
+            }
+        }
+
+        @keyframes page-header-heading-scroll {
+            from {
+                transform: translate(0, 0) scale(1);
+            }
+            to {
+                transform: translate(var(--page-heading-x), var(--page-heading-y)) scale(var(--page-heading-scale));
+            }
+        }
+    }
+}
+
+#blackDown {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
 }

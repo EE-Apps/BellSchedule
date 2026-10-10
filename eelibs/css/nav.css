@@ -8,8 +8,10 @@
     border-radius: 0 var(--br) var(--br) 0;
     
     /* Начальное (свернутое) состояние */
-    width: 50px;
+    width: max-content;
     min-width: 50px;
+    min-width: unset;
+    max-width: max-content;
     padding-top: 50px;
     max-height: calc(100dvh - 50px - var(--ds) - 32px);
     overflow-x: hidden; /* Скрывает вылезающий текст при сужении */
@@ -23,6 +25,11 @@
     &.active {
         width: 200px;
         min-width: 200px;
+    }
+
+    &.floating {
+        border-radius: var(--br);
+        margin-left: var(--ds);
     }
 
     /* Кнопки внутри навигации */
@@ -39,9 +46,8 @@
         transition: background-color 0.2s ease;
         border: none;
 
-        &.active {
+        &:hover {
             background-color: var(--bg-sec-hover);
-            border-radius: var(--brs);
         }
 
         img {
@@ -78,6 +84,7 @@
 #navcontent {
     display: inline-flex;
     flex-direction: column;
+    width: max-content;
 }
 
 #openmenu {
@@ -88,7 +95,8 @@
     top: calc(2rem + 10px);
 }
 #nav:not(.active) {
-    width: 50px;
+    width: max-content;
+    min-width: calc(10px + var(--ds));
     .navbtn {
         /*justify-content: center;*/
             min-width: 40px;
@@ -114,11 +122,10 @@
         width: 100%;
             min-height: 40px;
             max-height: 40px;
-        transition: var(--tr-in-out);
         border: none;
         &.active {
-            background-color: var(--bg-sec-hover);
-            border-radius: var(--brs);
+            background-color: var(--bg-sec-active);
+            border-radius: var(--brc);
         }
 
         img {
@@ -142,21 +149,75 @@
     justify-content: space-evenly;
     width: unset;
     height: 50px;
-    position: fixed;
-    left: calc(-1 * var(--ds));
-    right: calc(-1 * var(--ds));
-    bottom: 0;
-    padding: 0 var(--ds) calc(env(safe-area-inset-bottom) + var(--ds)) var(--ds);
+    height: max-content;
     background-color: var(--bg-pri-great);
     z-index: 50;
 
     overflow-y: hidden;
+    max-width: 100dvw;
     max-height: 100px;
-    transition: max-height 0.2 ease;
+
+    &.noname, &.noName {
+        span {
+            display: none
+        }
+    }
+    &.noicon, &.noIcon, &.noico, &.noIco, &.noimg, &.noImg {
+        img {
+            display: none;
+        }
+    }
+    &.classic, &:not(.floating) {
+        position: fixed;
+        left: calc(-1 * var(--ds));
+        right: calc(-1 * var(--ds));
+        bottom: 0;
+        padding: 0 var(--ds) calc(var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)) + var(--ds)) var(--ds);
+    }
+    &.floating {
+        position: absolute;
+        left: calc(var(--ds) * 1.5);
+        right: calc(var(--ds) * 1.5);
+        bottom: calc(var(--ds) * 1.5 + var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)));
+        padding: var(--dss);
+        margin: 0 auto;
+        justify-content: space-between;
+        border-radius: var(--brr);
+        border: 1px solid var(--bc);
+
+        transition: max-height 0.5s linear(0, 0 50%, 1),
+                    max-width 0.75s linear(0, 0 33%, 1),
+                    padding 0.5s linear(0, 0 50%, 1),
+                    border-width 0.25s linear(0, 1);
+
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .navbtn {
+            height: calc(40px + var(--ds));
+            border-radius: var(--brs);
+
+            &.active {
+                border-radius: var(--brc);
+            }
+        }
+    }
 
     &.hidden {
         max-height: 0;
+        max-width: 0;
         padding: 0;
+        border-width: 0;
+        overflow-x: hidden;
+        align-items: center;
+        justify-content: center;
+        
+        transition: max-height 0.7s ease,
+                    max-width 1s ease,
+                    padding 0.7s ease,
+                    border-width 1.2s linear(0, 0 20%, 0 83%, 1);
     }
 
     .navbtn {

@@ -1,6 +1,6 @@
 class EElib {
     constructor() {
-
+        this.isLoaded = false
     }
     
     runProcess() {
@@ -21,6 +21,8 @@ class EElib {
         // Run
         this.initializeNav()
         window.settingsManager.generateUI('settings')
+
+        this.isLoaded = true
     }
 
     initializeNav() {

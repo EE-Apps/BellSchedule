@@ -51,6 +51,11 @@
     --bg-sec-hover: color-mix(in srgb, var(--bg-sec) 85%, var(--c-white));
     --bg-input-hover: color-mix(in srgb, var(--bg-input) 85%, var(--c-white));
     
+    /* активные */
+    --bg-pri-active: color-mix(in srgb, var(--bg-pri) 75%, var(--c-white));
+    --bg-sec-active: color-mix(in srgb, var(--bg-sec) 75%, var(--c-white));
+    --bg-input-hover: color-mix(in srgb, var(--bg-input) 75%, var(--c-white));
+    
     /* с черным */
     --accent-hover: color-mix(in srgb, var(--accent) 85%, var(--c-white));
     --accent-active: color-mix(in srgb, var(--accent) 70%, var(--c-black));

@@ -13,6 +13,7 @@ input[type="range"] {
     transition: var(--tr);
     margin: 12.5px 0;
     padding: 0;
+
     &.vertical {
         width: 5px;
         height: min(300px, 80dvw);
@@ -24,7 +25,9 @@ input[type="range"] {
 input[type="range"]:hover {
     background: var(--text-sec-hover);
 }
-input[type="range"]:hover:focus:not(.def) {
+input[type="range"]:hover:active:not(.def) {
+    overflow: hidden;
+    
     &:not(.vertical) {
         margin: 5px 0;
         height: 20px;

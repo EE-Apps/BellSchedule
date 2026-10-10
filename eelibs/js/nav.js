@@ -50,12 +50,16 @@ class Nav {
     createHeadOfPage(page) {
         let head = document.createElement('header');
         head.className = 'page-header';
+        const img = page.iconHead ? `<img src="${page.iconHead}">` : ''
+        const title = page.titleHead ? page.titleHead : page.title
         head.innerHTML = `
-            <h1>${page.title}</h1>
+            ${img}
+            <h1>${title}</h1>
             <h3>${page.description ? page.description : ''}</h3>
         `;
 
         function generateLeftButton(type) {
+            if (type === 'none' || type === false) return("<div></div>")
             const data = window.cnavMgr?.leftBtns[type]
             return `<button class="leftBtnsNav" onclick="${data?.onclick}"><img src="${data?.img}.svg"></button>`
         }
@@ -114,7 +118,7 @@ class Nav {
             }
         }
 
-        let leftBtn = page.leftBtn ? generateLeftButton(page.leftBtn) : generateLeftButton('nav');
+        let leftBtn = page.leftBtn ? generateLeftButton(page.leftBtn) : window.eelib?.nav.leftBtn ? generateLeftButton(window.eelib?.nav.leftBtn) : generateLeftButton('nav');
 
         let hnav = document.createElement('div');
         hnav.className = 'page-header-btns';
@@ -157,15 +161,17 @@ class Nav {
         }
 
         let place;
-        if (document.getElementById(page.id).querySelector('.pageContainer')) {
-            place = document.getElementById(page.id).querySelector('.pageContainer');
-        } else {
-            place = document.createElement('div');
-            place.className = 'pageContainer';
-            document.getElementById(page.id).prepend(place);
-        }
-        place.prepend(hnav);
-        place.prepend(head);
+        try {
+            if (document.getElementById(page.id).querySelector('.pageContainer')) {
+                place = document.getElementById(page.id).querySelector('.pageContainer');
+            } else {
+                place = document.createElement('div');
+                place.className = 'pageContainer';
+                document.getElementById(page.id).prepend(place);
+            }
+            place.prepend(hnav);
+            place.prepend(head);
+        } catch(e) {}
     }
 
     createNavDownButton(page) {
@@ -222,7 +228,7 @@ class Nav {
     }
 
     createNav(pages) {
-        const MAX_NAVDOWN = 4;
+        const MAX_NAVDOWN = window.eelib?.nav?.maxDown || 4;
         
         // === РАБОТА С КОНТЕЙНЕРОМ "ЕЩЁ" ===
         const modalDiv = document.createElement('div');
@@ -238,7 +244,7 @@ class Nav {
         modalDiv.appendChild(modalForuse);
         modalForuse.appendChild(modalContent);
 
-        // завершить создание и включение стилей
+        const navDownEl = document.getElementById('navdown')
 
         // Фильтруем страницы для нижней панели
         const bottomPages = pages.filter(p => !p.noBottom);
@@ -247,6 +253,13 @@ class Nav {
         
         let addedDirect = 0;
         let overflowCount = 0;
+
+        if (window.eelib?.nav?.downStyle) {
+            navDownEl.classList.add(window.eelib.nav.downStyle)
+            document.body.classList.add('nav-' + window.eelib.nav.downStyle)
+        }
+        if (window.eelib?.nav?.noName === true) navDownEl.classList.add('noname')
+        if (window.eelib?.nav?.noIcon === true) navDownEl.classList.add('noicon')
 
         for (const page of pages) {
             // === СОЗДАНИЕ ОСНОВНОЙ КНОПКИ НАВИГАЦИИ ===
@@ -360,91 +373,99 @@ class Nav {
     }
 
     switchPage(newpage, subname) {
-        window.cnavMgr.lastestPage = document.querySelector('.page.active:not(.right)')?.id;
-        window.cnavMgr.currentPage = newpage.id;
-        const rightCurrent = document.querySelector('.page.active.right');
-        const current = rightCurrent? rightCurrent : document.querySelector('.page.active');
-        if (!newpage || newpage === current) {
-            if (rightCurrent && (subname == null || subname === rightCurrent.dataset.currentSubname)) {
-                const parentPage = document.querySelector('.page.active:not(.right)');
-                parentPage.classList.remove('active', 'right');
-                parentPage.classList.add('leave-left')
+        try {
+            window.cnavMgr.lastestPage = document.querySelector('.page.active:not(.right)')?.id;
+            window.cnavMgr.currentPage = newpage.id;
+            const rightCurrent = document.querySelector('.page.active.right');
+            const current = rightCurrent? rightCurrent : document.querySelector('.page.active');
+            if (!newpage || newpage === current) {
+                if (rightCurrent && (subname == null || subname === rightCurrent.dataset.currentSubname)) {
+                    const parentPage = document.querySelector('.page.active:not(.right)');
+                    parentPage.classList.remove('active', 'right');
+                    parentPage.classList.add('leave-left')
+                    content.classList.remove('two', 'twomodal');
+                    current.classList.remove('right');
+                    current.dataset.currentSubname = null
+                    return;
+                } else if (subname != null && rightCurrent && subname != rightCurrent.dataset.currentSubname) {
+                    rightCurrent.dataset.currentSubname = subname
+                } else {
+                    return;
+                }
+            }
+
+            // если сейчас активна подстраница — берём её родителя
+            const parentElement = document.getElementById(current?.dataset?.parent); 
+            const basePage = current?.dataset?.parent && parentElement?.classList.contains('active')
+                ? document.getElementById(current.dataset.parent)
+                : current;
+
+            const basePageData = window.cnavMgr.pages.find(p => p.id === basePage.id);
+            const newPageData  = window.cnavMgr.pages.find(p => p.id === newpage.id);
+
+            const navdown = document.getElementById('navdown')
+            if (navdown) {
+                if (newPageData.noNav === true) {
+                    if (!navdown.classList.contains('hidden'))
+                        navdown.classList.add('hidden')
+                    window.ThemesMgr.hideBlackDown(true)
+                } else {
+                    navdown.classList.remove('hidden')
+                    window.ThemesMgr.hideBlackDown(false)
+                }
+            }
+
+            let isSubpage = isMobile? false : Array.isArray(basePageData?.subpages) ? basePageData.subpages.includes(newpage.id) : false;
+
+            if (!isSubpage) {
+                // обычная смена страниц
+                current.classList.remove('active', 'right');
+                current.classList.add('leave-left');
+                const lastToHide = document.querySelector('.page.active')
+                if (lastToHide) {
+                    lastToHide.classList.remove('active', 'right');
+                    lastToHide.classList.add('leave-left')
+                }
+
                 content.classList.remove('two', 'twomodal');
-                current.classList.remove('right');
-                current.dataset.currentSubname = null
-                return;
-            } else if (subname != null && rightCurrent && subname != rightCurrent.dataset.currentSubname) {
-                rightCurrent.dataset.currentSubname = subname
+                document.querySelector('.page.active.right')?.classList.remove('active');
             } else {
-                return;
-            }
-        }
+                // открываем подстраницу справа
+                content.classList.add(basePageData.subpagesmode == 'modal' ? 'twomodal' : 'two');
 
-        // если сейчас активна подстраница — берём её родителя
-        const parentElement = document.getElementById(current?.dataset?.parent); 
-        const basePage = current?.dataset?.parent && parentElement?.classList.contains('active')
-            ? document.getElementById(current.dataset.parent)
-            : current;
+                // убираем старую подстраницу, если была
+                document.querySelectorAll('.page.right.active').forEach(p => {
+                    p.classList.remove('active', 'right');
+                    p.classList.add('leave-right');
+                });
 
-        const basePageData = window.cnavMgr.pages.find(p => p.id === basePage.id);
-        const newPageData  = window.cnavMgr.pages.find(p => p.id === newpage.id);
-
-        const navdown = document.getElementById('navdown')
-        if (navdown) {
-            if (newPageData.noNav === true && !navdown.classList.contains('hidden'))
-                navdown.classList.add('hidden')
-            else 
-                navdown.classList.remove('hidden')
-        }
-
-        let isSubpage = isMobile? false : Array.isArray(basePageData?.subpages) ? basePageData.subpages.includes(newpage.id) : false;
-
-        if (!isSubpage) {
-            // обычная смена страниц
-            current.classList.remove('active', 'right');
-            current.classList.add('leave-left');
-            const lastToHide = document.querySelector('.page.active')
-            if (lastToHide) {
-                lastToHide.classList.remove('active', 'right');
-                lastToHide.classList.add('leave-left')
+                
+                newpage.classList.add('right');
+                newpage.dataset.currentSubname = subname
+                newpage.dataset.parent = basePage.id;
             }
 
-            content.classList.remove('two', 'twomodal');
-            document.querySelector('.page.active.right')?.classList.remove('active');
-        } else {
-            // открываем подстраницу справа
-            content.classList.add(basePageData.subpagesmode == 'modal' ? 'twomodal' : 'two');
+            newpage.classList.remove('leave-left', 'leave-right');
+            newpage.classList.add('active');
 
-            // убираем старую подстраницу, если была
-            document.querySelectorAll('.page.right.active').forEach(p => {
-                p.classList.remove('active', 'right');
-                p.classList.add('leave-right');
-            });
+            if (!isSubpage) {
+                document.querySelectorAll('.navbtn.active').forEach(el => {
+                    el.classList.remove('active');
+                });
 
-            
-            newpage.classList.add('right');
-            newpage.dataset.currentSubname = subname
-            newpage.dataset.parent = basePage.id;
-        }
+                document.getElementById(`${newpage.id}-navc`)?.classList.add('active');
+                document.getElementById(`${newpage.id}-navd`)?.classList.add('active');
 
-        newpage.classList.remove('leave-left', 'leave-right');
-        newpage.classList.add('active');
+                setTimeout(() => {
+                    current.classList.remove('leave-left', 'leave-right');
+                }, 400);
+            }
 
-        if (!isSubpage) {
-            document.querySelectorAll('.navbtn.active').forEach(el => {
-                el.classList.remove('active');
-            });
-
-            document.getElementById(`${newpage.id}-navc`)?.classList.add('active');
-            document.getElementById(`${newpage.id}-navd`)?.classList.add('active');
-
-            setTimeout(() => {
-                current.classList.remove('leave-left', 'leave-right');
-            }, 400);
-        }
-
-        if (isMobile && document.getElementById('nav').classList.contains('active')) {
-            openNavPanel();
+            if (isMobile && document.getElementById('nav').classList.contains('active')) {
+                openNavPanel();
+            }
+        } catch(e) {
+            window.notification.error('Ошибка страницы', e)
         }
     }
 

@@ -1,0 +1,16 @@
+.flexrow.flexrow.flexrow {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexcol.flexcol.flexcol {
+    display: flex;
+    flex-direction: column;
+}
+
+.gap0.gap0.gap0 {
+    gap: 0;
+}
+.gap1.gap1.gap1 {
+    gap: var(--ds);
+}

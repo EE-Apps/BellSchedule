@@ -29,8 +29,18 @@
             height: calc(100dvh - 50px);
         }
 
+        &.nav-floating {
+            #content {
+                height: 100dvh;
+            }
+
+            .modal.active {
+                transform: translateY(-5rem);
+            }
+        }
+
         #nav {
-            &:not(.active) {
+            &:not(.active):not(.doNotHide) {
                 width: 0;
                 max-width: 0;
                 min-width: 0;
@@ -44,6 +54,7 @@
 
     #navdown {
         display: inline-flex;
+        align-items: center;
     }
 
     .page.active {
