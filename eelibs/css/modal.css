@@ -181,7 +181,7 @@
                 gap: var(--ds);
                 justify-items: center;
                 z-index: 1000;
-                overflow-y: scroll;
+                overflow-y: auto;
                 overflow-x: hidden;
             }
         }

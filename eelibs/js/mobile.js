@@ -1,7 +1,7 @@
 const mql = window.matchMedia("(orientation: landscape)");
 
 const handleOrientation = (e) => {
-    if (e.matches && document.documentElement.scrollWidth > 1000) {
+    if (e.matches && document.documentElement.scrollWidth > 760) {
         console.log("Сейчас горизонтально");
         window.isMobile = false;
     } else {

@@ -6,8 +6,8 @@ class ThemesMgr {
     }
 
     init() {
-        this.body.dataset.theme = window.settings.main.theme || 'dark'
-        this.blackDown = window.eelib.theme.blackDown || false
+        this.body.dataset.theme = window.settings?.main?.theme || 'dark'
+        this.blackDown = window.eelib?.theme?.blackDown || false
         this.applyBlackDown()
     }
 

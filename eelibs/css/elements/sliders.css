@@ -13,6 +13,7 @@ input[type="range"] {
     transition: var(--tr);
     margin: 12.5px 0;
     padding: 0;
+    border: none;
 
     &.vertical {
         width: 5px;
@@ -44,11 +45,12 @@ input[type="range"]:hover:active:not(.def) {
         height: 20px;
 
         &::-webkit-slider-thumb {
+            background-color: var(--ac-bg-hover);
             border-radius: 0;
             margin: 0;
             padding: 0;
             border: none;
-            height: 8px;
+            height: 20px;
             margin-right: 20px;
         }
     }
@@ -64,8 +66,8 @@ input[type="range"]::-webkit-slider-thumb {
     appearance: none;
     width: 20px;
     height: 20px;
-    background: var(--ac-text);
-    border: 2px solid var(--bc);
+    background: var(--c-black);
+    border: 5px solid var(--ac-text);
     border-radius: var(--brs);
     cursor: pointer;
     margin: 0;
@@ -73,12 +75,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-    background: var(--ac-bg-great-hover);
-    border: 0;
+    background: var(--c-gray-700);
+    border-color: var(--ac-bg-hover);
+    /*border: 0;*/
     aspect-ratio: 1;
-    width: 10px;
-    height: 10px;
-    transform: scale(2.5);
+    /*transform: scale(2.5);*/
 }
 
 input::file-selector-button {

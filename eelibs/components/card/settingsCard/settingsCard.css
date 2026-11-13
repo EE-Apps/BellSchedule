@@ -1,0 +1,138 @@
+.settingCard {
+    margin: 0;
+    margin-bottom: var(--ds);
+    padding: var(--ds);
+    width: calc(100% - var(--ds2));
+    gap: var(--ds);
+    -webkit-tap-highlight-color: transparent;
+
+    .setitngCardTitle, .setitngCardDescription {
+        margin: 0;
+        margin-bottom: var(--dss);
+    }
+    .setitngCardTitle {
+
+    }
+    .setitngCardDescription {
+        color: var(--text-sec);
+    }
+
+    &.column {
+        flex-direction: column;
+
+        .cardTextArea {
+            position: relative;
+        }
+        .valueShow {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+        }
+    }
+    &.row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &.reversed, &.reverced {
+        flex-direction: row-reverse;
+
+        .cardTextArea {
+            margin-right: auto;
+        }
+    }
+
+    &.fullMouse {
+        cursor: pointer;
+
+        @media (hover: hover) {
+            &:hover {
+            background-color: var(--c-gray-700);
+            }
+        }
+        &:active {
+            background-color: var(--c-gray-600);
+        }
+    }
+
+    &.rounded {
+        border-radius: var(--brc);
+    }
+    &.noText {
+        .valueShow {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+    }
+}
+
+.settingCardsGroup {
+    --divider-inset: var(--ds2);
+
+    margin: 0;
+    margin-bottom: var(--ds);
+    width: 100%;
+    overflow: hidden;
+    gap: var(--ds);
+
+
+    .settingCard {
+        border-radius: 0;
+        margin: 0;
+        margin-bottom: 0;
+        width: calc(100% - var(--ds2));
+        position: relative;
+
+        &:not(.settingCard ~ .settingCard) {
+            border-radius: var(--br) var(--br) 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 var(--br) var(--br);
+        }
+
+        & + .settingCard::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: var(--divider-inset);
+            right: var(--divider-inset);
+            height: 1px;
+            background: var(--c-gray-600);
+            pointer-events: none;
+        }
+    }
+
+    .settingsCardsGroupTitle, .settingsCardsGroupDescription {
+        margin: 0;
+        margin-bottom: var(--dss);
+        padding: 0 var(--ds);
+    }
+    .settingsCardsGroupTitle {
+        margin-top: var(--ds);
+    }
+    .settingsCardsGroupDescription {
+        color: var(--text-sec);
+    }
+
+    &.dense {
+        gap: 0;
+
+        .settingCard {
+            padding: var(--dss) var(--ds);
+
+            .valueShow {
+                display: none;
+            }
+
+            .setitngCardTitle {
+                margin: 0;
+            }
+        }
+    }
+}

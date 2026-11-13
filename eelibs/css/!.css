@@ -69,7 +69,7 @@
     --text-sec-hover: color-mix(in srgb, var(--text-sec) 80%, var(--c-white));
 
     --br: 1.2rem;
-    --brs: 0.9rem;
+    --brs: 0.5rem;
     --brc: 99999px;
     --brr: var(--brc);
 
@@ -79,13 +79,13 @@
     --dss2: calc(var(--dss) * 2);
 
     /* Размеры текста */
-    --text-size-title-big:      3.00rem;
-    --text-size-title:          2.25rem;
-    --text-size-head:           1.50rem;
-    --text-size-subtitle:       1.25rem;
-    --text-size-subheading:     1.10rem;
-    --text-size-body:           1.00rem;
-    --text-size-small:          0.90rem;
+    --text-size-title-big:      3.00em;
+    --text-size-title:          2.25em;
+    --text-size-head:           1.50em;
+    --text-size-subtitle:       1.25em;
+    --text-size-subheading:     1.10em;
+    --text-size-body:           1.00em;
+    --text-size-small:          0.90em;
 
     --text-weight-title-big:    800;
     --text-weight-title:        700;
@@ -213,49 +213,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 
 input[type="number"]:focus {
     background-image: url(../../img/ui/number.svg);
-}
-
-input[type="checkbox"],
-input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-    width: 25px;
-    border: 2px solid var(--bc);
-    border-radius: 6px;
-    background-color: var(--text-pri);
-    display: inline-block;
-    vertical-align: middle;
-    aspect-ratio: 1;
-    transition: background-color 0.25s, border-color 0.25s, box-shadow 0.2s;
-    min-height: 10px;
-}
-
-/* При наведении */
-input[type="checkbox"]:hover,
-input[type="radio"]:hover {
-    box-shadow: 0 0 1px var(--accent-hover); /* заменено с --ac-bg-great-hover */
-}
-
-/* Активное состояние */
-input[type="checkbox"]:checked {
-    background-color: var(--accent-active); /* заменено с --ac-bg-great-light */
-    border-color: var(--bc);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 12px;
-}
-
-/* Радиокнопки — круглые */
-input[type="radio"] {
-    border-radius: 50%;
-}
-
-input[type="radio"]:checked {
-    background-color: var(--accent-hover); /* заменено с --ac-bg-hover */
-    border-color: var(--bc);
-    box-shadow: inset 0 0 0 1px #fff, inset 0 0 0 2px #433323;
 }
 
 input, select {

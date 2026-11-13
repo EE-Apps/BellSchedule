@@ -40,14 +40,19 @@
         }
 
         #nav {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
             &:not(.active):not(.doNotHide) {
                 width: 0;
                 max-width: 0;
                 min-width: 0;
                 padding-right: 0;
                 padding-left: 0;
-                transform: translateX(-50px);
-                opacity: 0;
+                transform: translateX(-25dvw);
+                /*opacity: 0;*/
             }
         }
     }

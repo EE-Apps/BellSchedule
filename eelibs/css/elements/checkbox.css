@@ -1,11 +1,11 @@
 /* Контейнер */
-.oneui-switch {
+.switcht {
     --switch-width: 46px;
     --switch-height: 26px;
     --thumb-size: 18px;
-    --thumb-active-size: 21px; /* Чуть больше при включении */
-    --bg-off: var(--text-pri);
-    --bg-on: var(--ac-text); /* Фирменный синий Samsung */
+    --thumb-active-size: 21px;
+    --bg-off: var(--c-gray-600);
+    --bg-on: var(--ac-text);
     
     position: relative;
     display: inline-block;
@@ -27,50 +27,142 @@
 }
 
 /* Скрываем дефолтный чекбокс */
-.oneui-switch input {
+.switcht input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
 /* Фон переключателя */
-.oneui-switch .slider {
+.switcht .slider {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
     background-color: var(--bg-off);
     transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 34px;
+    margin: 0;
 }
 
 /* Ползунок (шарик) */
-.oneui-switch .slider:before {
+.switcht .slider:before {
     content: "";
     position: absolute;
     height: var(--thumb-size);
     width: var(--thumb-size);
     left: 4px;
     bottom: 4px;
-    background-color: #8c8c8c; /* Серый в выключенном состоянии */
+    background-color: var(--c-white);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
 }
 
 /* Состояние: Включено (Меняем фон) */
-.oneui-switch input:checked + .slider {
+.switcht input:checked + .slider {
     background-color: var(--bg-on);
 }
 
 /* Состояние: Включено (Двигаем и увеличиваем шарик) */
-.oneui-switch input:checked + .slider:before {
+.switcht input:checked + .slider:before {
     background-color: white;
     transform: translateX(calc(var(--switch-width) - var(--thumb-active-size) - 8px));
     height: var(--thumb-active-size);
     width: var(--thumb-active-size);
-    bottom: 2.5px; /* Корректируем центровку из-за размера */
+    bottom: 2.5px;
 }
 
 /* Эффект нажатия (Active state) */
-.oneui-switch:active .slider:before {
+.switcht:active .slider:before {
     width: 24px; /* Шарик немного растягивается при тапе */
+}
+
+
+
+input[type="checkbox"] {
+    --size: 24px;
+
+    appearance: none;
+    width: var(--size);
+    height: var(--size);
+    border: 2px solid var(--text-pri);
+    border-radius: var(--brc);
+    display: inline-grid;
+    place-content: center;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: background-color .2s, border-color .2s;
+
+
+
+    &.grouped {
+        border-radius: var(--brs);
+    }
+
+    
+    &::after {
+        content: "";
+        width: var(--size);
+        height: var(--size);
+        background: #fff;
+
+        /* форма галочки */
+        -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 75% no-repeat;
+                mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 75% no-repeat;
+
+        clip-path: inset(0 100% 0 0);
+        transition: clip-path .25s ease .05s;
+    }
+
+    &:checked {
+        background: var(--ac-bg);
+        border-color: var(--ac-bg);
+    }
+
+    &:checked::after {
+        clip-path: inset(0 0 0 0);
+    }
+
+    &:hover {
+        border-color: var(--text-pri-hover);
+    }
+
+    &:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--text-pri) 40%, transparent);
+        outline-offset: 2px;
+    }
+
+    &:disabled {
+        opacity: .5; cursor: not-allowed;
+    }
+}
+
+
+
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+
+    width: 25px;
+    min-height: 10px;
+    aspect-ratio: 1;
+
+    border: 2px solid var(--c-gray-600);
+    background: none;
+
+    transition: background-color 0.25s, border-color 0.25s, box-shadow 0.2s;
+    
+    &:hover {
+        box-shadow: 0 0 1px var(--accent-hover);
+    }
+
+    &:checked {
+        background-color: var(--accent-active);
+        border-color: var(--accent-active);
+        box-shadow: inset 0 0 0 4px var(--c-gray-700);
+    }
 }

@@ -1,7 +1,7 @@
 class Translator {
     constructor() {
         this.currentLang = window.settingsManager?.get('main.lang') ? window.settingsManager.get('main.lang') : 'en';
-        this.translations = window.eelib.translations;
+        this.translations = window.eelib?.translations;
         this.initEventListeners();
         
         // Загружаем язык после небольшой задержки, чтобы DOM успел загрузиться

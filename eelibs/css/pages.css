@@ -61,15 +61,17 @@ body.nav-floating .page .pageContent {
 .page-header {
     display: inline-flex;
     flex-direction: column;
+    position: relative;
     width: 100%;
-    height: max(5px, 40dvh);
-    min-height: max(5px, 40dvh);
+    height: max(275px, 40dvh);
+    min-height: max(275px, 40dvh);
     align-items: center;
     justify-content: center;
 
     h1 {
         font-size: 2rem;
         color: var(--text-pri);
+        text-align: center;
     }
     h3 {
         font-size: 1rem;
@@ -114,6 +116,11 @@ body.nav-floating .page .pageContent {
             &:hover, &:active {
                 transform: none;
             }
+        }
+
+        img {
+            max-width: vaR(--ds2);
+            max-height: var(--ds2);
         }
     }
     
@@ -177,6 +184,52 @@ body.nav-floating .page .pageContent {
                 background-color: var(--ac-bg);
             }
         }*/
+    }
+
+    &.page-header-compact {
+        align-items: center;
+
+        .page-header-title-container {
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 auto;
+            align-items: center;
+            gap: var(--dss);
+            min-width: 0;
+            max-width: 65%;
+            margin-right: auto;
+        }
+
+        .page-header-title-container .page-header-title {
+            display: block;
+            margin: 0;
+            min-width: 0;
+            flex: 0 1 auto;
+            margin-right: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transform-origin: top left;
+        }
+
+        .page-header-title-container h1 {
+            max-width: min(30vw, 14rem);
+            color: var(--text-pri);
+            font-size: 1rem;
+            line-height: 1.2;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+
+        .page-header-title-container h3 {
+            max-width: min(22vw, 9rem);
+            color: var(--text-sec);
+            font-size: 0.8rem;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
     }
 }
 
@@ -245,53 +298,20 @@ body.nav-floating .page .pageContent {
     background-color: var(--bg-base);
 }
 
-@supports (animation-timeline: scroll()) {
-    @media (prefers-reduced-motion: no-preference) {
-        .page {
-            scroll-timeline-name: --page-scroll;
-            scroll-timeline-axis: block;
-        }
+.page-header-title-placeholder {
+    display: block;
+    flex: 0 0 auto;
+    visibility: hidden;
+}
 
-        .page-header {
-            --page-header-icon-offset: 0px;
-            position: sticky;
-            top: -40dvh;
-            z-index: 51;
-
-            &:has(> img) {
-                --page-header-icon-offset: calc(var(--ds) * 3);
-            }
-
-            h1, h3 {
-                position: relative;
-                transform-origin: left center;
-                animation: page-header-heading-scroll 1s linear both;
-                animation-timeline: --page-scroll;
-                animation-range: 0px 40dvh;
-            }
-
-            h1 {
-                --page-heading-x: calc(-50vw + 4rem + 50%);
-                --page-heading-y: calc(19dvh + var(--safe-area-top, env(safe-area-inset-top, 0px)) + var(--ds) + 1.5rem - var(--page-header-icon-offset));
-                --page-heading-scale: 0.55;
-            }
-
-            h3 {
-                --page-heading-x: calc(-50vw + 4rem + 50%);
-                --page-heading-y: calc(25dvh + var(--safe-area-top, env(safe-area-inset-top, 0px)) + var(--ds) - 1.75rem - var(--page-header-icon-offset));
-                --page-heading-scale: 0.85;
-            }
-        }
-
-        @keyframes page-header-heading-scroll {
-            from {
-                transform: translate(0, 0) scale(1);
-            }
-            to {
-                transform: translate(var(--page-heading-x), var(--page-heading-y)) scale(var(--page-heading-scale));
-            }
-        }
-    }
+.page-header-scroll-sentinel {
+    position: absolute;
+    top: 66.666%;
+    left: 0;
+    display: block;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
 }
 
 #blackDown {

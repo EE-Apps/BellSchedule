@@ -118,7 +118,7 @@ class Nav {
             }
         }
 
-        let leftBtn = page.leftBtn ? generateLeftButton(page.leftBtn) : window.eelib?.nav.leftBtn ? generateLeftButton(window.eelib?.nav.leftBtn) : generateLeftButton('nav');
+        let leftBtn = page.leftBtn ? generateLeftButton(page.leftBtn) : window.eelib?.nav?.leftBtn ? generateLeftButton(window.eelib?.nav?.leftBtn) : generateLeftButton('nav');
 
         let hnav = document.createElement('div');
         hnav.className = 'page-header-btns';
@@ -328,16 +328,15 @@ class Nav {
             moreNavBtn.id = 'more-nav-btn';
             
             moreNavBtn.onclick = () => {
-                // Открываем модальное окно
-                const modalWindow = modalDiv.closest('.modal');
+                const modalWindow = modalDiv.closest('.modal')
                 if (modalWindow) {
-                    modalWindow.classList.toggle('active');
+                    modalWindow.classList.toggle('active')
                 }
-                this.content.classList.toggle('modal-open');
+                if (modalWindow.classList.contains('active')) this.content.classList.add('modal-open')
+                    else this.content.classList.remove('modal-open')
                 
-                // Визуальная обратная связь (опционально)
-                //document.querySelectorAll('.navbtn.active').forEach(el => el.classList.remove('active'));
-                moreNavBtn.classList.toggle('active');
+                //document.querySelectorAll('.navbtn.active').forEach(el => el.classList.remove('active'))
+                moreNavBtn.classList.toggle('active')
             };
             
             window.cnavMgr.navDown.appendChild(moreNavBtn); // Предполагается, что navDown — контейнер нижней панели

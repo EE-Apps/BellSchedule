@@ -123,8 +123,10 @@ class SettingsManager {
                 try {
                     // ВАЖНО: явно передаем this.settingsFileName
                     const result = await this.bridge.saveSettings(this.settings, this.settingsFileName);
+                    window.notification.success('SettingsManager', `Saved to file (${this.bridge.env}):`, result)
                     console.log(`[SettingsManager] Saved to file (${this.bridge.env}):`, result);
                 } catch (e) {
+                    window.notification.error('SettingsManager', `Failed to save to file (${this.bridge.env}):`, e)
                     console.warn(`[SettingsManager] Failed to save to file (${this.bridge.env}):`, e);
                 }
             }
@@ -136,8 +138,9 @@ class SettingsManager {
         } catch (e) {
             console.error('[SettingsManager] Error in save():', e);
         } finally {
-            this.isSyncing = false;
+            this.isSyncing = false
         }
+        this.isSyncing = false
     }
 
     // Получение значения по пути
@@ -243,7 +246,7 @@ class SettingsManager {
         if (item.type === "toggle") {
             block.innerHTML = `
                 <label>${item.label}</label>
-                <label class="oneui-switch">
+                <label class="switcht">
                     <input type="checkbox" ${value ? "checked" : ""}>
                     <span class="slider"></span>
                 </label>

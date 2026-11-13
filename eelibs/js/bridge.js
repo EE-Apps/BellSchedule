@@ -21,7 +21,7 @@
          * Определение среды исполнения
          */
         detectEnvironment() {
-            if (window.AndroidBridge && typeof window.AndroidBridge.postMessage === 'function') {
+            if (window.AndroidBridge && typeof window.AndroidBridge.listFiles === 'function') {
                 return 'android';
             }
 

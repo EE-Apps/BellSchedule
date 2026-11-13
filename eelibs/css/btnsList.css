@@ -17,7 +17,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: var(--ds);
+        gap: var(--dss);
         width: 100px;
         min-width: max-content;
         height: calc(24px + 8px * 2);
@@ -31,27 +31,30 @@
         }
 
         img {
-            width: 100%;
-            height: 100%;
+            width: 0%;
+            height: 0%;
+            transition: width 0.3s ease, height 0.3s ease;
         }
         .imgcont {
-            width: 0;
-            height: 0;
+            width: 24px;
+            height: 24px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: absolute;
+            /*position: absolute;
             top: auto;
             bottom: auto;
-            left: var(--dss);
+            left: var(--dss);*/
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         &.active {
             background: linear-gradient(135deg, #0f4569, #518eb6, #1993e5);
 
             p {
-                margin-left: 24px;
+                /*margin-left: 24px;*/
             }
 
             &.purple {
@@ -68,8 +71,12 @@
             }
 
             .imgcont {
-                width: 24px;
-                height: 24px;
+                opacity: 1;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
             }
         }
     }
