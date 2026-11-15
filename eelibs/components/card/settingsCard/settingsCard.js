@@ -136,7 +136,7 @@ class settingCard {
                 this.buttons.appendChild(this.div)
 
                 this.el.addEventListener('click', (e) => {
-                    if (e.target === input || input.disabled) return
+                    if (e.target === input) return
                     input.checked = !input.checked
                     updateSwitchState(input.checked)
                     input.dispatchEvent(new Event('change', {bubbles: true}))
@@ -178,8 +178,9 @@ class settingCard {
             case "radio":
                 this.div = document.createElement('div')
                 this.div.className = 'radiot'
+                console.log(this.params)
                 this.div.innerHTML = `
-                    <input type="radio" name="${this.params.name ?? ''}" ${this.value ? "checked" : ""}>
+                    <input type="radio" name="${this.params.name?? ''}" ${this.value ? "checked" : ""}>
                 `
                 input = this.div.querySelector("input")
 
@@ -200,7 +201,7 @@ class settingCard {
                 this.buttons.appendChild(this.div)
 
                 this.el.addEventListener('click', (e) => {
-                    if (e.target === input || input.disabled) return
+                    if (e.target === input) return
                     input.checked = true
                     updateSwitchState(input.checked)
                     input.dispatchEvent(new Event('change', {bubbles: true}))

@@ -30,6 +30,56 @@
                     <!--button id="endReturnBtn" class="aBtn" onclick="changePage('poll')">
                         <img src="img/ui/back.svg"><span>Return</span>
                     </button-->
+                    <div style="
+                        position: absolute;
+                        z-index: 0;
+                        bottom: 0;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        width: 100%;
+                        align-items: center;
+                    ">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" style="
+                            min-width: 100dvw;
+                            min-height: 100dvh;
+                            position: absolute;
+                            left: -50%;
+                            filter: brightness(50%);">
+                            <defs>
+                                <radialGradient id="s-0" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                                    <stop offset="0" stop-color="hsla(209,80%,45%,1)"></stop>
+                                    <stop offset="1" stop-color="hsla(209,80%,45%,0)" stop-opacity="0"></stop>
+                                </radialGradient>
+                                <radialGradient id="s-1" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                                    <stop offset="0" stop-color="hsla(164,50%,40%,1)"></stop>
+                                    <stop offset="1" stop-color="hsla(164,50%,40%,0)" stop-opacity="0"></stop>
+                                </radialGradient>
+                                <radialGradient id="s-2" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                                    <stop offset="0" stop-color="hsla(211,50%,45%,1)"></stop>
+                                    <stop offset="1" stop-color="hsla(211,50%,45%,0)" stop-opacity="0"></stop>
+                                </radialGradient>
+                                <radialGradient id="s-3" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                                    <stop offset="0" stop-color="hsla(142,70%,40%,1)"></stop>
+                                    <stop offset="1" stop-color="hsla(142,70%,40%,0)" stop-opacity="0"></stop>
+                                </radialGradient>
+                                <radialGradient id="s-4" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                                    <stop offset="0" stop-color="hsla(238,40%,35%,1)"></stop>
+                                    <stop offset="1" stop-color="hsla(238,40%,35%,0)" stop-opacity="0"></stop>
+                                </radialGradient>
+                            </defs>
+                            <!-- Глубокий темный фон вместо неоново-фиолетового -->
+                            <rect fill="hsla(240, 25%, 10%, 1)" width="100%" height="100%"></rect>
+                            <ellipse cx="13%" cy="2%" ry="60%" rx="65%" fill="url(#s-4)"></ellipse>
+                            <ellipse cx="76%" cy="51%" ry="60%" rx="65%" fill="url(#s-3)"></ellipse>
+                            <ellipse cx="15%" cy="91%" ry="60%" rx="65%" fill="url(#s-2)"></ellipse>
+                            <ellipse cx="88%" cy="25%" ry="60%" rx="65%" fill="url(#s-1)"></ellipse>
+                            <ellipse cx="47%" cy="59%" ry="60%" rx="65%" fill="url(#s-0)"></ellipse>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,6 +117,68 @@
     </div>
 
     <div id="modal" class="modal"><div id="modalForuse"></div></div>
+    <div id="welcome" class="active">
+        <div style="
+            position: absolute;
+            z-index: 0;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100dvw;
+            height: 100dvh;
+            overflow: hidden;
+            object-fit: cover;
+            align-items: center;
+        ">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" style="
+                min-width: 100dvw;
+                min-height: 100dvh;
+                position: absolute;
+                left: 0;
+                filter: brightness(50%);">
+                <defs>
+                    <radialGradient id="s-0" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                        <stop offset="0" stop-color="hsla(209,80%,45%,1)"></stop>
+                        <stop offset="1" stop-color="hsla(209,80%,45%,0)" stop-opacity="0"></stop>
+                    </radialGradient>
+                    <radialGradient id="s-1" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                        <stop offset="0" stop-color="hsla(164,50%,40%,1)"></stop>
+                        <stop offset="1" stop-color="hsla(164,50%,40%,0)" stop-opacity="0"></stop>
+                    </radialGradient>
+                    <radialGradient id="s-2" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                        <stop offset="0" stop-color="hsla(211,50%,45%,1)"></stop>
+                        <stop offset="1" stop-color="hsla(211,50%,45%,0)" stop-opacity="0"></stop>
+                    </radialGradient>
+                    <radialGradient id="s-3" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                        <stop offset="0" stop-color="hsla(142,70%,40%,1)"></stop>
+                        <stop offset="1" stop-color="hsla(142,70%,40%,0)" stop-opacity="0"></stop>
+                    </radialGradient>
+                    <radialGradient id="s-4" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="100" y2="100">
+                        <stop offset="0" stop-color="hsla(238,40%,35%,1)"></stop>
+                        <stop offset="1" stop-color="hsla(238,40%,35%,0)" stop-opacity="0"></stop>
+                    </radialGradient>
+                </defs>
+                <!-- Глубокий темный фон вместо неоново-фиолетового -->
+                <rect fill="hsla(240, 25%, 10%, 1)" width="100%" height="100%"></rect>
+                <ellipse cx="13%" cy="2%" ry="60%" rx="65%" fill="url(#s-4)"></ellipse>
+                <ellipse cx="76%" cy="51%" ry="60%" rx="65%" fill="url(#s-3)"></ellipse>
+                <ellipse cx="15%" cy="91%" ry="60%" rx="65%" fill="url(#s-2)"></ellipse>
+                <ellipse cx="88%" cy="25%" ry="60%" rx="65%" fill="url(#s-1)"></ellipse>
+                <ellipse cx="47%" cy="59%" ry="60%" rx="65%" fill="url(#s-0)"></ellipse>
+            </svg>
+        </div>
+        <div id="welcomeText">
+            <h1>Hello!</h1>
+            <p>description</p>
+            <div id="welcomeLang">
+                <button id="welcomeLang-en" class="aBtn trBtn" data-lang="en">Eng</button>
+                <button id="welcomeLang-ru" class="aBtn trBtn" data-lang="ru">Рус</button>
+                <button id="welcomeLang-uk" class="aBtn trBtn" data-lang="uk">Укр</button>
+            </div>
+        </div>
+        <button id="welcomeBtn" class="aBtn trBtn" onclick="document.getElementById('welcome').classList.remove('active')">Start</button>
+    </div>
 
 </body>
 <script src="eelib-poll.js" type="module"></script>

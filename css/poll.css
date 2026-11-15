@@ -202,10 +202,10 @@
         max-width: 800px;
         margin: 0 auto;
     }
+}
 
-    #nav {
-        display: none;
-    }
+#nav {
+    display: none;
 }
 
 
@@ -217,6 +217,16 @@
 .survey-language-picker {
     display: flex;
     flex-direction: column;
+}
+
+.survey-question {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+legend {
+    margin-top: var(--ds);
 }
 
 
@@ -235,12 +245,15 @@
     left: var(--ds);
     right: var(--ds);
     margin: 0 auto;
-    z-index: 99999;
+    z-index: 25;
 
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--ds);
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 
     &.active {
         bottom: var(--ds);
@@ -258,6 +271,29 @@
             opacity: 0.5;
         }
     }
+
+    .aBtn {
+        width: 1fr;
+
+        &:first-child:nth-last-child(1) {
+            grid-column: 1 / -1;
+        }
+    }
+}
+
+
+
+button.aBtn.trBtn {
+    background-color: #ffffff40;
+    padding: var(--dss) var(--ds2);
+
+    &:hover {
+        background-color: #ffffff80;
+    }
+    &:active, &.active {
+        background-color: #ffffffb0;
+        color: var(--accent-active);
+    }
 }
 
 
@@ -268,6 +304,9 @@
 #end {
     .page-header {
         min-height: 100dvh;
+        background: none;
+        z-index: 10;
+        text-align: center;
     }
 
     .page-header-btns {
@@ -283,6 +322,7 @@
         top: 0;
         bottom: 0;
         background: none;
+        overflow: hidden;
     }
 
     #endReturnBtn {
@@ -294,5 +334,52 @@
         min-width: 125px;
         z-index: 99999;
         margin: 0 auto;
+    }
+}
+
+
+
+#welcome {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+    z-index: 50;
+
+    transition: top 0.75s ease-out, opacity 0.5s ease-out, transform 0.5s ease-out;
+
+    &:not(.active) {
+        top: -125%;
+        opacity: 0;
+        transform: scale(1.25);
+    }
+
+    #welcomeBtn {
+        position: absolute;
+        bottom: var(--ds);
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: max-content;
+    }
+
+    #welcomeText {
+        position: absolute;
+        bottom: 50dvh;
+        width: 100dvw;
+
+        text-align: center;
+
+        #welcomeLang {
+            width: max-content;
+            margin: 0 auto;
+
+            button {
+                border: none;
+                font-size: small;
+                padding: var(--dss) var(--ds);
+            }
+        }
     }
 }

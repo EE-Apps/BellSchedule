@@ -256,9 +256,13 @@
     /* ------------------------------------------------------------------ */
     /* Language picker                                                     */
     /* ------------------------------------------------------------------ */
+    
+    document.querySelectorAll('#welcome #welcomeLang button').forEach(btn => {
+        btn.addEventListener('click', () => selectLanguage(btn.dataset.lang))
+    })
 
-    const selectLanguage = (code) => {
-        if (!localeList[code] || code === language) return;
+    const selectLanguage = (code, isPiercing) => {
+        if (!localeList[code] || (code === language && isPiercing !== true)) return;
         language = code;
         languageSaveFailed = false;
         try {
@@ -272,6 +276,20 @@
         else if (endMode === "declined") renderDeclined();
         else render();
         window.requestAnimationFrame(() => window.scrollTo({ top: scrollY }));
+
+        try {
+            document.querySelectorAll('#welcome #welcomeLang button').forEach(btn => {
+                btn.classList.remove('active')
+            })
+            document.getElementById('welcomeLang-' + code).classList.add('active')
+
+            document.getElementById('welcomeBtn').textContent = t('start')
+            document.querySelector('#welcomeText h1').textContent = t('hello')
+            document.querySelector('#welcomeText p').textContent = t('welcomeDescription')
+
+            document.querySelector('#poll h1.page-header-title').textContent = t('navTitle')
+            document.querySelector('#poll h3.page-header-title').textContent = t('description')
+        } catch {}
     };
 
     const addLanguagePicker = (container) => {
@@ -634,7 +652,7 @@
         updateFixedBtnsState(currentSteps()[stepIndex]);
     };
 
-    const handleChange = (event, stepId) => {
+    const handleChange = async (event, stepId) => {
         const input = event.target;
         const id = input.dataset.questionId;
         if (!id) return;
@@ -658,12 +676,44 @@
 
         if (id === "V1") {
             const previousVersion = state.surveyVersion;
-            state.answers.V1 = input.value;
-            if (previousVersion && previousVersion !== input.value) {
-                state.answers = { C0: state.answers.C0, V1: input.value };
+            const newVersion = input.value;
+
+            if (previousVersion && previousVersion !== newVersion) {
+                const hasProgress = Object.keys(state.answers).some(
+                    (key) => key !== "C0" && key !== "V1"
+                );
+
+                if (hasProgress) {
+                    const confirmation = await window.modalMgr.createModalConfirm(
+                        "doUWantToClearAnswers",
+                        t("areYouSure"),
+                        t("thisWillEraseAnswers"),
+                        [
+                            { label: t("cancel"), value: false, className: "sec" },
+                            { label: t("change"), value: true },
+                        ]
+                    );
+                    const confirmed = confirmation.value === true || confirmation.value === "true";
+                    if (!confirmed) {
+                        // Откат: вернуть radio к прежней версии
+                        input.checked = false;
+                        const prevInput = root.querySelector(
+                            `input[data-question-id="V1"][value="${previousVersion}"]`
+                        );
+                        if (prevInput) prevInput.checked = true;
+                        updateFixedBtnsState(stepId);
+                        return;
+                    }
+                }
+
+                // Подтверждено — стираем ответы
+                state.answers = { C0: state.answers.C0, V1: newVersion };
                 state.educationCategory = null;
+            } else {
+                state.answers.V1 = newVersion;
             }
-            state.surveyVersion = input.value;
+
+            state.surveyVersion = newVersion;
             updateFixedBtnsState(stepId);
             return;
         }
@@ -973,17 +1023,19 @@
         fixedBtns.replaceChildren();
         retrySendBtn = h("button", "aBtn sec hidden", t("retrySend"));
         retrySendBtn.type = "button";
+        retrySendBtn.style.backgroundColor = "#b6b6b630";
         retrySendBtn.addEventListener("click", () => { sendRecord(); });
 
         const json = h("button", "aBtn sec", t("downloadJson"));
         json.type = "button";
+        json.style.backgroundColor = "#b6b6b630";
         json.addEventListener("click", () => exportJson(panel));
 
         const csv = h("button", "aBtn sec", t("downloadCsv"));
         csv.type = "button";
         csv.addEventListener("click", () => exportCsv(panel));
 
-        fixedBtns.append(retrySendBtn, json, csv);
+        fixedBtns.append(retrySendBtn, json);
         fixedBtns.classList.add("active");
         changePage("end");
         updateCompleteStatus();
@@ -999,5 +1051,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         render();
+        selectLanguage(language, true)
+        window.selectLanguage = selectLanguage
     }, { once: true });
 })();

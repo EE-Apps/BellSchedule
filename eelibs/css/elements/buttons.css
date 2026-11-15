@@ -13,9 +13,9 @@
     --btn-pri-text: var(--text-on-accent);
 
     /* Secondary кнопки (вторичные) */
-    --btn-sec-bg: var(--bg-sec-solid);
-    --btn-sec-bg-hover: var(--bg-sec-hover);
-    --btn-sec-bg-active: color-mix(in srgb, var(--bg-sec-solid) 70%, var(--c-black));
+    --btn-sec-bg: var(--c-gray-700);
+    --btn-sec-bg-hover: var(--c-gray-600);
+    --btn-sec-bg-active: color-mix(in srgb, var(--c-gray-700) 70%, var(--c-black));
     --btn-sec-text: var(--text-pri);
 
     /* Ghost кнопки (текстовые) */
