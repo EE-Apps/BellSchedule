@@ -390,7 +390,7 @@ button.aBtn.trBtn {
         margin: 0 auto;
     }
 
-    .fixedBtns {
+    #fixedBtns {
         left: unset;
     }
 }
