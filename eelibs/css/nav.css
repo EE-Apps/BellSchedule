@@ -172,16 +172,17 @@
         left: calc(-1 * var(--ds));
         right: calc(-1 * var(--ds));
         bottom: 0;
-        padding: 0 var(--ds) calc(var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)) + var(--ds)) var(--ds);
+        padding: 0 var(--ds) calc(var(--area-bottom) + var(--ds)) var(--ds);
     }
     &.floating {
         position: absolute;
         left: calc(var(--ds) * 1.5);
         right: calc(var(--ds) * 1.5);
-        bottom: calc(var(--ds) * 1.5 + var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)));
+        bottom: calc(var(--area-bottom) + var(--ds));
+        max-width: max-content;
         padding: var(--dss);
         margin: 0 auto;
-        justify-content: space-between;
+        justify-content: center;
         border-radius: var(--brr);
         border: 1px solid var(--bc);
 
@@ -196,6 +197,7 @@
         }
 
         .navbtn {
+            min-width: min(70px, 5rem);
             height: calc(40px + var(--ds));
             border-radius: var(--brs);
 

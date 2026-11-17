@@ -166,9 +166,19 @@ class PagesManager {
             if (btn.id == activeBtn) el.classList.add('active')
 
             el.addEventListener('click', () => {
-                // Fix: Get all buttons in container and remove active class
                 container.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
                 el.classList.add('active');
+
+                const containerWidth = container.clientWidth;
+                const tabLeft = el.offsetLeft;
+                const tabWidth = el.offsetWidth;
+
+                const scrollTarget = tabLeft - (containerWidth / 2) + (tabWidth / 2);
+
+                container.scrollTo({
+                    left: scrollTarget,
+                    behavior: 'smooth'
+                });
             });
             container.appendChild(el);
         })

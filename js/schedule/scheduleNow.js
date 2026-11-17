@@ -18,6 +18,10 @@ class scheduleNow {
         document.getElementById('collapseDoneLessons').addEventListener('click', () => {
             container.classList.toggle('collapsedDoneLessons')
         })
+
+        this.headerEl.addEventListener('click', () => {
+            window.scheduleWeek.scrollTo()
+        })
     }
 
     renderList({ lessons, bells }) {

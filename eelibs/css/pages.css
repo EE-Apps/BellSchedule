@@ -17,7 +17,7 @@
     overflow-x: hidden;
 
     .pageContent {
-        padding: 0 var(--ds) calc(env(safe-area-inset-bottom) + 50px) var(--ds);
+        padding: 0 var(--ds) calc(var(--area-bottom) + 50px) var(--ds);
     }
     
     &.active {
@@ -48,7 +48,7 @@
     }
 }
 body.nav-floating .page .pageContent {
-    padding-bottom: calc(60px + var(--ds) * 3 + var(--safe-area-bottom, env(safe-area-inset-bottom, 0px)));
+    padding-bottom: calc(60px + var(--ds) * 3 + var(--area-bottom));
 }
 
 #content.modal-open .page.active, #navdown.modal-open {
@@ -99,7 +99,7 @@ body.nav-floating .page .pageContent {
     left: 0;
     right: 0;
     padding: var(--ds);
-    padding-top: calc(var(--ds, 0px) + var(--safe-area-top, env(safe-area-inset-top, 0px)));
+    padding-top: calc(var(--ds, 0px) + var(--area-top));
     background-color: var(--bg-base);
     z-index: 50;
 
@@ -126,7 +126,7 @@ body.nav-floating .page .pageContent {
     
     .navRightMore {
         position: absolute;
-        top: calc(3rem + var(--safe-area-top, env(safe-area-inset-top, 0px)));
+        top: calc(3rem + var(--area-top));
         right: var(--dss);
         display: none;
         flex-direction: column;

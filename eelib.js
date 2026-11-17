@@ -18,7 +18,7 @@ window.eelib.pages = [
         active: true,
         btns: [
             ['screenshoot', 'img/ui/zoom', 'window.makeScreenshot("#now .pageContent")', 'Screenshot'],
-            ['aod', 'img/ui/zoom', 'window.changePage("aod")', 'Allway On Display'],
+            ['aod', 'img/ui/zoom', 'window.changePage("aod")', 'Allways On'],
         ],
         subpages: [
             'lessonInfo',

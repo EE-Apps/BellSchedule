@@ -108,6 +108,15 @@
     --height: 16px;
     --safe-area-top: 0px;
     --safe-area-bottom: 0px;
+
+    --area-top: max(
+        var(--safe-area-top, 0px),
+        env(safe-area-inset-top, 0px)
+    );
+    --area-bottom: max(
+        var(--safe-area-bottom, 0px),
+        env(safe-area-inset-bottom, 0px)
+    );
 }
 
 * {
@@ -144,8 +153,8 @@ body {
 
 html {
     overflow-y: hidden;
-    /*padding-top: max(env(safe-area-inset-top, 0px), var(--safe-area-top));*/
-    padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-bottom));
+    /*padding-top: var(--area-top);*/
+    padding-bottom: var(--area-bottom);
     padding-left: env(safe-area-inset-left, 0px);
     padding-right: env(safe-area-inset-right, 0px);
 }

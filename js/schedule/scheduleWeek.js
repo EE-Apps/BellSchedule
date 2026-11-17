@@ -82,6 +82,30 @@ class scheduleWeek {
             this.schedulePageContainer.appendChild(empty)
         }
     }
+
+    scrollTo(day) {
+        if (document.querySelector('.page.active').id !== 'schedule') window.changePage('schedule')
+
+        requestAnimationFrame(() => {
+            const container = document.querySelector('#schedule')
+            const days = container.querySelectorAll('.scheduleDayDiv')
+            const targetDay = days[day ?? window.timeMgr.current.day]
+            
+            let scrollTop = targetDay.offsetTop
+            const computedStyle = getComputedStyle(container)
+            const ds = parseFloat(computedStyle.getPropertyValue('--ds')) || 0
+            const areaTop = parseFloat(computedStyle.getPropertyValue('--area-top')) || 0
+
+            scrollTop -= (ds + areaTop + 175)
+
+            if (targetDay) {
+                container.scrollTo({
+                    top: scrollTop,
+                    behavior: 'smooth'
+                })
+            }
+        })
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
