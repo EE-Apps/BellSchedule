@@ -49,6 +49,7 @@ window.pollLocales.en = {
         countryPlaceholder: "Enter the name of the country",
         countryHint: "Do not enter your city, educational institution or exact address.",
         educationQuestion: "Which category do you belong to?",
+        educationStudent: "Student",
         school: "School student",
         college: "College / vocational institution student",
         university: "University / higher education student",

@@ -11,9 +11,11 @@
 
     &:not(.active) {
         transform: translateY(50rem);
+        transform: translateY(-100%);
     }
     &.active {
         transform: translateY(0rem);
+        transform: translateY(0);
     }
 
 
