@@ -108,6 +108,10 @@ body.nav-floating .page .pageContent {
         background: none;
     }
 
+    img {
+        filter: invert(var(--invertIcons));
+    }
+
     .lefthead, .leftBtnsNav {
         button {
             transform: none;
@@ -131,7 +135,7 @@ body.nav-floating .page .pageContent {
         display: none;
         flex-direction: column;
         border-radius: var(--br);
-        background-color: var(--bg-sec-great);
+        background-color: var(--bg-sec);
         min-width: 0;
         min-height: 0;
         width: 0;
@@ -265,10 +269,10 @@ body.nav-floating .page .pageContent {
         overflow-x: hidden;
         position: absolute;
         padding: 0 !important;
-        background: var(--bg-sec-great);
+        background: var(--bg-sec);
         border-radius: calc(var(--br) * 1.2);
         margin: var(--ds);
-        box-shadow: 0px 0px 25px 5px var(--bg-sec-great);
+        box-shadow: 0px 0px 25px 5px var(--bg-sec);
         width: calc(40% - 2 * var(--ds));
 
         &.active {

@@ -78,7 +78,7 @@
     }
 }
 
-@media (orientation: landscape) {
+@media (min-width: 760px) {
     #content .page.active {
         padding-right: 0;
         width: 100%;

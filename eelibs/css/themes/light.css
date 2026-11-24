@@ -59,6 +59,13 @@
     --glass-blur: blur(20px);
     --focus-ring: color-mix(in srgb, var(--accent) 40%, transparent); /* Чуть более заметное кольцо фокуса на белом */
 
+    --invertIcons: 1;
+    --invertIcon: var(--invertIcons);
+
+    svg, img {
+        filter: invert(var(--invertIcons));
+    }
+
     .btnsList {
         background-color: var(--bg-sec);
         border: solid 2px var(--text-pri);

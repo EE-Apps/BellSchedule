@@ -1,7 +1,7 @@
 .btnsList {
     padding: 0;
     margin: var(--dss) 0;
-    background-color: var(--bg-sec-great);
+    background-color: var(--bg-sec);
     border-radius: var(--br);
     gap: var(--dss);
     display: inline-flex;
@@ -13,7 +13,7 @@
 
     button {
         border-radius: var(--brc);
-        background-color: var(--bg-sec-great);
+        background-color: var(--bg-sec);
         display: inline-flex;
         align-items: center;
         justify-content: center;

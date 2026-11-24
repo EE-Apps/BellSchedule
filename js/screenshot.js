@@ -1,4 +1,4 @@
-window.makeScreenshot = async (elQuery) => {
+window.makeScreenshot = async (elQuery, noWatermark) => {
     const element = document.querySelector(elQuery);
     if (!element) return console.error(`Элемент "${elQuery}" не найден`);
 
@@ -17,7 +17,7 @@ window.makeScreenshot = async (elQuery) => {
     watermark.style.width = '100%';
     watermark.style.marginTop = 'var(--ds)';
     watermark.style.fontSize = 'var(--text-size-head)';
-    element.appendChild(watermark);
+    if (noWatermark !== true) element.appendChild(watermark);
 
     try {
         if (typeof window.html2canvas !== 'function') {

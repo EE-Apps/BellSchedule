@@ -38,7 +38,7 @@ class timeMgr {
             window.scheduleWeek?.renderWeek()
             if (window.scheduleNow) window.scheduleNow.mode = null
         }
-        // this.currentTime.setHours(12)
+        // this.currentTime.setHours(10)
         return (this.currentTime)
     }
 
