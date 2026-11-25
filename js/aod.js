@@ -63,6 +63,7 @@ class AodPage {
             window.AndroidBridge.keepScreenOn(true)
             this.nativeWakeLockActive = true
             window.AndroidBridge.setFullscreen?.(true)
+            fullscreenHelper.enter(this.els.page);
             return
         }
 
@@ -255,6 +256,41 @@ class AodPage {
         this.els.weather.textContent = `${Math.round(forecast.temperature)}°C`
         this.els.weatherTime.textContent = `в ${new Date(end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
     }
+
+    fullscreenHelper = {
+        isFullscreen() {
+            return Boolean(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement
+            );
+        },
+
+        async enter(el = document.getElementById('aod') || document.documentElement) {
+            if (!el || this.isFullscreen()) return false
+            const req = el.requestFullscreen || el.webkitRequestFullscreen
+            if (!req) return false
+            try {
+                await req.call(el)
+                return true
+            } catch (err) {
+                console.warn('Не удалось перейти в полноэкранный режим:', err)
+                return false
+            }
+        },
+
+        async exit() {
+            if (!this.isFullscreen()) return false
+            const exitFn = document.exitFullscreen || document.webkitExitFullscreen
+            if (!exitFn) return false
+            try {
+                await exitFn.call(document)
+                return true
+            } catch (err) {
+                console.warn('Не удалось выйти из полноэкранного режима:', err)
+                return false;
+            }
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -265,5 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('aodCountdown')?.addEventListener('click', () => {
         window.changePage('now')
         window.AndroidBridge?.setFullscreen?.(false)
+        fullscreenHelper.exit()
     })
 })
