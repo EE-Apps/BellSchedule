@@ -1,6 +1,8 @@
 class AodPage {
     constructor() {
         this.wakeLock = null
+        this.nativeWakeLockActive = false
+        this.pwaWakeLockActive = false
         this.moveTimer = null
         this.moveIndex = 0
         this.els = {
@@ -17,34 +19,60 @@ class AodPage {
         window.addEventListener('pageshow', () => this.syncScreenState())
         window.addEventListener('pagehide', () => this.releaseWakeLock())
         this.pageObserver = new MutationObserver(() => this.syncScreenState())
-        this.pageObserver.observe(this.els.page, { attributes: true, attributeFilter: ['class'] })
+        if (this.els.page) {
+            this.pageObserver.observe(this.els.page, { attributes: true, attributeFilter: ['class'] })
+        }
         this.syncScreenState()
+    }
+
+    isPwaMode() {
+        const displayModes = [
+            '(display-mode: standalone)',
+            '(display-mode: minimal-ui)',
+            '(display-mode: fullscreen)',
+            '(display-mode: window-controls-overlay)'
+        ]
+        const matchesDisplayMode = displayModes.some((query) => window.matchMedia?.(query)?.matches)
+        return Boolean(matchesDisplayMode || window.navigator?.standalone === true)
     }
 
     isActive() {
         return this.els.page?.classList.contains('active') && document.visibilityState === 'visible'
     }
 
+    async acquireScreenWakeLock(sourceFlag) {
+        if (!navigator.wakeLock?.request) return
+        try {
+            this.wakeLock = await navigator.wakeLock.request('screen')
+            this[sourceFlag] = true
+            this.wakeLock.addEventListener('release', () => {
+                this.wakeLock = null
+                this[sourceFlag] = false
+                if (this.isActive()) this.requestWakeLock()
+            })
+        } catch (error) {
+            this[sourceFlag] = false
+            console.warn('Не удалось заблокировать засыпание экрана:', error)
+        }
+    }
+
     async requestWakeLock() {
-        if (!this.isActive() || this.wakeLock || this.nativeWakeLockActive) return
+        if (!this.isActive() || this.wakeLock || this.nativeWakeLockActive || this.pwaWakeLockActive) return
 
         if (window.AndroidBridge?.keepScreenOn) {
             window.AndroidBridge.keepScreenOn(true)
             this.nativeWakeLockActive = true
-            AndroidBridge.setFullscreen(true)
+            window.AndroidBridge.setFullscreen?.(true)
             return
         }
 
-        if (!navigator.wakeLock?.request) return
-        try {
-            this.wakeLock = await navigator.wakeLock.request('screen')
-            this.wakeLock.addEventListener('release', () => {
-                this.wakeLock = null
-                if (this.isActive()) this.requestWakeLock()
-            })
-        } catch (error) {
-            console.warn('Не удалось заблокировать засыпание экрана:', error)
+        if (this.isPwaMode()) {
+            await this.acquireScreenWakeLock('pwaWakeLockActive')
+            return
         }
+
+        // Запасной вариант, если открыто в обычной вкладке браузера
+        await this.acquireScreenWakeLock('pwaWakeLockActive')
     }
 
     releaseWakeLock() {
@@ -52,6 +80,7 @@ class AodPage {
             window.AndroidBridge.keepScreenOn(false)
             this.nativeWakeLockActive = false
         }
+        this.pwaWakeLockActive = false
         this.wakeLock?.release().catch(() => {})
         this.wakeLock = null
     }
@@ -233,8 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.aodPage.update()
     setTimeout(() => window.aodPage.update(), 100)
 
-    document.getElementById('aodCountdown').addEventListener('click', () => {
+    document.getElementById('aodCountdown')?.addEventListener('click', () => {
         window.changePage('now')
-        AndroidBridge.setFullscreen(false)
+        window.AndroidBridge?.setFullscreen?.(false)
     })
 })
