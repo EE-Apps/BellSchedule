@@ -1,0 +1,53 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Bell Schedule",
+  "orientation": "any",
+  "scope": "./",
+  "short_name": "Bell Schedule",
+  "start_url": "./",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "./icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "id": "com.eenot.bellschedule",
+  "description": "Context-based app for easy display of your schedule information",
+  "lang": "ru",
+  "display_override": [
+  ],
+  "shortcuts": [
+    {
+      "name": "Home",
+      "url": "./index.html?page=main",
+      "description": "Open the main page"
+    },
+    {
+      "name": "Lessons",
+      "url": "./index.html?page=lessons",
+      "description": "Open page with list of all lessons"
+    },
+    {
+      "name": "Persons",
+      "url": "./index.html?page=persons",
+      "description": "Open page with list of all persons"
+    },
+    {
+      "name": "Schedule",
+      "url": "./index.html?page=schedule",
+      "description": "Open schedule page"
+    }
+  ],
+  "categories": [
+    "education",
+    "lifestyle",
+    "productivity",
+    "social",
+    "utilities"
+  ]
+}
